@@ -1,0 +1,71 @@
+/* Custom Calimero Branding Styles */
+
+/* Light mode: use black logo and proper header colors */
+[data-md-color-scheme="default"] .md-header__button.md-logo img,
+[data-md-color-scheme="default"] .md-logo img {
+  content: url("../assets/img/logo-black.svg");
+}
+
+[data-md-color-scheme="default"] .md-header {
+  background-color: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  box-shadow: 0 0 0.2rem rgba(0,0,0,.1), 0 0.2rem 0.4rem rgba(0,0,0,.2);
+}
+
+/* Dark mode: use white logo and proper header colors */
+[data-md-color-scheme="slate"] .md-header__button.md-logo img,
+[data-md-color-scheme="slate"] .md-logo img {
+  content: url("../assets/img/logo-white.svg");
+}
+
+[data-md-color-scheme="slate"] .md-header {
+  background-color: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  box-shadow: 0 0 0.2rem rgba(0,0,0,.1), 0 0.2rem 0.4rem rgba(0,0,0,.2);
+}
+
+/* Ensure logo displays correctly */
+.md-logo img {
+  display: block;
+  height: 100%;
+  width: auto;
+}
+
+/* Ensure header buttons have proper contrast */
+.md-header__button {
+  color: var(--md-default-fg-color);
+}
+
+.md-header__button:hover {
+  opacity: 0.7;
+}
+
+/* Search button proper styling */
+.md-search__icon {
+  color: var(--md-default-fg-color);
+}
+
+/* Tabs navigation - adapt to light/dark mode */
+.md-tabs {
+  background-color: var(--md-default-bg-color) !important;
+  color: var(--md-default-fg-color);
+}
+
+.md-tabs__list {
+  background-color: var(--md-default-bg-color) !important;
+}
+
+.md-tabs__link {
+  color: var(--md-default-fg-color);
+  opacity: 0.7;
+}
+
+.md-tabs__link:hover {
+  opacity: 1;
+}
+
+.md-tabs__link--active {
+  color: var(--md-primary-fg-color);
+  opacity: 1;
+}
+

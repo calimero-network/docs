@@ -1,5 +1,5 @@
 # Site Information
-site_name: Calimero Documentation
+site_name: ""
 site_description: Lightweight documentation for the Calimero network and developer stack
 site_url: https://docs.calimero.network
 
@@ -10,6 +10,8 @@ edit_uri: ""
 # Theme Configuration
 theme:
   name: material
+  logo: assets/img/logo-black.svg
+  favicon: assets/img/favicon.svg
   
   # Color palette with light/dark mode toggle (respects device settings)
   palette:
@@ -57,14 +59,9 @@ theme:
 plugins:
   - search  # Built-in search functionality
 
-# To customize colors further with exact hex codes, create docs/stylesheets/extra.css:
-# :root {
-#   --md-primary-fg-color: #YOUR_HEX_COLOR;
-#   --md-accent-fg-color: #YOUR_HEX_COLOR;
-# }
-# Then uncomment below:
-# extra_css:
-#   - stylesheets/extra.css
+# Custom CSS for branding and logo switching
+extra_css:
+  - stylesheets/extra.css
 
 # Popular MkDocs Plugins to consider:
 # - mkdocs-material (already using as theme)
