@@ -195,17 +195,38 @@ pub struct Match {
 
 #[calimero::logic]
 impl GameState {
-    pub fn create_match(&mut self, player1: PlayerId, player2: PlayerId) -> Result<String> {
-        // Validation, state mutation, event emission
+    pub fn create_match(&mut self, player2: PlayerId) -> Result<String> {
+        // Get the caller's identity (player1)
+        let player1 = PublicKey::from_executor_id()?;
+        
+        // Validate players are different
+        if player1 == player2 {
+            return Err("Players must differ");
+        }
+        
+        // Create match, emit event, return match_id
     }
     
     pub fn place_ships(&mut self, match_id: String, ships: Vec<Ship>) -> Result<()> {
+        // Get caller's identity to verify they're a player
+        let caller = PublicKey::from_executor_id()?;
+        
+        if !match_state.is_player(&caller) {
+            return Err("Not a player in this match");
+        }
+        
         // Validate ship placement
-        // Store privately (only visible to player)
+        // Store privately (only visible to caller)
     }
     
     pub fn propose_shot(&mut self, match_id: String, target: Coordinate) -> Result<()> {
-        // Validate it's player's turn
+        // Get caller's identity to validate it's their turn
+        let caller = PublicKey::from_executor_id()?;
+        
+        if match_state.current_turn != caller {
+            return Err("Not your turn");
+        }
+        
         // Store pending shot
         // Wait for acknowledgment
     }
@@ -216,8 +237,10 @@ impl GameState {
 
 1. **Identifies state** - What needs to persist? (matches, players, boards)
 2. **Defines operations** - What actions can users take? (create match, place ships, shoot)
-3. **Adds validation** - What rules must hold? (valid coords, ship placement rules, turn order)
-4. **Implements privacy** - What should be hidden? (opponent's ships until hit)
+3. **Uses identity** - Who is calling? (`PublicKey::from_executor_id()` gets the caller)
+4. **Adds validation** - What rules must hold? (valid coords, ship placement rules, turn order)
+5. **Implements authorization** - Is the caller allowed? (check if player, check if their turn)
+6. **Implements privacy** - What should be hidden? (opponent's ships until hit)
 
 **Why this pattern:** 
 
@@ -226,7 +249,210 @@ impl GameState {
 - Each method is deterministic and validates inputs
 - The AI structures this to prevent common bugs (race conditions, invalid states)
 
-**2.3 Validation Strategy** (`validation.rs`)
+**2.3 Private Storage Pattern** (`players.rs`)
+
+In Battleships, each player's ship placements must remain secret until they're hit. This is where Calimero's **private storage** comes in - data that's stored per-identity and not shared with other context members.
+
+```rust
+use calimero_sdk::app;
+use calimero_storage::collections::UnorderedMap;
+
+// Mark this struct as private storage
+#[app::private]
+#[derive(BorshSerialize, BorshDeserialize)]
+pub struct PrivateBoards {
+    pub boards: UnorderedMap<String, PlayerBoard>,
+}
+
+impl Default for PrivateBoards {
+    fn default() -> PrivateBoards {
+        PrivateBoards {
+            boards: UnorderedMap::new(),
+        }
+    }
+}
+
+// In your game logic, use private storage:
+pub fn place_ships(&mut self, match_id: &str, ships: Vec<String>) -> Result<()> {
+    let caller = PublicKey::from_executor_id()?;
+    
+    // Load private storage for this caller only
+    let mut priv_boards = PrivateBoards::private_load_or_default()?;
+    let mut priv_mut = priv_boards.as_mut();
+    
+    // Get or create this player's board
+    let key = match_id.to_string();
+    let mut player_board = priv_mut.boards.get(&key)?.unwrap_or(PlayerBoard::new());
+    
+    // Place ships on the player's private board
+    player_board.place_ships(ships)?;
+    
+    // Save back to private storage
+    priv_mut.boards.insert(key, player_board)?;
+    
+    Ok(())
+}
+```
+
+**What the AI does:**
+
+1. **Marks data as private** - `#[app::private]` macro tells Calimero this is per-user storage
+2. **Loads private data** - `PrivateBoards::private_load_or_default()` loads only the caller's data
+3. **Stores per-player** - Each player has their own `PrivateBoards` instance
+4. **Keeps secrets** - Player 1 cannot see Player 2's ship placements
+5. **Validates privately** - Ship placement validation happens before storing
+
+**Why this matters:**
+
+- **Privacy** - Opponent can't peek at your ship locations
+- **Security** - No way to cheat by reading other player's data
+- **Simplicity** - Same API as regular storage, just add `#[app::private]`
+- **Performance** - Private data doesn't get replicated to other nodes
+
+**How it works:**
+
+When `PublicKey::from_executor_id()` returns `player_1`, and they call `place_ships()`:
+- Calimero loads the private storage **for player_1 only**
+- Ships are stored in player_1's private space
+- When player_2 calls the same method, they get **their own** private storage
+- Neither player can access the other's data
+
+This is the key mechanic that makes private information games like Battleships possible on Calimero.
+
+**2.4 Identity and Authorization**
+
+Every method call in Calimero knows **who is calling it**. This is fundamental for implementing permissions, ownership, and multi-player logic.
+
+**Getting the Caller's Identity**
+
+```rust
+use calimero_sdk::env;
+
+pub fn create_match(&mut self, player2: String) -> Result<String> {
+    // Get the caller's identity (player 1)
+    let player1 = PublicKey::from_executor_id()?;
+    
+    // player1 now contains the unique identifier of whoever called this method
+    let player2_pk = PublicKey::from_base58(&player2)?;
+    
+    // Use identities for validation
+    if player1 == player2_pk {
+        return Err("Cannot play against yourself");
+    }
+    
+    // Store players in match state
+    let match_state = Match::new(match_id, player1, player2_pk);
+    Ok(match_id)
+}
+```
+
+**Authorization Patterns**
+
+The AI implements several common authorization patterns:
+
+**1. Ownership Checks**
+
+```rust
+pub fn place_ships(&mut self, match_id: &str, ships: Vec<String>) -> Result<()> {
+    let caller = PublicKey::from_executor_id()?;
+    let match_state = self.get_match(match_id)?;
+    
+    // Only players in this match can place ships
+    if !match_state.is_player(&caller) {
+        return Err("You are not a player in this match");
+    }
+    
+    // Proceed with ship placement...
+}
+```
+
+**2. Turn Validation**
+
+```rust
+pub fn propose_shot(&mut self, match_id: &str, x: u8, y: u8) -> Result<()> {
+    let caller = PublicKey::from_executor_id()?;
+    let match_state = self.get_match(match_id)?;
+    
+    // Only the current turn player can shoot
+    if match_state.current_turn != caller {
+        return Err("Not your turn");
+    }
+    
+    // Proceed with shot...
+}
+```
+
+**3. Target Identification**
+
+```rust
+pub fn acknowledge_shot(&mut self, match_id: &str) -> Result<String> {
+    let caller = PublicKey::from_executor_id()?;
+    let match_state = self.get_match(match_id)?;
+    
+    // Only the target player can acknowledge
+    if match_state.pending_target != Some(caller) {
+        return Err("This shot is not targeting you");
+    }
+    
+    // Load caller's private board to resolve the shot
+    let mut priv_boards = PrivateBoards::private_load_or_default()?;
+    let mut player_board = priv_boards.boards.get(match_id)?;
+    
+    // Check if shot hits
+    let result = resolve_shot(&mut player_board, shot_x, shot_y)?;
+    Ok(result)
+}
+```
+
+**Key Identity Functions**
+
+- **`env::executor_id()`** - Returns the raw 32-byte identity of the caller
+- **`PublicKey::from_executor_id()`** - Wraps the executor ID in a typed struct
+- **`PublicKey::to_base58()`** - Converts identity to string for frontend display
+- **`PublicKey::from_base58()`** - Parses identity from frontend input
+
+**Why This Matters**
+
+1. **Security** - Only authorized users can perform actions
+2. **Multi-player** - Track which player is which in the game
+3. **Privacy** - Private storage is keyed by identity
+4. **Auditability** - Every action is tied to an identity
+5. **Frontend integration** - Identities are passed between Rust and TypeScript
+
+**Common Pattern**
+
+```rust
+#[app::logic]
+impl GameState {
+    pub fn some_action(&mut self, resource_id: String) -> Result<()> {
+        // 1. Get caller identity
+        let caller = PublicKey::from_executor_id()?;
+        
+        // 2. Load the resource
+        let resource = self.get_resource(&resource_id)?;
+        
+        // 3. Check authorization
+        if resource.owner != caller {
+            return Err("Not authorized");
+        }
+        
+        // 4. Perform action
+        resource.do_something()?;
+        
+        // 5. Emit event with caller info
+        app::emit!(ActionPerformed { 
+            resource_id, 
+            actor: caller.to_base58() 
+        });
+        
+        Ok(())
+    }
+}
+```
+
+This pattern appears in every secure Calimero application: **identify → authorize → execute → audit**.
+
+**2.5 Validation Strategy** (`validation.rs`)
 
 ```rust
 pub trait PlacementValidator {
@@ -349,14 +575,22 @@ The AI creates a component structure like:
 import { GameClient } from './api/AbiClient';
 
 function App() {
+  // IMPORTANT: Replace this with the Application ID from 'npm run network:bootstrap'
+  const [clientAppId] = useState<string>('bafkreig3h5x7qnvz2h6k4y3wqz8r7...');
+  
   const [gameClient, setGameClient] = useState<GameClient | null>(null);
   const [matches, setMatches] = useState<Match[]>([]);
   
   useEffect(() => {
-    // Initialize Calimero client
-    const client = new GameClient(calimeroConfig);
+    // Initialize Calimero client with Application ID
+    const client = new GameClient({
+      applicationId: clientAppId,  // From bootstrap output
+      contextId: 'battleships-game',
+      nodeUrl: 'http://localhost:2428',
+      // ... other config
+    });
     setGameClient(client);
-  }, []);
+  }, [clientAppId]);
   
   // Component logic...
 }
@@ -382,10 +616,20 @@ function Board({ onCellClick, shots, ships }) {
 
 **What the AI does:**
 
-1. **Initializes Calimero connection** - Sets up the client with your local node
-2. **Creates game UI** - Board, ship placement, shot selection
-3. **Handles events** - Subscribes to game events for real-time updates
-4. **Manages state** - React state synchronized with blockchain state
+1. **Captures Application ID** - Placeholder for the ID from `npm run network:bootstrap`
+2. **Initializes Calimero connection** - Sets up the client with Application ID and context
+3. **Creates game UI** - Board, ship placement, shot selection
+4. **Handles events** - Subscribes to game events for real-time updates
+5. **Manages state** - React state synchronized with blockchain state
+
+**Critical Step:** After running `npm run network:bootstrap`, you'll see output like:
+
+```
+📋 Context created successfully!
+   Application ID: bafkreig3h5x7qnvz2h6k4y3wqz8r7...
+```
+
+Copy this Application ID and replace the placeholder in `App.tsx`. Without this, your frontend won't connect to your deployed application!
 
 **3.3 Real-time Updates**
 
@@ -446,6 +690,137 @@ contexts:
 - Two local Calimero nodes (one for each player)
 - A shared "context" where the game runs
 - Port mappings for connecting your frontend
+
+**Understanding Contexts**
+
+Before moving on, let's explain what a **context** actually is - this is a core Calimero concept that ties everything together.
+
+**What is a Context?**
+
+A context is an **isolated execution environment** for your application. Think of it like a "room" where:
+- Your WASM application runs
+- Specific members (nodes/identities) can participate
+- State is shared among members
+- Private data is kept per-member
+
+```
+Context: "battleships-game"
+├── Application: battleships.wasm
+├── Members: [node-1, node-2]
+├── Shared State: match data, turn info, game status
+└── Private State (per member):
+    ├── node-1: player1's ship placements
+    └── node-2: player2's ship placements
+```
+
+**Application ID**
+
+When you run `npm run network:bootstrap`, Merobox creates the context and outputs an **Application ID**:
+
+```bash
+$ npm run network:bootstrap
+
+✓ Starting nodes...
+✓ Installing application...
+✓ Creating context: battleships-game
+✓ Adding members...
+
+📋 Context created successfully!
+   Application ID: bafkreig3h5x7qnvz2h6k4y3wqz8r7...
+   Context ID: battleships-game
+```
+
+**You must capture this Application ID** and use it in your frontend:
+
+```typescript
+// app/src/App.tsx
+const [clientAppId] = useState<string>('bafkreig3h5x7qnvz2h6k4y3wqz8r7...');
+
+// Use it to initialize the Calimero client
+const client = new GameClient({
+  applicationId: clientAppId,
+  contextId: 'battleships-game',
+  // ... other config
+});
+```
+
+**Context Members and Identities**
+
+The `members` field in your workflow defines **which nodes participate** in this context:
+
+```yaml
+members:
+  - node-1  # Can execute app logic as player 1
+  - node-2  # Can execute app logic as player 2
+```
+
+When a member calls your application logic:
+1. Their **identity** is available via `env::executor_id()`
+2. They can access **shared state** (matches, turn info)
+3. They can access **their own private state** (ship placements)
+4. They **cannot** access other members' private state
+
+**Context Invites**
+
+In production, contexts can grow dynamically. Members can be invited using the Calimero admin API:
+
+```bash
+# Invite a new member to join the context
+curl -X POST http://localhost:2528/admin-api/contexts/invite \
+  -H "Content-Type: application/json" \
+  -d '{
+    "context_id": "battleships-game",
+    "invitee_id": "node-3"
+  }'
+```
+
+The invited node can then join:
+
+```bash
+# Node 3 accepts the invite
+curl -X POST http://localhost:2538/admin-api/contexts/join \
+  -H "Content-Type: application/json" \
+  -d '{
+    "context_id": "battleships-game",
+    "invite_token": "..."
+  }'
+```
+
+**How Contexts Relate to Your Code**
+
+Everything we've discussed earlier ties back to contexts:
+
+| Concept | How it Works with Contexts |
+|---------|---------------------------|
+| **Identity** | `executor_id()` returns the identity of the context member calling your code |
+| **Private Storage** | Each member has their own private storage within the context |
+| **Shared State** | `#[app::state]` data is replicated across all context members |
+| **Events** | Events are broadcast to all members of the context |
+| **Authorization** | Check if `executor_id()` is a valid player/member |
+
+**Local vs Production Contexts**
+
+**Local Development (Merobox):**
+- Contexts are defined in YAML
+- Members are local Docker containers
+- Application ID is output to console
+- Fast iteration, easy debugging
+
+**Production (Calimero Network):**
+- Contexts are created via admin API
+- Members are real nodes on the network
+- Application ID is persisted in blockchain
+- Secure, distributed, verifiable
+
+**Key Takeaways**
+
+1. **Context = Execution Environment** - Your app runs inside a context
+2. **Members = Participants** - Who can call your app logic
+3. **Application ID = Your App** - Unique identifier for your WASM
+4. **Identities = Context Members** - `executor_id()` returns member identity
+5. **Capture the Application ID** - You need it in your frontend config
+
+This is why the first step after `npm run network:bootstrap` is always to grab the Application ID and update your frontend configuration!
 
 **4.2 Build Scripts** (`package.json`)
 
