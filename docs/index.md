@@ -6,7 +6,7 @@ This site provides an overview of the Calimero network — a decentralized appli
 
 Use the sections below to explore:
 
-- [Introduction](intro/) — the philosophy and core ideas behind Calimero  
-- [App Directory](app-directory/) — explore and deploy existing applications  
-- [Builder Directory](builder-directory/) — learn how to build your own Calimero apps  
-- [Privacy, Verifiability & Security](privacy-verifiability-security/) — understand how Calimero fits into the modular privacy stack
+- [Introduction](intro/index.md) — the philosophy and core ideas behind Calimero  
+- [App Directory](app-directory/index.md) — explore and deploy existing applications  
+- [Builder Directory](builder-directory/index.md) — learn how to build your own Calimero apps  
+- [Privacy, Verifiability & Security](privacy-verifiability-security/index.md) — understand how Calimero fits into the modular privacy stack

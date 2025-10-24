@@ -75,6 +75,7 @@ extra_css:
 
 # Navigation structure
 nav:
+  - Home: index.md
   - Introduction: intro/index.md
   - App Directory: app-directory/index.md
   - Builder Directory: builder-directory/index.md

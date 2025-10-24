@@ -1,1 +1,9 @@
 **/.DS_Store
+
+# Python virtual environment
+venv/
+*.pyc
+__pycache__/
+
+# MkDocs build output
+site/

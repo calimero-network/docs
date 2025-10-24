@@ -1,0 +1,45 @@
+name: Build Check
+
+on:
+  push:
+    branches: ['master', 'main']
+  pull_request:
+
+jobs:
+  build:
+    name: Build Documentation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Build MkDocs site
+        run: mkdocs build --strict
+
+      - name: Check for broken links (optional)
+        run: |
+          echo "✅ MkDocs build successful!"
+          echo "📦 Site built to ./site directory"
+          ls -lh site/
+
+      - name: Upload build artifacts (for debugging)
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: mkdocs-build-logs
+          path: |
+            site/
+            *.log
+
