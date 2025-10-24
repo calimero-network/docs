@@ -9,7 +9,8 @@
 [data-md-color-scheme="default"] .md-header {
   background-color: var(--md-default-bg-color);
   color: var(--md-default-fg-color);
-  box-shadow: 0 0 0.2rem rgba(0,0,0,.1), 0 0.2rem 0.4rem rgba(0,0,0,.2);
+  box-shadow: none;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
 }
 
 /* Dark mode: use white logo and proper header colors */
@@ -21,7 +22,8 @@
 [data-md-color-scheme="slate"] .md-header {
   background-color: var(--md-default-bg-color);
   color: var(--md-default-fg-color);
-  box-shadow: 0 0 0.2rem rgba(0,0,0,.1), 0 0.2rem 0.4rem rgba(0,0,0,.2);
+  box-shadow: none;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
 }
 
 /* Ensure logo displays correctly */

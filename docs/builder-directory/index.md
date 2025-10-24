@@ -14,7 +14,7 @@ Before we dive in, here are the tools we'll be using:
 
 - **`mero-devtools-js`** - JavaScript wrappers for Calimero tooling to keep your development workflow simple and consistent. [Source code](https://github.com/calimero-network/mero-devtools-js)
 
-- **`calimero-abi-generator `** - Generates TypeScript clients from your Rust backend, keeping frontend/backend in sync. // change to more direct link
+- **`calimero-abi-generator `** - Generates TypeScript clients from your Rust backend, keeping frontend/backend in sync.
 
 Don't worry about installing these individually - the setup process will handle it.
 
@@ -698,6 +698,7 @@ Before moving on, let's explain what a **context** actually is - this is a core 
 **What is a Context?**
 
 A context is an **isolated execution environment** for your application. Think of it like a "room" where:
+
 - Your WASM application runs
 - Specific members (nodes/identities) can participate
 - State is shared among members
