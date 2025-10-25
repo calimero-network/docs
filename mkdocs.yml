@@ -47,8 +47,7 @@ theme:
     - navigation.instant    # Instant loading (SPA-like)
     - navigation.tracking   # URL updates with scroll position
     - navigation.tabs       # Top-level sections in tabs
-    - navigation.sections   # Show sections in navigation
-    - navigation.expand     # Expand all sections by default
+    - navigation.tabs.sticky # Keep tabs visible when scrolling
     - navigation.top        # Back to top button
     - search.suggest        # Search suggestions
     - search.highlight      # Highlight search terms
@@ -107,3 +106,4 @@ markdown_extensions:
   - tables
   - toc:
       permalink: true
+      toc_depth: 3  # Limit TOC to H1, H2, H3 only (not H4, H5, H6)

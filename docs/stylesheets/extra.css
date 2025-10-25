@@ -1,5 +1,22 @@
 /* Custom Calimero Branding Styles */
 
+/* ============================================
+   CUSTOM COLORS
+   ============================================ */
+
+:root {
+  --md-accent-fg-color: #A5FF11;
+}
+
+/* Content body link colors */
+.md-typeset a {
+  color: #8AA200;
+}
+
+.md-typeset a:hover {
+  color: #A5FF11;
+}
+
 /* Light mode: use black logo and proper header colors */
 [data-md-color-scheme="default"] .md-header__button.md-logo img,
 [data-md-color-scheme="default"] .md-logo img {
@@ -45,6 +62,46 @@
 /* Search button proper styling */
 .md-search__icon {
   color: var(--md-default-fg-color);
+}
+
+/* ============================================
+   LAYOUT IMPROVEMENTS
+   ============================================ */
+
+/* Hide BOTH sidebars completely */
+.md-sidebar--primary {
+  display: none !important;
+}
+
+.md-sidebar--secondary {
+  display: none !important;
+}
+
+/* Wider content area - no sidebars */
+.md-main__inner {
+  max-width: none;
+}
+
+.md-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Adjust grid to not leave space for sidebars */
+@media screen and (min-width: 76.25em) {
+  .md-sidebar--primary {
+    display: none;
+  }
+  
+  .md-sidebar--secondary {
+    display: none;
+  }
+}
+
+/* Remove margins for sidebars */
+.md-content__inner {
+  margin-left: 0;
+  margin-right: 0;
 }
 
 /* Tabs navigation - adapt to light/dark mode */
