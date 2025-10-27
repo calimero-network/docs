@@ -68,16 +68,18 @@
    LAYOUT IMPROVEMENTS
    ============================================ */
 
-/* Hide BOTH sidebars completely */
-.md-sidebar--primary {
-  display: none !important;
+/* Hide sidebars on desktop only (NOT on mobile - needed for hamburger menu) */
+@media screen and (min-width: 60em) {
+  .md-sidebar--primary {
+    display: none !important;
+  }
+  
+  .md-sidebar--secondary {
+    display: none !important;
+  }
 }
 
-.md-sidebar--secondary {
-  display: none !important;
-}
-
-/* Wider content area - no sidebars */
+/* Wider content area - no sidebars on desktop */
 .md-main__inner {
   max-width: none;
 }
@@ -87,21 +89,61 @@
   margin: 0 auto;
 }
 
-/* Adjust grid to not leave space for sidebars */
-@media screen and (min-width: 76.25em) {
-  .md-sidebar--primary {
-    display: none;
-  }
-  
-  .md-sidebar--secondary {
-    display: none;
+/* Remove margins for sidebars on desktop */
+@media screen and (min-width: 60em) {
+  .md-content__inner {
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 
-/* Remove margins for sidebars */
-.md-content__inner {
-  margin-left: 0;
-  margin-right: 0;
+/* ============================================
+   MOBILE OPTIMIZATIONS
+   ============================================ */
+
+/* Mobile-specific padding to prevent text from touching edges */
+@media screen and (max-width: 59.99em) {
+  /* Main content padding */
+  .md-content__inner {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+  
+  /* Typography padding */
+  .md-typeset {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  
+  /* Ensure proper padding for main grid */
+  .md-main {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+  /* Content container padding */
+  .md-content {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+  /* Ensure the primary sidebar (navigation drawer) is visible and functional on mobile */
+  .md-sidebar--primary {
+    display: block !important;
+  }
+  
+  /* Style the navigation drawer when it opens */
+  .md-sidebar--primary .md-sidebar__scrollwrap {
+    background-color: var(--md-default-bg-color);
+  }
+  
+  /* Ensure hamburger menu button is visible and clickable */
+  .md-header__button.md-icon {
+    display: inline-block;
+    color: var(--md-default-fg-color);
+  }
 }
 
 /* Tabs navigation - adapt to light/dark mode */
