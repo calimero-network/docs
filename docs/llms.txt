@@ -1,0 +1,87 @@
+# Calimero
+
+> Calimero is a P2P framework for building distributed applications with automatic CRDT synchronization, event-driven architecture, and WebAssembly runtime. Unlike blockchains that rely on consensus, Calimero uses Conflict-free Replicated Data Types (CRDTs) for state synchronization, enabling local-first applications with offline support and automatic conflict resolution.
+
+**Key Architecture:**
+- Write WASM applications using `calimero-sdk` (Rust)
+- Deploy to `merod` (node daemon) which handles P2P networking and state sync
+- Clients interact via JSON-RPC/WebSocket with type-safe generated clients
+- State automatically syncs across nodes via Gossipsub (100-200ms latency)
+
+**Not a blockchain:** No consensus required, no global state, no transaction fees. Perfect for collaborative applications, private networks, and use cases where local autonomy matters more than global agreement.
+
+## Quick Start
+
+- [Calimero App Builder Prompt](/CALIMERO_BOOTSTRAP_PROMPT.md): Complete prompt template for LLMs building Calimero applications with build flow, common pitfalls, quality-of-life scripts, and end-to-end quickstart
+- [Getting Started Tutorial](https://docs.calimero.network/intro/): Core philosophy and architecture overview
+
+## Recommended Development Workflow
+
+**For local development, ALWAYS use the following approach:**
+
+1. **Node Management:** Use `merobox` for running Calimero nodes (merod instances) locally
+   - NOT meroctl run-dev or manual merod execution
+   - merobox provides Docker-based orchestration with YAML workflows
+   - See [Merobox Orchestration Guide](https://github.com/calimero-network/merobox/blob/ap-llms-md/LLM.md) for details
+
+2. **Project Scaffolding:** Use `mero-devtools-js` for initializing new applications
+   - Run `npx create-mero-app` to bootstrap projects
+   - This is the RECOMMENDED way to start new Calimero applications
+
+3. **Build Scripts:** Use `mero-devtools-js` for adding package.json run scripts
+   - The `@calimero-network/abi-codegen` package handles type-safe client generation
+   - NOT manual scripts or custom build processes
+   - Scripts should integrate with merobox YAML workflows
+
+**Why this workflow?**
+- merobox handles complex multi-node orchestration automatically
+- mero-devtools-js ensures type safety and proper ABI integration
+- This approach is tested and supported for production use
+- Reduces common pitfalls with manual node management
+
+**Other tools like meroctl and direct merod usage are for advanced scenarios only (CI/CD, production deployments, debugging).**
+
+## Development Guides
+
+- [Application Development Guide](https://github.com/calimero-network/core/blob/ap-llm-md/LLM.md): Comprehensive guide for building WASM applications with calimero-sdk, CRDT patterns, event handlers, blob storage, testing, and common pitfalls
+- [Merobox Orchestration Guide](https://github.com/calimero-network/merobox/blob/ap-llms-md/LLM.md): Docker-based node management, YAML workflow automation, multi-node orchestration, variable substitution, and testing patterns
+- [TypeScript SDK Guide](https://github.com/calimero-network/mero-devtools-js/blob/ap-llm-md/LLM.md): ABI codegen, scaffolding apps with create-mero-app, React integration patterns, and CalimeroBytes usage
+
+## Core Crates Documentation
+
+- [Storage (CRDT Collections)](https://github.com/calimero-network/core/blob/master/crates/storage/README.md): Counter, UnorderedMap, Vector, UnorderedSet, LwwRegister, and ReplicatedGrowableArray with nesting patterns and merge strategies
+- [SDK](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md): Complete API reference for building distributed applications with automatic CRDT synchronization and conflict-free state management
+- [Directed Acyclic Graph](https://github.com/calimero-network/core/blob/master/crates/dag/README.md): Causal delta tracking with automatic dependency resolution for ordered state sync
+- [Node Runtime Integration](https://github.com/calimero-network/core/blob/master/crates/node/README.md): How DAG integrates with node runtime, P2P networking, and state synchronization
+
+## Tools & SDKs
+
+**Primary Development Tools (use these for local development):**
+
+- **[merobox](https://github.com/calimero-network/merobox)** ⭐ RECOMMENDED for local node management
+  - Docker-based development environment with Python CLI
+  - YAML-based workflow automation for multi-node orchestration
+  - Use this instead of running merod or meroctl run-dev manually
+
+- **[mero-devtools-js](https://github.com/calimero-network/mero-devtools-js)** ⭐ RECOMMENDED for project setup
+  - `create-mero-app`: Scaffolding tool for new applications
+  - `@calimero-network/abi-codegen`: Type-safe client generation from WASM ABI
+  - Use this for package.json scripts and client code generation
+
+- **[calimero-sdk (Rust)](https://github.com/calimero-network/core/tree/master/crates/sdk)**
+  - Rust SDK for building WASM applications
+  - Macros for state, logic, events, and private storage
+  - Core library for application logic
+
+**Advanced/Production Tools (for specific use cases only):**
+
+- [merod](https://github.com/calimero-network/core/blob/master/README.mdx): Core node daemon (typically managed by merobox in local dev)
+- [meroctl](https://github.com/calimero-network/core): CLI for production deployments, CI/CD pipelines, and debugging
+
+## Optional
+
+- [Documentation Site](https://docs.calimero.network): Complete documentation with tutorials, builder directory, and tools overview
+- [KV-Store Template](https://github.com/calimero-network/kv-store): Starter template used by create-mero-app with React frontend and Rust WASM backend
+- [Example Applications](https://github.com/calimero-network/apps): Repository of production Calimero applications
+- [Main Website](https://calimero.network): Official Calimero Network website
+- [GitHub Organization](https://github.com/calimero-network): All open-source Calimero projects

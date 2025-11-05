@@ -48,6 +48,8 @@ theme:
     - navigation.tracking   # URL updates with scroll position
     - navigation.tabs       # Top-level sections in tabs
     - navigation.tabs.sticky # Keep tabs visible when scrolling
+    - navigation.sections   # Show sections in sidebar
+    - navigation.indexes    # Allow section index pages
     - navigation.top        # Back to top button
     - search.suggest        # Search suggestions
     - search.highlight      # Highlight search terms
@@ -78,6 +80,7 @@ nav:
   - Introduction: intro/index.md
   - App Directory: app-directory/index.md
   - Builder Directory: builder-directory/index.md
+  - Tools & APIs: tools-apis/index.md
   - Privacy, Verifiability & Security: privacy-verifiability-security/index.md
 
 # Extra configuration

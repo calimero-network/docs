@@ -39,7 +39,7 @@ Get started immediately with working code:
 ```bash
 npx create-mero-app@latest my-app
 cd my-app
-npm install
+pnpm install
 ```
 
 **Option B: Clone an example app**
@@ -47,7 +47,7 @@ npm install
 # Clone the Battleships example
 git clone https://github.com/calimero-network/battleships
 cd battleships
-npm install
+pnpm install
 
 # Or explore other examples (coming soon)
 git clone https://github.com/calimero-network/awesome-apps
@@ -622,7 +622,7 @@ function Board({ onCellClick, shots, ships }) {
 4. **Handles events** - Subscribes to game events for real-time updates
 5. **Manages state** - React state synchronized with blockchain state
 
-**Critical Step:** After running `npm run network:bootstrap`, you'll see output like:
+**Critical Step:** After running `pnpm network:bootstrap`, you'll see output like:
 
 ```
 📋 Context created successfully!
@@ -716,10 +716,10 @@ Context: "battleships-game"
 
 **Application ID**
 
-When you run `npm run network:bootstrap`, Merobox creates the context and outputs an **Application ID**:
+When you run `pnpm network:bootstrap`, Merobox creates the context and outputs an **Application ID**:
 
 ```bash
-$ npm run network:bootstrap
+$ pnpm network:bootstrap
 
 ✓ Starting nodes...
 ✓ Installing application...
@@ -821,7 +821,7 @@ Everything we've discussed earlier ties back to contexts:
 4. **Identities = Context Members** - `executor_id()` returns member identity
 5. **Capture the Application ID** - You need it in your frontend config
 
-This is why the first step after `npm run network:bootstrap` is always to grab the Application ID and update your frontend configuration!
+This is why the first step after `pnpm network:bootstrap` is always to grab the Application ID and update your frontend configuration!
 
 **4.2 Build Scripts** (`package.json`)
 
@@ -829,12 +829,12 @@ This is why the first step after `npm run network:bootstrap` is always to grab t
 {
   "scripts": {
     "logic:build": "cd logic && cargo build --target wasm32-unknown-unknown --release",
-    "logic:watch": "watchexec -w logic/src 'npm run logic:build && npm run logic:sync'",
+    "logic:watch": "watchexec -w logic/src 'pnpm logic:build && pnpm logic:sync'",
     "logic:sync": "cp logic/target/wasm32-unknown-unknown/release/*.wasm workflows/",
     "app:generate-client": "calimero-abi-generator --input logic/res/abi.json --output app/src/api/",
-    "app:dev": "cd app && npm run dev",
+    "app:dev": "cd app && pnpm dev",
     "network:bootstrap": "merobox --workflow workflows/local-network.yml",
-    "dev": "concurrently 'npm run logic:watch' 'npm run app:dev'"
+    "dev": "concurrently 'pnpm logic:watch' 'pnpm app:dev'"
   }
 }
 ```
@@ -851,10 +851,10 @@ This is why the first step after `npm run network:bootstrap` is always to grab t
 
 ```bash
 # Terminal 1: Start local Calimero network
-npm run network:bootstrap
+pnpm network:bootstrap
 
 # Terminal 2: Start dev environment (auto-rebuilds)
-npm run dev
+pnpm dev
 
 # Visit http://localhost:5173 (or whatever port Vite uses)
 ```
@@ -879,9 +879,9 @@ Once the AI finishes, you can immediately test:
 
 ```bash
 # In your project directory
-npm install
-npm run network:bootstrap   # Start local nodes (Terminal 1)
-npm run dev                 # Start development (Terminal 2)
+pnpm install
+pnpm network:bootstrap   # Start local nodes (Terminal 1)
+pnpm dev                 # Start development (Terminal 2)
 ```
 
 **First-time setup:** This downloads Docker images and compiles Rust. Subsequent runs are much faster.
@@ -983,8 +983,8 @@ Yes! The ABI generator works with any JavaScript framework. Just point it at you
 ### How do I deploy to production?
 
 We'll cover deployment in detail later, but the short version:
-1. Build your WASM: `npm run logic:build`
-2. Deploy to Calimero nodes (mainnet or testnet)
+1. Build your WASM: `pnpm logic:build`
+2. Deploy to Calimero nodes
 3. Point your frontend to the production node URLs
 
 ### What about testing?
