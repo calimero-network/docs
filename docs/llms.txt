@@ -22,7 +22,7 @@
 1. **Node Management:** Use `merobox` for running Calimero nodes (merod instances) locally
    - NOT meroctl run-dev or manual merod execution
    - merobox provides Docker-based orchestration with YAML workflows
-   - See [Merobox Orchestration Guide](https://github.com/calimero-network/merobox/blob/ap-llms-md/LLM.md) for details
+   - See [Merobox Orchestration Guide](https://github.com/calimero-network/merobox/blob/master/LLM.md) for details
 
 2. **Project Scaffolding:** Use `mero-devtools-js` for initializing new applications
    - Run `npx create-mero-app` to bootstrap projects
@@ -44,7 +44,7 @@
 ## Development Guides
 
 - [Application Development Guide](https://github.com/calimero-network/core/blob/ap-llm-md/LLM.md): Comprehensive guide for building WASM applications with calimero-sdk, CRDT patterns, event handlers, blob storage, testing, and common pitfalls
-- [Merobox Orchestration Guide](https://github.com/calimero-network/merobox/blob/ap-llms-md/LLM.md): Docker-based node management, YAML workflow automation, multi-node orchestration, variable substitution, and testing patterns
+- [Merobox Orchestration Guide](https://github.com/calimero-network/merobox/blob/master/LLM.md): Docker-based node management, YAML workflow automation, multi-node orchestration, variable substitution, and testing patterns
 - [TypeScript SDK Guide](https://github.com/calimero-network/mero-devtools-js/blob/ap-llm-md/LLM.md): ABI codegen, scaffolding apps with create-mero-app, React integration patterns, and CalimeroBytes usage
 
 ## Core Crates Documentation
