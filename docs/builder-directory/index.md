@@ -18,7 +18,7 @@ Before we dive in, here are the tools we'll be using:
 
 Don't worry about installing these individually - the setup process will handle it.
 
-## Two Paths to Get Started
+## Choose Your Starting Point
 
 Choose your adventure:
 
@@ -57,6 +57,19 @@ git clone https://github.com/calimero-network/awesome-apps
 **Best for:** Experienced developers who want to dive straight into code or learn by exploring working examples
 
 After setup, follow the README instructions to build and run the app.
+
+---
+
+## Minimal Dev Loop
+
+1. `pnpm install` — fetch dependencies for root and generated subdirectories.
+2. `pnpm logic:build` — compile the Rust WASM and regenerate ABI clients.
+3. `pnpm network:bootstrap` — start Merobox, deploy the WASM, capture the **Application ID**.
+4. Update your frontend config with the Application ID and context ID.
+5. `pnpm dev` — run React/Vite with hot reload alongside `logic:watch`.
+6. Open two browser tabs, join the context, and iterate on gameplay or flows.
+
+Keep this loop handy; the walkthrough below explains each step in detail and shows where the commands live.
 
 ---
 

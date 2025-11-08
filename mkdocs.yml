@@ -1,5 +1,5 @@
 # Site Information
-site_name: ""
+site_name: "Calimero Docs"
 site_description: Lightweight documentation for the Calimero network and developer stack
 site_url: https://docs.calimero.network
 
@@ -49,8 +49,10 @@ theme:
     - navigation.tabs       # Top-level sections in tabs
     - navigation.tabs.sticky # Keep tabs visible when scrolling
     - navigation.sections   # Show sections in sidebar
+    - navigation.expand     # Expand active section in sidebar
     - navigation.indexes    # Allow section index pages
     - navigation.top        # Back to top button
+    - toc.follow            # Keep right-hand TOC in view
     - search.suggest        # Search suggestions
     - search.highlight      # Highlight search terms
     - content.code.copy     # Copy button for code blocks
@@ -63,6 +65,9 @@ plugins:
 # Custom CSS for branding and logo switching
 extra_css:
   - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/sidebar.js
 
 # Popular MkDocs Plugins to consider:
 # - mkdocs-material (already using as theme)
@@ -77,11 +82,51 @@ extra_css:
 # Navigation structure
 nav:
   - Home: index.md
-  - Introduction: intro/index.md
-  - App Directory: app-directory/index.md
-  - Builder Directory: builder-directory/index.md
+  - Build:
+      - Getting Started:
+          - Overview: getting-started/index.md
+          - Installation Checklist: getting-started/installation-checklist.md
+          - Launch Your First Context: getting-started/launch-your-first-context.md
+          - Build Your First Application: getting-started/build-your-first-application.md
+          - Sample App Walkthrough: getting-started/sample-app-walkthrough.md
+      - Builder Directory: builder-directory/index.md
+      - Examples:
+          - Overview: examples/index.md
+          - Battleships: examples/battleships.md
+          - Shared Todo Backlog: examples/shared-todo-backlog.md
+          - Split Bills: examples/split-bills.md
+          - Additional Templates: examples/additional-templates.md
+  - Learn:
+      - Core Concepts:
+          - Overview: core-concepts/index.md
+          - Contexts: core-concepts/contexts.md
+          - Identity: core-concepts/identity.md
+          - Applications: core-concepts/applications.md
+          - Nodes: core-concepts/nodes.md
+          - Architecture Overview: core-concepts/architecture.md
+      - Privacy, Verifiability & Security: privacy-verifiability-security/index.md
+  - Operate:
+      - Operator Track:
+          - Overview: operator-track/index.md
+          - Run a Local Network: operator-track/run-a-local-network.md
+          - Join Existing Contexts: operator-track/join-existing-contexts.md
+          - Monitor & Debug: operator-track/monitor-and-debug.md
+          - Production Deployment Notes: operator-track/production-deployment-notes.md
+      - Reference:
+          - Overview: reference/index.md
+          - Commitments & Consistency: reference/commitments-consistency.md
+          - Response Envelope: reference/response-envelope.md
+          - HTTP Methods: reference/http-methods.md
+          - WebSocket Streams: reference/websocket-streams.md
+          - Error Codes & Retries: reference/error-codes.md
+          - Versioning & Changelog: reference/versioning-changelog.md
   - Tools & APIs: tools-apis/index.md
-  - Privacy, Verifiability & Security: privacy-verifiability-security/index.md
+  - Support:
+      - Overview: support/index.md
+      - FAQ: support/faq.md
+      - Contact Channels: support/contact-channels.md
+      - Contribution Guide: support/contribution-guide.md
+      - Roadmap & Feedback: support/roadmap-feedback.md
 
 # Extra configuration
 extra:
