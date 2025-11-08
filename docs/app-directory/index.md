@@ -14,3 +14,12 @@ To get started:
 3. Run it within your Calimero environment to test and customize.
 
 More detailed guides and configuration examples will be added here soon.
+
+## Featured Projects
+
+- `Battleships` — Turn-based multiplayer with private boards and Merobox workflows. [Repo README](https://github.com/calimero-network/battleships#readme)
+- `Shared Todo Backlog` — Collaborative backlog with CRDT sync patterns. [Repo README](https://github.com/calimero-network/shared-todo-backlog#readme)
+- `Split Bills` — Expense sharing with delegation flows and settlement patterns. [Repo README](https://github.com/calimero-network/split-bills#readme)
+- `KV Store` — Minimal read/write example ideal for first integrations. [Repo README](https://github.com/calimero-network/kv-store#readme)
+- `Demo Blob App` — File-style payload handling plus frontend wiring. [Repo README](https://github.com/calimero-network/demo-blob-app#readme)
+- `Calimero Curb Chat` — Rich messaging UI with cross-device workflows. [Repo README](https://github.com/calimero-network/calimero-curb-chat#readme)

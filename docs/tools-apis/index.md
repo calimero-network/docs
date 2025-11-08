@@ -1,85 +1,52 @@
-# Tools and APIs
+# Tools & APIs
 
-A comprehensive overview of the core tools and APIs in the Calimero ecosystem. Each tool serves a specific purpose in building, deploying, and managing Calimero applications.
+!!! info
+    Every entry below links to its canonical README. Follow those for installation flags, API surfaces, and deeper guides.
 
----
+Use this directory as a jumping-off point; it shows you **what exists** and **where to learn more** without duplicating repo docs.
 
-## merod
+## Runtime & Admin
 
-**Calimero Node Daemon**
+| Tool | Reference | Notes |
+| --- | --- | --- |
+| `merod` | [`calimero-network/core`](https://github.com/calimero-network/core#readme) | Node runtime orchestrating WASM apps, storage, networking, RPC. |
+| `meroctl` | [`calimero-network/core` – CLI](https://github.com/calimero-network/core#cli) | Command-line surface for context lifecycle, deployment, diagnostics. |
+| Admin Dashboard | [`calimero-network/admin-dashboard`](https://github.com/calimero-network/admin-dashboard#readme) | Web UI for member management, metrics, alerts. |
 
-The core node implementation that powers the Calimero network. `merod` is the runtime daemon that manages peer-to-peer connections, application contexts, and CRDT-based state synchronization.
+## Developer Tooling
 
-**Key Features:**
-- P2P networking and peer discovery
-- Context management and isolation
-- CRDT-based state replication
-- WebAssembly application runtime
-- Built-in RPC server
+| Tool | Reference | Notes |
+| --- | --- | --- |
+| Merobox | [`calimero-network/merobox`](https://github.com/calimero-network/merobox#readme) | Docker workflows for local multi-node networks and Application ID capture. |
+| Mero Devtools JS | [`calimero-network/mero-devtools-js`](https://github.com/calimero-network/mero-devtools-js#readme) | Scaffolds, ABI generators, TypeScript helpers. |
+| Design System | [`calimero-network/design-system`](https://github.com/calimero-network/design-system#readme) | Shared UI components and tokens. |
+| Plugins | [`calimero-network/plugins`](https://github.com/calimero-network/plugins#readme) | Automation hooks and extension samples. |
 
-👉 [View merod on GitHub](https://github.com/calimero-network/core)
+## SDKs & Clients
 
----
+| SDK | Reference | Notes |
+| --- | --- | --- |
+| JavaScript Client | [`calimero-network/calimero-client-js`](https://github.com/calimero-network/calimero-client-js#readme) | Browser/Node bindings, event streaming, auth helpers. |
+| Python Client | [`calimero-network/calimero-client-py`](https://github.com/calimero-network/calimero-client-py#readme) | Python bindings, ABI tooling, automation recipes. |
+| Rust SDK | [`calimero-network/core/calimero-sdk-js`](https://github.com/calimero-network/core/tree/main/calimero-sdk-js#readme) | App macros, storage primitives, state helpers. |
 
-## meroctl
+## Automation & Workflows
 
-**Calimero Command-Line Interface**
+| Resource | Reference | Notes |
+| --- | --- | --- |
+| Merobox Workflows | [`workflows/` in example repos](https://github.com/calimero-network/battleships/tree/main/workflows) | Reusable network topologies for local + CI. |
+| Docs & CI scripts | [`calimero-network/docs`](https://github.com/calimero-network/docs#readme) | MkDocs site, link policies, CI glue. |
+| Homebrew Tap | [`calimero-network/homebrew-tap`](https://github.com/calimero-network/homebrew-tap#readme) | Package distribution for CLI and runtime binaries. |
 
-The primary CLI tool for interacting with Calimero nodes. Use `meroctl` to manage contexts, deploy applications, and configure your node.
+## Advanced & Research
 
-**Key Features:**
-- Context creation and management
-- Application deployment and updates
-- Node configuration and monitoring
-- Identity and key management
-- RPC client for node communication
+| Project | Reference | Notes |
+| --- | --- | --- |
+| MPC Signer | [`calimero-network/experiments/mpc-signer`](https://github.com/calimero-network/experiments/tree/main/mpc-signer#readme) | Threshold signing, custody experiments, ZK exploration. |
+| Escrow | [`calimero-network/escrow`](https://github.com/calimero-network/escrow#readme) | Bridge contracts, marketplace patterns, L1 attestations. |
 
-👉 [View meroctl on GitHub](https://github.com/calimero-network/core)
-
----
-
-## merobox
-
-**Calimero Development Environment**
-
-A containerized development environment that bundles everything you need to run a local Calimero network. Perfect for testing and development.
-
-**Key Features:**
-- Pre-configured local node setup
-- Hot-reload for rapid development
-- Multi-node testing environment
-- Isolated development contexts
-- Docker-based deployment
-
-👉 [View merobox on GitHub](https://github.com/calimero-network/merobox)
-
----
-
-## mero-devtools-js
-
-**JavaScript/TypeScript Development Kit**
-
-A comprehensive JavaScript/TypeScript SDK for building Calimero applications. Includes client libraries, type definitions, and development utilities.
-
-**Key Features:**
-- TypeScript-first API client
-- CRDT state management utilities
-- Context and identity management
-- WebSocket and RPC communication
-- React hooks and utilities
-
-👉 [View mero-devtools-js on GitHub](https://github.com/calimero-network/mero-devtools-js)
-
----
-
-## Getting Started
-
-1. **Install merod** to run a Calimero node
-2. **Use meroctl** to manage your node and deploy applications
-3. **Try merobox** for local development and testing
-4. **Build with mero-devtools-js** to create JavaScript/TypeScript applications
-
-For detailed setup instructions, refer to each tool's README in its respective repository.
+!!! tip
+    Pick a tool, follow its README end-to-end, then link back into MKDocs when you need a refresher. These pages stay minimal by design.
 
 
 
