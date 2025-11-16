@@ -14,11 +14,11 @@ Before we dive in, here are the tools we'll be using:
 
 - **`mero-devtools-js`** - JavaScript wrappers for Calimero tooling to keep your development workflow simple and consistent. [Source code](https://github.com/calimero-network/mero-devtools-js)
 
-- **`calimero-abi-generator `** - Generates TypeScript clients from your Rust backend, keeping frontend/backend in sync.
+- **`@calimero-network/abi-codegen`** - Generates TypeScript clients from your Rust backend, keeping frontend/backend in sync.
 
 Don't worry about installing these individually - the setup process will handle it.
 
-## Two Paths to Get Started
+## Choose Your Starting Point
 
 Choose your adventure:
 
@@ -57,6 +57,19 @@ git clone https://github.com/calimero-network/awesome-apps
 **Best for:** Experienced developers who want to dive straight into code or learn by exploring working examples
 
 After setup, follow the README instructions to build and run the app.
+
+---
+
+## Minimal Dev Loop
+
+1. `pnpm install` — fetch dependencies for root and generated subdirectories.
+2. `pnpm logic:build` — compile the Rust WASM and regenerate ABI clients.
+3. `pnpm network:bootstrap` — start Merobox, deploy the WASM, capture the **Application ID**.
+4. Update your frontend config with the Application ID and context ID.
+5. `pnpm dev` — run React/Vite with hot reload alongside `logic:watch`.
+6. Open two browser tabs, join the context, and iterate on gameplay or flows.
+
+Keep this loop handy; the walkthrough below explains each step in detail and shows where the commands live.
 
 ---
 
@@ -536,7 +549,7 @@ After the Rust code is written, the AI runs:
 
 ```bash
 cargo build --target wasm32-unknown-unknown --release
-calimero-abi-generator --input logic/res/abi.json --output app/src/api/AbiClient.ts
+npx calimero-abi-codegen -i logic/res/abi.json -o app/src/api/AbiClient.ts
 ```
 
 **What this generates:**
@@ -831,7 +844,7 @@ This is why the first step after `pnpm network:bootstrap` is always to grab the 
     "logic:build": "cd logic && cargo build --target wasm32-unknown-unknown --release",
     "logic:watch": "watchexec -w logic/src 'pnpm logic:build && pnpm logic:sync'",
     "logic:sync": "cp logic/target/wasm32-unknown-unknown/release/*.wasm workflows/",
-    "app:generate-client": "calimero-abi-generator --input logic/res/abi.json --output app/src/api/",
+    "app:generate-client": "calimero-abi-codegen -i logic/res/abi.json -o app/src/api/",
     "app:dev": "cd app && pnpm dev",
     "network:bootstrap": "merobox --workflow workflows/local-network.yml",
     "dev": "concurrently 'pnpm logic:watch' 'pnpm app:dev'"
@@ -958,6 +971,9 @@ By following this walkthrough (or just reading it), you now understand:
 
 ### Want to Go Deeper?
 
+- **[SDK Guide](sdk-guide.md)** - Complete guide to building with the Calimero Rust SDK
+- **[JavaScript SDK Guide](js-sdk-guide.md)** - Build Calimero services using TypeScript/JavaScript
+- **[Core Apps Examples](../examples/core-apps-examples.md)** - Reference implementations in `core/apps`
 - **[Introduction](../intro/index.md)** - Understand Calimero's core concepts and architecture
 - **[Privacy, Verifiability & Security](../privacy-verifiability-security/index.md)** - Learn about private contexts and data flow
 - **[App Directory](../app-directory/index.md)** - Discover what's already built on Calimero

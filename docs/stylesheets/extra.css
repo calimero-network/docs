@@ -1,20 +1,230 @@
 /* Custom Calimero Branding Styles */
 
 /* ============================================
-   CUSTOM COLORS
+   CUSTOM COLORS (Calimero Brand Palette)
    ============================================ */
 
 :root {
-  --md-accent-fg-color: #A5FF11;
+  /* Neutrals */
+  --calimero-neutral-900: #131215;
+  --calimero-neutral-800: #222222;
+  --calimero-neutral-700: #282828;
+  --calimero-neutral-600: #404040;
+  --calimero-neutral-500: #5C5C5C;
+  --calimero-neutral-400: #8E8E8E;
+  --calimero-neutral-300: #A0A0A0;
+  --calimero-neutral-200: #C8C8C8;
+  --calimero-neutral-100: #F3F3F3;
+
+  /* Brand greens */
+  --calimero-green-900: #2D381B;
+  --calimero-green-800: #8AA200;
+  --calimero-green-700: #73B30C;
+  --calimero-green-600: #A5FF11;
+  --calimero-green-500: #E0F97A;
+}
+
+/* Light theme (default) */
+[data-md-color-scheme="default"] {
+  --md-default-bg-color: #F5F5F4; /* light neutral backdrop */
+  --md-default-fg-color: #1F1F1F;
+  --md-primary-fg-color: var(--calimero-green-800);
+  --md-primary-bg-color: #FFFFFF;
+  --md-accent-fg-color: var(--calimero-green-700);
+  --md-accent-bg-color: rgba(115, 179, 12, 0.14);
+  --md-code-bg-color: #EFEFEF;
+  --md-code-fg-color: #222222;
+}
+
+[data-md-color-scheme="default"] body,
+[data-md-color-scheme="default"] .md-main,
+[data-md-color-scheme="default"] .md-content,
+[data-md-color-scheme="default"] .md-header,
+[data-md-color-scheme="default"] .md-sidebar {
+  background-color: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+}
+
+[data-md-color-scheme="default"] .md-header {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), rgba(240, 246, 222, 0.85));
+  border-bottom: 1px solid rgba(31, 31, 31, 0.08);
+  box-shadow: 0 4px 12px rgba(19, 18, 21, 0.05);
+}
+
+[data-md-color-scheme="default"] .md-tabs {
+  background: linear-gradient(90deg, rgba(240, 246, 222, 0.95), rgba(209, 238, 140, 0.65));
+  color: var(--md-default-fg-color);
+}
+
+[data-md-color-scheme="default"] .md-tabs__link {
+  color: var(--md-default-fg-color);
+  opacity: 0.8;
+}
+
+[data-md-color-scheme="default"] .md-tabs__item--active .md-tabs__link,
+[data-md-color-scheme="default"] .md-tabs__link:hover {
+  color: var(--calimero-green-800);
+  opacity: 1;
+}
+
+[data-md-color-scheme="default"] .md-sidebar__scrollwrap {
+  background-color: #FFFFFF;
+  border-right: 1px solid rgba(31, 31, 31, 0.06);
+}
+
+[data-md-color-scheme="default"] .md-nav__link--active {
+  color: #6B8611;
+}
+
+[data-md-color-scheme="default"] .md-nav__title {
+  color: #4E5F17;
+}
+
+[data-md-color-scheme="default"] .md-typeset a {
+  color: #58730A;
+}
+
+[data-md-color-scheme="default"] .md-typeset a:hover {
+  color: #3E5207;
+}
+
+[data-md-color-scheme="default"] .md-typeset h1,
+[data-md-color-scheme="default"] .md-typeset h2,
+[data-md-color-scheme="default"] .md-typeset h3 {
+  color: #202320;
+}
+
+[data-md-color-scheme="default"] .md-typeset table:not([class]) th {
+  background-color: rgba(138, 162, 0, 0.22);
+  color: #222222;
+}
+
+[data-md-color-scheme="default"] .md-typeset table:not([class]) tbody tr {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+[data-md-color-scheme="default"] .md-typeset table:not([class]) tbody tr:nth-child(2n) {
+  background-color: rgba(240, 240, 240, 0.9);
+}
+
+[data-md-color-scheme="default"] .md-typeset .admonition,
+[data-md-color-scheme="default"] .md-typeset details {
+  background-color: rgba(209, 238, 140, 0.25);
+  border-color: rgba(115, 179, 12, 0.6);
+}
+
+[data-md-color-scheme="default"] blockquote {
+  border-left: 0.25rem solid rgba(115, 179, 12, 0.7);
+  background-color: rgba(255, 255, 255, 0.85);
+  color: #262626;
+}
+
+[data-md-color-scheme="default"] .md-button--primary {
+  background: var(--calimero-green-700);
+  color: #111;
+}
+
+[data-md-color-scheme="default"] .md-button--primary:hover {
+  background: var(--calimero-green-600);
+}
+
+/* Dark theme (slate) */
+[data-md-color-scheme="slate"] {
+  --md-default-bg-color: var(--calimero-neutral-900);
+  --md-default-fg-color: #E5E5E5;
+  --md-primary-fg-color: var(--calimero-green-600);
+  --md-primary-bg-color: var(--calimero-neutral-900);
+  --md-accent-fg-color: var(--calimero-green-600);
+  --md-accent-bg-color: rgba(165, 255, 17, 0.1);
+  --md-code-bg-color: rgba(40, 40, 40, 0.85);
+  --md-code-fg-color: #E5E5E5;
+}
+
+[data-md-color-scheme="slate"] .md-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+[data-md-color-scheme="slate"] .md-tabs {
+  background: linear-gradient(90deg, rgba(45, 56, 27, 0.9), rgba(73, 140, 24, 0.6));
+  color: var(--md-default-fg-color);
+}
+
+[data-md-color-scheme="slate"] .md-tabs__link {
+  color: var(--md-default-fg-color);
+  opacity: 0.75;
+}
+
+[data-md-color-scheme="slate"] .md-tabs__link:hover,
+[data-md-color-scheme="slate"] .md-tabs__link--active {
+  color: var(--calimero-green-600);
+  opacity: 1;
 }
 
 /* Content body link colors */
 .md-typeset a {
-  color: #8AA200;
+  color: var(--calimero-green-600);
 }
 
 .md-typeset a:hover {
-  color: #A5FF11;
+  color: var(--calimero-green-700);
+}
+
+/* Card and blockquote styling */
+.md-typeset .admonition,
+.md-typeset details {
+  background-color: rgba(45, 56, 27, 0.35);
+  border-color: var(--calimero-green-800);
+}
+
+blockquote {
+  border-left: 0.25rem solid var(--calimero-green-700);
+  background-color: rgba(19, 18, 21, 0.6);
+}
+
+/* Table styling */
+.md-typeset table:not([class]) th {
+  background-color: rgba(138, 162, 0, 0.15);
+  color: var(--md-default-fg-color);
+}
+
+.md-typeset table:not([class]) tbody tr {
+  background-color: rgba(34, 34, 34, 0.5);
+}
+
+.md-typeset table:not([class]) tbody tr:nth-child(2n) {
+  background-color: rgba(40, 40, 40, 0.6);
+}
+
+/* Tabs navigation */
+.md-tabs {
+  background: linear-gradient(90deg, rgba(45, 56, 27, 0.9), rgba(73, 140, 24, 0.6));
+  color: var(--md-default-fg-color);
+}
+
+.md-tabs__link {
+  color: var(--md-default-fg-color);
+  opacity: 0.75;
+}
+
+.md-tabs__link:hover,
+.md-tabs__link--active {
+  color: var(--calimero-green-600);
+  opacity: 1;
+}
+
+/* Buttons */
+.md-button--primary {
+  background: var(--calimero-green-700);
+  color: #0E0F0E;
+}
+
+.md-button--primary:hover {
+  background: var(--calimero-green-600);
+}
+
+/* Sidebar headings */
+.md-nav__title {
+  color: var(--calimero-green-500);
 }
 
 /* Light mode: use black logo and proper header colors */
@@ -68,105 +278,40 @@
    LAYOUT IMPROVEMENTS
    ============================================ */
 
-/* Hide sidebars on desktop only (NOT on mobile - needed for hamburger menu) */
-@media screen and (min-width: 60em) {
+/* Swap sidebars so main navigation appears on the left and page table of contents on the right */
+@media screen and (min-width: 76.25rem) {
   .md-sidebar--primary {
-    display: none !important;
+    order: 1;
+    border-right: 1px solid var(--md-default-fg-color--lightest);
   }
-  
-  .md-sidebar--secondary {
-    display: none !important;
-  }
-}
 
-/* Wider content area - no sidebars on desktop */
-.md-main__inner {
-  max-width: none;
-}
-
-.md-content {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Remove margins for sidebars on desktop */
-@media screen and (min-width: 60em) {
-  .md-content__inner {
-    margin-left: 0;
-    margin-right: 0;
-  }
-}
-
-/* ============================================
-   MOBILE OPTIMIZATIONS
-   ============================================ */
-
-/* Mobile-specific padding to prevent text from touching edges */
-@media screen and (max-width: 59.99em) {
-  /* Main content padding */
-  .md-content__inner {
-    padding-left: 1.5rem !important;
-    padding-right: 1.5rem !important;
-  }
-  
-  /* Typography padding */
-  .md-typeset {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-  
-  /* Ensure proper padding for main grid */
-  .md-main {
-    padding-left: 0;
-    padding-right: 0;
-  }
-  
-  /* Content container padding */
   .md-content {
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 0;
-    padding-right: 0;
+    order: 2;
   }
-  
-  /* Ensure the primary sidebar (navigation drawer) is visible and functional on mobile */
-  .md-sidebar--primary {
-    display: block !important;
-  }
-  
-  /* Style the navigation drawer when it opens */
-  .md-sidebar--primary .md-sidebar__scrollwrap {
-    background-color: var(--md-default-bg-color);
-  }
-  
-  /* Ensure hamburger menu button is visible and clickable */
-  .md-header__button.md-icon {
-    display: inline-block;
-    color: var(--md-default-fg-color);
+
+  .md-sidebar--secondary {
+    order: 3;
+    border-left: 1px solid var(--md-default-fg-color--lightest);
   }
 }
 
-/* Tabs navigation - adapt to light/dark mode */
-.md-tabs {
-  background-color: var(--md-default-bg-color) !important;
-  color: var(--md-default-fg-color);
+/* Hide the secondary sidebar when there is only a single ToC entry */
+@media screen and (min-width: 76.25rem) {
+  .md-sidebar--secondary ul.md-nav__list > li:first-child:last-child {
+    display: none;
+  }
 }
 
-.md-tabs__list {
-  background-color: var(--md-default-bg-color) !important;
+/* Hide the primary sidebar when there is only a single navigation entry */
+@media screen and (min-width: 76.25rem) {
+  .md-sidebar--primary nav > ul.md-nav__list:not(:has(> li.md-nav__item:nth-child(2))) {
+    display: none;
+  }
 }
 
-.md-tabs__link {
-  color: var(--md-default-fg-color);
-  opacity: 0.7;
+/* Utility class used by sidebar.js to hide sidebars with single items */
+.md-sidebar.is-hidden-single {
+  display: none !important;
 }
 
-.md-tabs__link:hover {
-  opacity: 1;
-}
-
-.md-tabs__link--active {
-  color: var(--md-primary-fg-color);
-  opacity: 1;
-}
 
