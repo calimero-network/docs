@@ -10,7 +10,7 @@ Use this directory as a jumping-off point; it shows you **what exists** and **wh
 | Tool | Reference | Notes |
 | --- | --- | --- |
 | `merod` | [`calimero-network/core`](https://github.com/calimero-network/core#readme) | Node runtime orchestrating WASM apps, storage, networking, RPC. |
-| `meroctl` | [`calimero-network/core` – CLI](https://github.com/calimero-network/core#cli) | Command-line surface for context lifecycle, deployment, diagnostics. |
+| `meroctl` | [CLI Reference](meroctl-cli.md) | Command-line surface for context lifecycle, deployment, diagnostics. See also [`core/crates/meroctl`](https://github.com/calimero-network/core/tree/master/crates/meroctl) for source code. |
 | Admin Dashboard | [`calimero-network/admin-dashboard`](https://github.com/calimero-network/admin-dashboard#readme) | Web UI for member management, metrics, alerts. |
 
 ## Developer Tooling

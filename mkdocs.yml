@@ -90,9 +90,12 @@ nav:
           - Launch Your First Context: getting-started/launch-your-first-context.md
           - Build Your First Application: getting-started/build-your-first-application.md
           - Sample App Walkthrough: getting-started/sample-app-walkthrough.md
-      - Builder Directory: builder-directory/index.md
+      - Builder Directory:
+          - Overview: builder-directory/index.md
+          - SDK Guide: builder-directory/sdk-guide.md
       - Examples:
           - Overview: examples/index.md
+          - Core Apps Examples: examples/core-apps-examples.md
           - Battleships: examples/battleships.md
           - Shared Todo Backlog: examples/shared-todo-backlog.md
           - Split Bills: examples/split-bills.md
@@ -121,7 +124,9 @@ nav:
           - WebSocket Streams: reference/websocket-streams.md
           - Error Codes & Retries: reference/error-codes.md
           - Versioning & Changelog: reference/versioning-changelog.md
-  - Tools & APIs: tools-apis/index.md
+  - Tools & APIs:
+      - Overview: tools-apis/index.md
+      - meroctl CLI: tools-apis/meroctl-cli.md
   - Support:
       - Overview: support/index.md
       - FAQ: support/faq.md
