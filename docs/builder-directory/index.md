@@ -14,7 +14,7 @@ Before we dive in, here are the tools we'll be using:
 
 - **`mero-devtools-js`** - JavaScript wrappers for Calimero tooling to keep your development workflow simple and consistent. [Source code](https://github.com/calimero-network/mero-devtools-js)
 
-- **`calimero-abi-generator `** - Generates TypeScript clients from your Rust backend, keeping frontend/backend in sync.
+- **`@calimero-network/abi-codegen`** - Generates TypeScript clients from your Rust backend, keeping frontend/backend in sync.
 
 Don't worry about installing these individually - the setup process will handle it.
 
@@ -549,7 +549,7 @@ After the Rust code is written, the AI runs:
 
 ```bash
 cargo build --target wasm32-unknown-unknown --release
-calimero-abi-generator --input logic/res/abi.json --output app/src/api/AbiClient.ts
+npx calimero-abi-codegen -i logic/res/abi.json -o app/src/api/AbiClient.ts
 ```
 
 **What this generates:**
@@ -844,7 +844,7 @@ This is why the first step after `pnpm network:bootstrap` is always to grab the 
     "logic:build": "cd logic && cargo build --target wasm32-unknown-unknown --release",
     "logic:watch": "watchexec -w logic/src 'pnpm logic:build && pnpm logic:sync'",
     "logic:sync": "cp logic/target/wasm32-unknown-unknown/release/*.wasm workflows/",
-    "app:generate-client": "calimero-abi-generator --input logic/res/abi.json --output app/src/api/",
+    "app:generate-client": "calimero-abi-codegen -i logic/res/abi.json -o app/src/api/",
     "app:dev": "cd app && pnpm dev",
     "network:bootstrap": "merobox --workflow workflows/local-network.yml",
     "dev": "concurrently 'pnpm logic:watch' 'pnpm app:dev'"

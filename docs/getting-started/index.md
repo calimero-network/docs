@@ -98,10 +98,10 @@ docker run -p 2529:2528 ghcr.io/calimero-network/merod:edge \
 
 ```bash
 # Check node health
-meroctl --node-name node1 health
+meroctl --node node1 health
 
 # List contexts
-meroctl --node-name node1 context list
+meroctl --node node1 context list
 ```
 
 See [Running Nodes](../operator-track/run-a-local-network.md) for detailed node management.
@@ -139,7 +139,7 @@ cd core/apps/kv-store
 ./build.sh
 
 # Install on node
-meroctl --node-name node1 app install \
+meroctl --node node1 app install \
   --path build/kv_store.wasm
 ```
 
@@ -174,9 +174,8 @@ impl MyApp {
         self.items.insert(key, value);
     }
     
-    #[app::view]
-    pub fn get_item(&self, key: &str) -> Option<String> {
-        self.items.get(key)
+    pub fn get_item(&self, key: &str) -> app::Result<Option<String>> {
+        self.items.get(key)?.map(|v| v.get().clone())
     }
 }
 ```
@@ -198,21 +197,21 @@ See [SDK Guide](../builder-directory/sdk-guide.md) or [JavaScript SDK Guide](../
 
 **Create a context:**
 ```bash
-meroctl --node-name node1 context create \
+meroctl --node node1 context create \
   --application-id <APP_ID>
 ```
 
 **Call methods:**
 ```bash
 # Call a mutation
-meroctl --node-name node1 call \
+meroctl --node node1 call \
   --context-id <CONTEXT_ID> \
   --method add_item \
   --args '{"key": "hello", "value": "world"}' \
   --executor-public-key <YOUR_KEY>
 
 # Call a view
-meroctl --node-name node1 call \
+meroctl --node node1 call \
   --context-id <CONTEXT_ID> \
   --method get_item \
   --args '{"key": "hello"}'

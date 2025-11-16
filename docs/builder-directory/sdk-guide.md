@@ -285,7 +285,6 @@ impl KvStore {
         Ok(())
     }
     
-    #[app::view]
     pub fn get(&self, key: &str) -> app::Result<Option<String>> {
         Ok(self.items.get(key)?.map(|v| v.get().clone()))
     }
@@ -320,7 +319,6 @@ impl Metrics {
         Ok(())
     }
     
-    #[app::view]
     pub fn get_views(&self, page: &str) -> app::Result<i64> {
         Ok(self.page_views.get(page)?.map(|c| c.value()).unwrap_or(0))
     }
@@ -404,7 +402,7 @@ calimero-abi extract \
 ## Best Practices
 
 1. **Always use CRDTs**: Don't use regular Rust collections for synchronized state
-2. **Mark views with `#[app::view]`**: Improve performance and intent clarity
+2. **Use `&self` for views**: Methods with `&self` are read-only and faster (no attribute needed)
 3. **Handle errors properly**: Use `app::Result<T>` and meaningful error types
 4. **Use private storage for secrets**: Never put secrets in CRDT state
 5. **Emit events for UI updates**: Enable real-time updates across nodes

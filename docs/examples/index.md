@@ -19,7 +19,7 @@ These examples live in [`calimero-network/core/apps`](https://github.com/calimer
 ```bash
 cd core/apps/kv-store
 ./build.sh
-meroctl --node-name node1 app install --path build/kv_store.wasm
+meroctl --node node1 app install --path build/kv_store.wasm
 ```
 
 ## Application Examples

@@ -104,20 +104,25 @@ See [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/
 
 ## Views vs Mutations
 
-Mark read-only methods with `#[app::view]` to skip persistence:
+In Rust, methods using `&self` are read-only views (no deltas generated), while `&mut self` methods are mutations:
 
 ```rust
-#[app::view]  // Read-only, no delta generated
-pub fn get_item(&self, key: &str) -> Option<String> {
-    self.items.get(key)
+// View method (read-only, no delta generated)
+pub fn get_item(&self, key: &str) -> app::Result<Option<String>> {
+    self.items.get(key)?.map(|v| v.get().clone())
 }
-```
+
+// Mutation method (generates delta)
+pub fn set_item(&mut self, key: String, value: String) -> app::Result<()> {
+    self.items.insert(key, value.into())?;
+    Ok(())
+}
 ```
 
 **Benefits**:
-- Views don't generate storage deltas
+- View methods (`&self`) don't generate storage deltas
 - Faster execution (no persistence overhead)
-- Clear intent in API
+- Clear intent in API (Rust's type system enforces immutability)
 
 ## Resource Limits
 

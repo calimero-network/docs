@@ -45,7 +45,7 @@ Context creators can invite other identities to join:
 
 ```bash
 # Generate identity for invitee
-meroctl identity create --node-name node2
+meroctl identity create --node node2
 
 # Create invitation
 meroctl context invite \

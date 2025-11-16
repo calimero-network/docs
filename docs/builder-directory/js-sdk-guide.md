@@ -112,16 +112,16 @@ export class CounterLogic extends CounterApp {
 npx calimero-sdk build src/index.ts -o build/service.wasm
 
 # Install on node
-meroctl --node-name node1 app install \
+meroctl --node node1 app install \
   --path build/service.wasm \
   --context-id <CONTEXT_ID>
 
 # Call methods
-meroctl --node-name node1 call \
+meroctl --node node1 call \
   --context-id <CONTEXT_ID> \
   --method increment
 
-meroctl --node-name node1 call \
+meroctl --node node1 call \
   --context-id <CONTEXT_ID> \
   --method getCount
 ```

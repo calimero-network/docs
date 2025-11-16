@@ -6,13 +6,13 @@ Observability and troubleshooting for Calimero nodes.
 
 ```bash
 # Check node health
-meroctl --node-name node1 health
+meroctl --node node1 health
 
 # View logs
 merobox logs node1 --follow
 
 # List contexts
-meroctl --node-name node1 context list
+meroctl --node node1 context list
 ```
 
 ## Admin Dashboard

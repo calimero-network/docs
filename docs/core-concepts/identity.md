@@ -51,7 +51,7 @@ A **root key** is the master identity for a user or node. It's typically:
 Generate identities with `meroctl`:
 
 ```bash
-meroctl identity create --node-name node1
+meroctl identity create --node node1
 ```
 
 See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/blob/master/crates/meroctl/README.md) for CLI details.

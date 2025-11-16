@@ -120,6 +120,7 @@ extra_javascript:
 # Navigation structure
 nav:
   - Home: index.md
+  - Introduction: intro/index.md
   - Getting Started: getting-started/index.md
   - Concepts:
       - Overview: core-concepts/index.md
