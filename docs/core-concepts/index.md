@@ -2,10 +2,6 @@
 
 Understanding Calimero's core concepts is essential for building and operating applications. This section covers the fundamental building blocks of the platform.
 
-## Overview
-
-Calimero consists of several interconnected concepts:
-
 - **[Contexts](contexts.md)** - Isolated application instances with their own state and members
 - **[Identity](identity.md)** - Cryptographic identities for access control and authentication
 - **[Applications](applications.md)** - WASM modules that run inside contexts

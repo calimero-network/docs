@@ -120,29 +120,25 @@ extra_javascript:
 # Navigation structure
 nav:
   - Home: index.md
-  - Quick Start: getting-started/index.md
-  - Learn:
-      - Core Concepts: core-concepts/index.md
+  - Getting Started: getting-started/index.md
+  - Concepts:
+      - Overview: core-concepts/index.md
       - Architecture: core-concepts/architecture.md
       - Applications: core-concepts/applications.md
       - Contexts: core-concepts/contexts.md
       - Identity: core-concepts/identity.md
       - Nodes: core-concepts/nodes.md
   - Build:
-      - Overview: builder-directory/index.md
       - Rust SDK: builder-directory/sdk-guide.md
       - JavaScript SDK: builder-directory/js-sdk-guide.md
       - Examples: examples/index.md
   - Operate:
       - Running Nodes: operator-track/run-a-local-network.md
       - Monitoring: operator-track/monitor-and-debug.md
-  - Tools & APIs:
-      - Overview: tools-apis/index.md
       - CLI (meroctl): tools-apis/meroctl-cli.md
       - Client SDKs: tools-apis/client-sdks.md
       - Developer Tools: tools-apis/developer-tools.md
-  - Reference:
-      - API Reference: reference/index.md
+  - Reference: reference/index.md
 
 # Extra configuration
 extra:
