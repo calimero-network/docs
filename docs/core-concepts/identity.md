@@ -6,11 +6,25 @@ Calimero uses **cryptographic identities** to manage access control and authenti
 
 Calimero supports a hierarchical identity model:
 
-```
-Root Key (Master Identity)
-├── Client Key 1 (for Context A)
-├── Client Key 2 (for Context B)
-└── Client Key 3 (for Context C)
+```mermaid
+graph TD
+    ROOT[Root Key<br/>Master Identity<br/>alice.near]
+    CLIENT1[Client Key 1<br/>Context A<br/>ed25519:abc...]
+    CLIENT2[Client Key 2<br/>Context B<br/>ed25519:def...]
+    CLIENT3[Client Key 3<br/>Context C<br/>ed25519:ghi...]
+    
+    ROOT -->|derives| CLIENT1
+    ROOT -->|derives| CLIENT2
+    ROOT -->|derives| CLIENT3
+    
+    CLIENT1 -->|signs transactions| CTX1[Context A]
+    CLIENT2 -->|signs transactions| CTX2[Context B]
+    CLIENT3 -->|signs transactions| CTX3[Context C]
+    
+    style ROOT fill:#e3f2fd,stroke:#1976d2,stroke-width:3px
+    style CLIENT1 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    style CLIENT2 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    style CLIENT3 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
 ```
 
 ### Root Keys

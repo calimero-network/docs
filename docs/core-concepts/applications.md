@@ -13,47 +13,28 @@ Applications are compiled from Rust (or other supported languages) to WebAssembl
 
 ## Quick Start
 
+See [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md) for complete SDK documentation.
+
+**Minimal example:**
+
 ```rust
 use calimero_sdk::app;
 use calimero_storage::collections::UnorderedMap;
 
 #[app::state]
-#[derive(BorshSerialize, BorshDeserialize)]
 pub struct MyApp {
     items: UnorderedMap<String, String>,
 }
 
 #[app::logic]
 impl MyApp {
-    #[app::init]
-    pub fn init() -> MyApp {
-        MyApp {
-            items: UnorderedMap::new(),
-        }
-    }
-    
-    pub fn add_item(&mut self, key: String, value: String) -> app::Result<()> {
-        self.items.insert(key, value)?;
-        Ok(())
-    }
-    
-    pub fn get_item(&self, key: &str) -> app::Result<Option<String>> {
-        self.items.get(key).map_err(Into::into)
+    pub fn add_item(&mut self, key: String, value: String) {
+        self.items.insert(key, value);
     }
 }
 ```
 
-Build and deploy:
-
-```bash
-# Build WASM
-./build.sh
-
-# Install on node
-meroctl --node-name node1 app install \
-  --path build/app.wasm \
-  --context-id <CONTEXT_ID>
-```
+Build and deploy with [`meroctl`](../tools-apis/meroctl-cli.md). See [SDK Guide](../builder-directory/sdk-guide.md) for details.
 
 ## Architecture
 
