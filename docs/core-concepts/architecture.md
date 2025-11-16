@@ -16,10 +16,10 @@ flowchart TD
     STORAGE --> NETWORK
     NETWORK --> NODE
     
-    style APP fill:#e5ffe5,stroke:#000000,stroke-width:3px
-    style NODE fill:#ffffff,stroke:#00ff00,stroke-width:3px
-    style STORAGE fill:#e5ffe5,stroke:#000000,stroke-width:3px
-    style NETWORK fill:#ffffff,stroke:#00ff00,stroke-width:3px
+    style APP fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style NODE fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style STORAGE fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style NETWORK fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
 ```
 
 ## Transaction Flow
@@ -35,12 +35,12 @@ flowchart LR
     NETWORK --> PEER[Peer<br/>~100ms]
     NODE --> CLIENT
     
-    style CLIENT fill:#ffffff,stroke:#000000,stroke-width:2px
-    style NODE fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
-    style WASM fill:#ffffff,stroke:#000000,stroke-width:2px
-    style STORAGE fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
-    style NETWORK fill:#ffffff,stroke:#00ff00,stroke-width:2px
-    style PEER fill:#e5ffe5,stroke:#000000,stroke-width:2px
+    style CLIENT fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style NODE fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style WASM fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style STORAGE fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style NETWORK fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style PEER fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
 ```
 
 See [`core/crates/runtime/README.md`](https://github.com/calimero-network/core/blob/master/crates/runtime/README.md) for execution details.
@@ -63,10 +63,14 @@ flowchart LR
     READY -->|No| BUFFER[Buffer]
     APPLY --> EVENTS[Events]
     
-    style TXN fill:#ffffff,stroke:#000000,stroke-width:2px
-    style APPLY fill:#e5ffe5,stroke:#00ff00,stroke-width:3px
-    style EVENTS fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
-    style BUFFER fill:#ffffff,stroke:#00ff00,stroke-width:2px
+    style TXN fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style DELTA fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style GOSSIP fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style RECEIVE fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style READY fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style APPLY fill:#000000,stroke:#00ff00,stroke-width:4px,color:#ffffff
+    style EVENTS fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style BUFFER fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
 ```
 
 ### Path 2: Periodic P2P Sync (Fallback)
@@ -84,9 +88,14 @@ flowchart LR
     REQUEST --> APPLY2[Apply]
     APPLY2 --> SYNC
     
-    style TIMER fill:#ffffff,stroke:#000000,stroke-width:2px
-    style SYNC fill:#e5ffe5,stroke:#00ff00,stroke-width:3px
-    style APPLY2 fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
+    style TIMER fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style PEER fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style STREAM fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style HEADS fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style DIFF fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style REQUEST fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style APPLY2 fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style SYNC fill:#000000,stroke:#00ff00,stroke-width:4px,color:#ffffff
 ```
 
 **Why both paths?**
@@ -106,10 +115,10 @@ flowchart LR
     A --> MERGE[Merge]
     B --> MERGE
     
-    style ROOT fill:#000000,stroke:#00ff00,stroke-width:3px,color:#ffffff
-    style A fill:#ffffff,stroke:#000000,stroke-width:2px
-    style B fill:#ffffff,stroke:#000000,stroke-width:2px
-    style MERGE fill:#e5ffe5,stroke:#00ff00,stroke-width:3px
+    style ROOT fill:#000000,stroke:#00ff00,stroke-width:4px,color:#ffffff
+    style A fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style B fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style MERGE fill:#000000,stroke:#00ff00,stroke-width:4px,color:#ffffff
 ```
 
 **Key properties**:
@@ -129,13 +138,13 @@ flowchart TD
     NODE --> NETWORK[Network]
     SERVER[Server] --> NODE
     
-    style SDK fill:#e5ffe5,stroke:#000000,stroke-width:2px
-    style RUNTIME fill:#ffffff,stroke:#00ff00,stroke-width:2px
-    style STORAGE fill:#e5ffe5,stroke:#000000,stroke-width:2px
-    style DAG fill:#ffffff,stroke:#00ff00,stroke-width:2px
-    style NODE fill:#000000,stroke:#00ff00,stroke-width:3px,color:#ffffff
-    style NETWORK fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
-    style SERVER fill:#ffffff,stroke:#000000,stroke-width:2px
+    style SDK fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style RUNTIME fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style STORAGE fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style DAG fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style NODE fill:#000000,stroke:#00ff00,stroke-width:4px,color:#ffffff
+    style NETWORK fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style SERVER fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
 ```
 
 | Component | Purpose | Repository |
