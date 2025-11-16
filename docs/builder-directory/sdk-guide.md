@@ -422,5 +422,5 @@ For detailed SDK documentation:
 
 - [Build Your First Application](../getting-started/build-your-first-application.md) - Step-by-step tutorial
 - [Applications](../core-concepts/applications.md) - Application architecture overview
-- [Core Apps Examples](./core-apps-examples.md) - Reference implementations
+- [Core Apps Examples](../examples/core-apps-examples.md) - Reference implementations
 

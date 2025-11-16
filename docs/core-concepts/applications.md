@@ -239,6 +239,6 @@ For detailed application development:
 
 ## Related Topics
 
-- [Build Your First Application](getting-started/build-your-first-application.md) - Step-by-step guide
+- [Build Your First Application](../getting-started/build-your-first-application.md) - Step-by-step guide
 - [Contexts](contexts.md) - Application instances
 - [Architecture Overview](architecture.md) - How applications fit into the system

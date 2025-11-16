@@ -149,7 +149,7 @@ Key metrics and logs:
 - **Performance**: Delta application latency, sync duration, memory usage
 - **Events**: Event handler execution, errors, warnings
 
-See [Monitor & Debug](operator-track/monitor-and-debug.md) for detailed guidance.
+See [Monitor & Debug](../operator-track/monitor-and-debug.md) for detailed guidance.
 
 ## Configuration
 
@@ -169,6 +169,6 @@ For detailed node documentation:
 
 ## Related Topics
 
-- [Run a Local Network](operator-track/run-a-local-network.md) - Getting started with nodes
+- [Run a Local Network](../operator-track/run-a-local-network.md) - Getting started with nodes
 - [Architecture Overview](architecture.md) - How nodes fit into the system
 - [Contexts](contexts.md) - Application instances managed by nodes
