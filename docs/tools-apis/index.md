@@ -24,11 +24,16 @@ Use this directory as a jumping-off point; it shows you **what exists** and **wh
 
 ## SDKs & Clients
 
+!!! tip "Client SDKs Guide"
+    For comprehensive documentation on all three client SDKs (Rust, Python, JavaScript), see the [Client SDKs Guide](client-sdks.md).
+
 | SDK | Reference | Notes |
 | --- | --- | --- |
-| JavaScript Client | [`calimero-network/calimero-client-js`](https://github.com/calimero-network/calimero-client-js#readme) | Browser/Node bindings, event streaming, auth helpers. |
-| Python Client | [`calimero-network/calimero-client-py`](https://github.com/calimero-network/calimero-client-py#readme) | Python bindings, ABI tooling, automation recipes. |
-| Rust SDK | [`calimero-network/core/calimero-sdk-js`](https://github.com/calimero-network/core/tree/main/calimero-sdk-js#readme) | App macros, storage primitives, state helpers. |
+| Client SDKs | [Client SDKs Guide](client-sdks.md) | Comprehensive guide to Rust, Python, and JavaScript client SDKs for interacting with Calimero nodes. |
+| JavaScript Client | [`calimero-network/calimero-client-js`](https://github.com/calimero-network/calimero-client-js#readme) | Browser/Node bindings, event streaming, auth helpers. ✅ Full authentication support. |
+| Python Client | [`calimero-network/calimero-client-py`](https://github.com/calimero-network/calimero-client-py#readme) | Python bindings, ABI tooling, automation recipes. ⚠️ Authentication support planned. |
+| Rust Client | [`calimero-network/core/crates/client`](https://github.com/calimero-network/core/tree/master/crates/client) | Rust client SDK for CLI tools and sidecar services. ⚠️ Authentication support planned. |
+| Rust SDK | [`calimero-network/core/crates/sdk`](https://github.com/calimero-network/core/tree/master/crates/sdk) | App macros, storage primitives, state helpers. For building Calimero applications. |
 
 ## Automation & Workflows
 
