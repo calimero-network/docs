@@ -971,7 +971,8 @@ By following this walkthrough (or just reading it), you now understand:
 
 ### Want to Go Deeper?
 
-- **[SDK Guide](sdk-guide.md)** - Complete guide to building with the Calimero SDK
+- **[SDK Guide](sdk-guide.md)** - Complete guide to building with the Calimero Rust SDK
+- **[JavaScript SDK Guide](js-sdk-guide.md)** - Build Calimero services using TypeScript/JavaScript
 - **[Core Apps Examples](../examples/core-apps-examples.md)** - Reference implementations in `core/apps`
 - **[Introduction](../intro/index.md)** - Understand Calimero's core concepts and architecture
 - **[Privacy, Verifiability & Security](../privacy-verifiability-security/index.md)** - Learn about private contexts and data flow

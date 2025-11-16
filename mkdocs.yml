@@ -93,6 +93,7 @@ nav:
       - Builder Directory:
           - Overview: builder-directory/index.md
           - SDK Guide: builder-directory/sdk-guide.md
+          - JavaScript SDK Guide: builder-directory/js-sdk-guide.md
       - Examples:
           - Overview: examples/index.md
           - Core Apps Examples: examples/core-apps-examples.md
