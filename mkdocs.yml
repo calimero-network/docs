@@ -82,6 +82,7 @@ extra_javascript:
 # Navigation structure
 nav:
   - Home: index.md
+  - Introduction: intro/index.md
   - Build:
       - Getting Started:
           - Overview: getting-started/index.md

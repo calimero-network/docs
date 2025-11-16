@@ -59,10 +59,10 @@ See [Example Applications](../examples/index.md) for working implementations.
 
 | If you are… | Start here |
 | --- | --- |
-| **Building apps** | [Build Your First Application](getting-started/build-your-first-application.md) → [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md) |
-| **Running nodes** | [Run a Local Network](operator-track/run-a-local-network.md) → [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md) |
-| **Understanding sync** | [Architecture Overview](core-concepts/architecture.md) → [`core/crates/dag/README.md`](https://github.com/calimero-network/core/blob/master/crates/dag/README.md) |
-| **Debugging issues** | [Monitor & Debug](operator-track/monitor-and-debug.md) → [`core/crates/node/readme/troubleshooting.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/troubleshooting.md) |
+| **Building apps** | [Build Your First Application](../getting-started/build-your-first-application.md) → [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md) |
+| **Running nodes** | [Run a Local Network](../operator-track/run-a-local-network.md) → [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md) |
+| **Understanding sync** | [Architecture Overview](../core-concepts/architecture.md) → [`core/crates/dag/README.md`](https://github.com/calimero-network/core/blob/master/crates/dag/README.md) |
+| **Debugging issues** | [Monitor & Debug](../operator-track/monitor-and-debug.md) → [`core/crates/node/readme/troubleshooting.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/troubleshooting.md) |
 
 ## Core Architecture Layers
 
@@ -73,7 +73,7 @@ Calimero's architecture consists of four main layers:
 - CRDT collections: `UnorderedMap`, `Vector`, `Counter`, `LwwRegister`
 - Event emission for real-time updates
 
-**Documentation**: [Applications](core-concepts/applications.md) → [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md)
+**Documentation**: [Applications](../core-concepts/applications.md) → [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md)
 
 ### 2. Node Layer
 - Orchestrates synchronization and execution
@@ -81,7 +81,7 @@ Calimero's architecture consists of four main layers:
 - Event handler execution across the network
 - Blob distribution for file sharing
 
-**Documentation**: [Nodes](core-concepts/nodes.md) → [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md)
+**Documentation**: [Nodes](../core-concepts/nodes.md) → [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md)
 
 ### 3. Storage Layer
 - CRDT storage with automatic merging
@@ -89,7 +89,7 @@ Calimero's architecture consists of four main layers:
 - Handles out-of-order delivery with dependency resolution
 - Merkle trees for efficient state comparison
 
-**Documentation**: [Architecture Overview](core-concepts/architecture.md) → [`core/crates/storage/README.md`](https://github.com/calimero-network/core/blob/master/crates/storage/README.md)
+**Documentation**: [Architecture Overview](../core-concepts/architecture.md) → [`core/crates/storage/README.md`](https://github.com/calimero-network/core/blob/master/crates/storage/README.md)
 
 ### 4. Network Layer
 - libp2p-based P2P (Gossipsub, reliable streams, DHT discovery)
@@ -97,7 +97,7 @@ Calimero's architecture consists of four main layers:
 - WebSocket/SSE for real-time subscriptions
 - Authentication and authorization
 
-**Documentation**: [Reference](reference/index.md) → [`core/crates/network/README.md`](https://github.com/calimero-network/core/blob/master/crates/network/README.md)
+**Documentation**: [Reference](../reference/index.md) → [`core/crates/network/README.md`](https://github.com/calimero-network/core/blob/master/crates/network/README.md)
 
 ## How It Works (Transaction Flow)
 
@@ -110,9 +110,9 @@ Calimero's architecture consists of four main layers:
 7. **If not ready**: buffer until parents arrive (DAG handles this automatically)
 8. **Periodic P2P sync** ensures eventual consistency
 
-For detailed flow diagrams, see [Architecture Overview](core-concepts/architecture.md).
+For detailed flow diagrams, see [Architecture Overview](../core-concepts/architecture.md).
 
-## Core Repository Structure
+## Core Repository Structure {#core-architecture-snapshot}
 
 The Calimero Core repository (`calimero-network/core`) contains the runtime and all supporting infrastructure:
 
@@ -143,14 +143,14 @@ core/
 └── e2e-tests/       # End-to-end test suite
 ```
 
-For detailed component explanations, see [Architecture Overview](core-concepts/architecture.md#component-map).
+For detailed component explanations, see [Architecture Overview](../core-concepts/architecture.md#component-map).
 
 ## Next Steps
 
-- 📖 **New to Calimero?** → [Getting Started](getting-started/index.md)
-- 🏗️ **Ready to build?** → [Builder Directory](builder-directory/index.md)
-- 🎓 **Want to learn?** → [Core Concepts](core-concepts/index.md)
-- ⚙️ **Need to operate?** → [Operator Track](operator-track/index.md)
+- 📖 **New to Calimero?** → [Getting Started](../getting-started/index.md)
+- 🏗️ **Ready to build?** → [Builder Directory](../builder-directory/index.md)
+- 🎓 **Want to learn?** → [Core Concepts](../core-concepts/index.md)
+- ⚙️ **Need to operate?** → [Operator Track](../operator-track/index.md)
 
 ---
 
