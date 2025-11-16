@@ -23,70 +23,31 @@ The JavaScript SDK (`calimero-sdk-js`) consists of two main packages:
 ### Build Pipeline
 
 ```mermaid
-flowchart TD
-    TS[TypeScript Source]
-    TC[TypeScript Compiler]
-    JS[JavaScript ES6 modules]
-    ROLLUP[Rollup Bundle with dependencies]
-    BUNDLE[JavaScript Bundle]
-    QJSC[QuickJS qjsc Compile to C bytecode]
-    CODEH[code.h C header]
-    EXTRACT[Extract Methods Parse AST]
-    METHODS[methods.h C header]
-    CLANG[Clang/WASI-SDK Compile to WASM]
-    WASM[WASM Binary]
-    OPT[wasi-stub + wasm-opt Optimize]
-    FINAL[Final Service ~500KB]
-    
-    TS --> TC
-    TC --> JS
-    JS --> ROLLUP
-    ROLLUP --> BUNDLE
-    BUNDLE --> QJSC
-    QJSC --> CODEH
-    CODEH --> EXTRACT
-    EXTRACT --> METHODS
-    METHODS --> CLANG
-    CLANG --> WASM
-    WASM --> OPT
-    OPT --> FINAL
+flowchart LR
+    TS[TypeScript<br/>Source] --> BUILD[Build<br/>Bundle]
+    BUILD --> QJS[QuickJS<br/>Compile]
+    QJS --> WASM[WASI-SDK<br/>to WASM]
+    WASM --> OPT[Optimize<br/>~500KB]
     
     style TS fill:#ffffff,stroke:#000000,stroke-width:2px
-    style FINAL fill:#e5ffe5,stroke:#000000,stroke-width:3px
+    style BUILD fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
+    style QJS fill:#ffffff,stroke:#000000,stroke-width:2px
+    style WASM fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
+    style OPT fill:#000000,stroke:#00ff00,stroke-width:3px,color:#ffffff
 ```
 
 ### Runtime Execution
 
 ```mermaid
-graph TB
-    subgraph "JavaScript Application"
-        JS[Your code with decorators]
-    end
-    
-    subgraph "@calimero/sdk"
-        SDK[Decorators, CRDT Collections, Event System]
-    end
-    
-    subgraph "QuickJS Runtime (in WASM)"
-        QJS[JavaScript interpreter<br/>~450KB overhead]
-    end
-    
-    subgraph "Calimero Host Functions"
-        HOST[storage_read/write<br/>emit/commit<br/>context_id/executor_id]
-    end
-    
-    subgraph "Calimero Runtime (Wasmer)"
-        RUNTIME[WASM execution<br/>P2P synchronization<br/>Storage RocksDB]
-    end
-    
-    JS --> SDK
-    SDK --> QJS
-    QJS --> HOST
-    HOST --> RUNTIME
+flowchart LR
+    JS[JavaScript<br/>Your code] --> SDK[SDK<br/>Decorators]
+    SDK --> QJS[QuickJS<br/>Runtime]
+    QJS --> HOST[Host<br/>Functions]
+    HOST --> RUNTIME[Calimero<br/>Runtime]
     
     style JS fill:#ffffff,stroke:#000000,stroke-width:2px
-    style SDK fill:#e5ffe5,stroke:#000000,stroke-width:2px
-    style QJS fill:#ffffff,stroke:#00ff00,stroke-width:2px
+    style SDK fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
+    style QJS fill:#ffffff,stroke:#000000,stroke-width:2px
     style HOST fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
     style RUNTIME fill:#000000,stroke:#00ff00,stroke-width:3px,color:#ffffff
 ```
@@ -893,5 +854,5 @@ For detailed JavaScript SDK documentation:
 - [SDK Guide (Rust)](sdk-guide.md) - Building with Rust SDK
 - [Applications](../core-concepts/applications.md) - Application architecture overview
 - [Core Apps Examples](../examples/core-apps-examples.md) - Rust SDK examples
-- [Build Your First Application](../getting-started/build-your-first-application.md) - Tutorial
+- [Getting Started](../getting-started/index.md) - Complete getting started guide
 

@@ -59,7 +59,7 @@ See [Example Applications](../examples/index.md) for working implementations.
 
 | If you are… | Start here |
 | --- | --- |
-| **Building apps** | [Build Your First Application](../getting-started/build-your-first-application.md) → [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md) |
+| **Building apps** | [Getting Started](../getting-started/index.md) → [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md) |
 | **Running nodes** | [Run a Local Network](../operator-track/run-a-local-network.md) → [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md) |
 | **Understanding sync** | [Architecture Overview](../core-concepts/architecture.md) → [`core/crates/dag/README.md`](https://github.com/calimero-network/core/blob/master/crates/dag/README.md) |
 | **Debugging issues** | [Monitor & Debug](../operator-track/monitor-and-debug.md) → [`core/crates/node/readme/troubleshooting.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/troubleshooting.md) |

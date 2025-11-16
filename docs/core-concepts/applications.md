@@ -42,28 +42,17 @@ Build and deploy with [`meroctl`](../tools-apis/meroctl-cli.md). See [SDK Guide]
 
 ```mermaid
 sequenceDiagram
-    participant Client as JSON-RPC Client
-    participant Node as Node Runtime
-    participant WASM as WASM Module
-    participant Storage as CRDT Storage
-    participant Network as P2P Network
-    
     Client->>Node: call("add_item", args)
-    Node->>WASM: execute(method, args)
+    Node->>WASM: execute()
+    WASM->>Storage: CRDT operations
+    Storage->>Node: ExecutionOutcome
+    Node->>Network: Broadcast delta
+    Node->>Client: Result
     
-    rect rgb(220, 237, 255)
-        Note over WASM,Storage: Transaction Execution
-        WASM->>Storage: map.insert(key, value)
-        Storage->>Storage: Generate Action::Update
-        Storage->>Storage: Calculate Merkle hashes
-        Storage->>Storage: Collect in DELTA_CONTEXT
-    end
-    
-    WASM-->>Node: ExecutionOutcome {<br/>root_hash, events, ...}
-    
-    Node->>Network: Broadcast StateDelta
-    Network->>Node: Propagate to peers
-    Node-->>Client: TransactionResult
+    style Client fill:#ffffff,stroke:#000000,stroke-width:2px
+    style Node fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
+    style WASM fill:#ffffff,stroke:#000000,stroke-width:2px
+    style Storage fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
 ```
 
 ### Execution Model
@@ -170,6 +159,6 @@ For detailed application development:
 
 ## Related Topics
 
-- [Build Your First Application](../getting-started/build-your-first-application.md) - Step-by-step guide
+- [Getting Started](../getting-started/index.md) - Complete getting started guide
 - [Contexts](contexts.md) - Application instances
 - [Architecture Overview](architecture.md) - How applications fit into the system

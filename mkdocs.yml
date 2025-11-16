@@ -142,9 +142,7 @@ nav:
       - Client SDKs: tools-apis/client-sdks.md
       - Developer Tools: tools-apis/developer-tools.md
   - Reference:
-      - API Methods: reference/http-methods.md
-      - WebSocket: reference/websocket-streams.md
-      - Error Codes: reference/error-codes.md
+      - API Reference: reference/index.md
 
 # Extra configuration
 extra:

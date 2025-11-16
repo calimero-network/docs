@@ -8,59 +8,130 @@ Choose your path based on what you want to do:
 
 | Goal | Path | Time |
 | --- | --- | --- |
-| **Run a local network** | [Installation Checklist](installation-checklist.md) → [Launch Your First Context](launch-your-first-context.md) | 10 min |
-| **Build an application** | [Installation Checklist](installation-checklist.md) → [Build Your First Application](build-your-first-application.md) | 30 min |
-| **Explore examples** | [Sample App Walkthrough](sample-app-walkthrough.md) | 15 min |
+| **Run a local network** | Installation → Launch network | 10 min |
+| **Build an application** | Installation → Create app → Deploy | 30 min |
+| **Explore examples** | Installation → Run example | 15 min |
 
-## Step 1: Installation Checklist
+## Step 1: Installation
 
-Before you begin, ensure you have the required tools installed:
+### Prerequisites
 
 **Required:**
-- Docker (for running nodes)
-- Node.js 18+ (for client SDKs)
-- Rust toolchain (for building applications)
+- **Docker** 20.10+ (for running nodes)
+- **Python** 3.8+ (for merobox)
+- **Node.js** 18+ (for client SDKs and building JavaScript apps)
+- **Rust toolchain** (for building Rust applications)
 
-**Optional but recommended:**
-- `merobox` (Python CLI for local development)
+**Optional:**
 - `merod` and `meroctl` (if building from source)
 
-[View full checklist →](installation-checklist.md)
+### Install Merobox
 
-## Step 2: Launch Your First Context
+Merobox is the easiest way to run local Calimero networks:
 
-Once you have the tools installed, launch a local network and create your first context:
-
-**Using Merobox (recommended):**
 ```bash
-# Install merobox
+# Using pipx (recommended)
 pipx install merobox
 
-# Start local network
+# Or on macOS with Homebrew
+brew install calimero-network/tap/merobox
+
+# Verify installation
+merobox --version
+```
+
+### Install Rust Toolchain (for building applications)
+
+```bash
+# Install Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# Add WASM target
+rustup target add wasm32-unknown-unknown
+
+# Verify installation
+cargo --version
+rustc --version
+```
+
+### Install Node.js SDKs (for client development)
+
+```bash
+# Install Calimero JavaScript SDK
+npm install @calimero/sdk @calimero/cli
+
+# Or with pnpm
+pnpm add @calimero/sdk @calimero/cli
+```
+
+See [`merobox/README.md`](https://github.com/calimero-network/merobox#readme) for complete installation options.
+
+## Step 2: Run a Local Network
+
+### Using Merobox (Recommended)
+
+```bash
+# Start a 2-node network
 merobox run --count 2
 
-# Create context (via workflow or CLI)
-meroctl context create --application-id <APP_ID>
+# Check status
+merobox list
+
+# View logs
+merobox logs node1 --follow
 ```
 
-**Using Docker directly:**
+### Using Docker Directly
+
 ```bash
-# Start coordinator node
-docker run calimero/merod --node-type coordinator
+# Start coordinator
+docker run -p 2528:2528 ghcr.io/calimero-network/merod:edge \
+  --node-type coordinator
 
-# Start peer node
-docker run calimero/merod --node-type peer --swarm-addrs /ip4/127.0.0.1/tcp/2428
+# Start peer (in another terminal)
+docker run -p 2529:2528 ghcr.io/calimero-network/merod:edge \
+  --node-type peer \
+  --swarm-addrs /ip4/127.0.0.1/tcp/2428
 ```
 
-[Detailed guide →](launch-your-first-context.md)
+### Verify Network
+
+```bash
+# Check node health
+meroctl --node-name node1 health
+
+# List contexts
+meroctl --node-name node1 context list
+```
+
+See [Running Nodes](../operator-track/run-a-local-network.md) for detailed node management.
 
 ## Step 3: Build Your First Application
 
-Now that you have a network running, build a simple application:
+### Option A: Create from Template
 
-**Quick start:**
 ```bash
-# Clone example
+# Create a new application
+npx create-mero-app my-first-app
+
+# Navigate to project
+cd my-first-app
+
+# Install dependencies
+pnpm install
+
+# Build Rust backend
+pnpm run logic:build
+
+# This creates:
+# - logic/build/my_first_app.wasm (WASM binary)
+# - logic/build/my_first_app.abi.json (API definition)
+```
+
+### Option B: Build from Core Examples
+
+```bash
+# Clone core repository
 git clone https://github.com/calimero-network/core
 cd core/apps/kv-store
 
@@ -68,62 +139,145 @@ cd core/apps/kv-store
 ./build.sh
 
 # Install on node
-meroctl app install --path build/kv_store.wasm --context-id <CONTEXT_ID>
+meroctl --node-name node1 app install \
+  --path build/kv_store.wasm
 ```
 
-**From scratch:**
-1. Create new Rust project
-2. Add Calimero SDK dependencies
-3. Define state with `#[app::state]`
-4. Implement logic with `#[app::logic]`
-5. Build to WASM
-6. Install on node
+### Option C: Build from Scratch
 
-[Detailed guide →](build-your-first-application.md)
+**1. Create Rust project:**
+```bash
+cargo new --lib my-app
+cd my-app
+```
 
-## Step 4: Explore Examples
+**2. Add dependencies to `Cargo.toml`:**
+```toml
+[dependencies]
+calimero-sdk = { path = "../../crates/sdk" }
+calimero-storage = { path = "../../crates/storage" }
+```
 
-Learn from working examples:
+**3. Write your application in `src/lib.rs`:**
+```rust
+use calimero_sdk::app;
+use calimero_storage::collections::UnorderedMap;
 
-- **kv-store**: Simple key-value store - great for understanding basics
-- **battleships**: Multiplayer game - demonstrates real-time sync
-- **blobs**: File sharing - shows blob distribution
+#[app::state]
+pub struct MyApp {
+    items: UnorderedMap<String, String>,
+}
 
-[Walkthrough →](sample-app-walkthrough.md)
+#[app::logic]
+impl MyApp {
+    pub fn add_item(&mut self, key: String, value: String) {
+        self.items.insert(key, value);
+    }
+    
+    #[app::view]
+    pub fn get_item(&self, key: &str) -> Option<String> {
+        self.items.get(key)
+    }
+}
+```
+
+**4. Build WASM:**
+```bash
+cargo build --target wasm32-unknown-unknown --release
+```
+
+**5. Install on node:**
+```bash
+meroctl --node-name node1 app install \
+  --path target/wasm32-unknown-unknown/release/my_app.wasm
+```
+
+See [SDK Guide](../builder-directory/sdk-guide.md) or [JavaScript SDK Guide](../builder-directory/js-sdk-guide.md) for detailed development guides.
+
+## Step 4: Create and Use a Context
+
+**Create a context:**
+```bash
+meroctl --node-name node1 context create \
+  --application-id <APP_ID>
+```
+
+**Call methods:**
+```bash
+# Call a mutation
+meroctl --node-name node1 call \
+  --context-id <CONTEXT_ID> \
+  --method add_item \
+  --args '{"key": "hello", "value": "world"}' \
+  --executor-public-key <YOUR_KEY>
+
+# Call a view
+meroctl --node-name node1 call \
+  --context-id <CONTEXT_ID> \
+  --method get_item \
+  --args '{"key": "hello"}'
+```
+
+See [Contexts](../core-concepts/contexts.md) for context management details.
+
+## Step 5: Explore Examples
+
+### Core Examples
+
+Examples in [`core/apps`](https://github.com/calimero-network/core/tree/master/apps):
+
+- **kv-store** - Simple key-value store (great for learning basics)
+- **blobs** - File/blob sharing with content addressing
+- **collaborative-editor** - Text collaboration with RGA CRDT
+- **private-data** - Private storage patterns
+- **team-metrics** - Nested CRDT structures
+- **xcall-example** - Cross-context communication
+
+**Run an example:**
+```bash
+cd core/apps/kv-store
+./build.sh
+meroctl --node-name node1 app install --path build/kv_store.wasm
+```
+
+### Application Examples
+
+- **Battleships** - Multiplayer game with real-time sync
+- **Shared Todo** - Collaborative task list
+- **KV Store** - Boilerplate template application
+
+See [Examples](../examples/index.md) for complete list.
 
 ## What's Next?
 
-After completing the getting started guide:
-
 ### For Builders
 
-- **[Core Concepts](../core-concepts/index.md)** - Deep dive into architecture
-- **[Builder Directory](../builder-directory/index.md)** - Development resources
-- **[Examples](../examples/index.md)** - More example applications
-- **[Tools & APIs](../tools-apis/index.md)** - SDKs and tooling
+- **[Core Concepts](../core-concepts/index.md)** - Deep dive into architecture, contexts, identity
+- **[Rust SDK Guide](../builder-directory/sdk-guide.md)** - Complete Rust development guide
+- **[JavaScript SDK Guide](../builder-directory/js-sdk-guide.md)** - JavaScript/TypeScript development
+- **[Examples](../examples/core-apps-examples.md)** - Working example applications
 
 ### For Operators
 
-- **[Operator Track](../operator-track/index.md)** - Running and managing nodes
-- **[Reference](../reference/index.md)** - API documentation
-- **[Monitor & Debug](../operator-track/monitor-and-debug.md)** - Observability
+- **[Running Nodes](../operator-track/run-a-local-network.md)** - Node setup and management
+- **[Monitoring](../operator-track/monitor-and-debug.md)** - Observability and troubleshooting
+- **[meroctl CLI](../tools-apis/meroctl-cli.md)** - Command-line reference
 
 ### For Everyone
 
-- **[Architecture Overview](../core-concepts/architecture.md)** - How it all works
-- **[Privacy & Security](../privacy-verifiability-security/index.md)** - Security model
-- **[GitHub Discussions](https://github.com/calimero-network/core/discussions)** - Get help and contribute
+- **[Architecture Overview](../core-concepts/architecture.md)** - How Calimero works
+- **[Tools & APIs](../tools-apis/index.md)** - SDKs, CLI, developer tools
 
 ## Common Questions
 
 **Q: Do I need to run my own node?**  
-A: For local development, yes. For production, you can use hosted nodes or run your own.
+A: For local development, yes. Use `merobox` to run nodes locally. For production, you can use hosted nodes or run your own.
 
 **Q: Which language should I use?**  
-A: Applications are written in Rust (compiled to WASM). Clients can use JavaScript/TypeScript or Python.
+A: Applications can be written in Rust (compiled to WASM) or JavaScript/TypeScript (using `@calimero/sdk`). Clients can use JavaScript/TypeScript or Python.
 
 **Q: How do I handle authentication?**  
-A: Calimero supports wallet-based authentication (NEAR, Ethereum, ICP). See [Identity](../core-concepts/identity.md).
+A: Calimero supports wallet-based authentication (NEAR, Ethereum, ICP). See [Identity](../core-concepts/identity.md) and [Client SDKs](../tools-apis/client-sdks.md).
 
 **Q: Can I use this offline?**  
 A: Yes! Calimero is offline-first. Apps work offline and sync when online.
@@ -133,7 +287,3 @@ A: Yes! Calimero is offline-first. Apps work offline and sync when online.
 - **Discord**: [Join our community](https://discord.gg/wZRC73DVpU)
 - **GitHub Issues**: [Report bugs or ask questions](https://github.com/calimero-network/core/issues)
 - **Documentation**: Browse the docs for detailed guides
-
----
-
-**Ready to start?** Begin with the [Installation Checklist](installation-checklist.md)!

@@ -110,26 +110,19 @@ See [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob
 
 ## DAG-Based Causal Ordering
 
-The DAG (Directed Acyclic Graph) ensures that deltas are applied in the correct causal order, even when received out-of-order:
+The DAG ensures deltas are applied in correct causal order, even when received out-of-order:
 
 ```mermaid
-graph TB
-    subgraph "Concurrent Updates (Fork)"
-        F0[Delta 0<br/>ROOT]
-        F1A[Delta 1A<br/>parents: D0<br/>Node A]
-        F1B[Delta 1B<br/>parents: D0<br/>Node B]
-        F2[Delta 2<br/>parents: D1A, D1B<br/>MERGE]
-        
-        F0 --> F1A
-        F0 --> F1B
-        F1A --> F2
-        F1B --> F2
-    end
+graph LR
+    ROOT[Delta 0<br/>ROOT] --> A[Delta 1A<br/>Node A]
+    ROOT --> B[Delta 1B<br/>Node B]
+    A --> MERGE[Delta 2<br/>MERGE]
+    B --> MERGE
     
-    style F0 fill:#000000,stroke:#00ff00,stroke-width:3px,color:#ffffff
-    style F1A fill:#ffffff,stroke:#000000,stroke-width:2px
-    style F1B fill:#ffffff,stroke:#000000,stroke-width:2px
-    style F2 fill:#e5ffe5,stroke:#00ff00,stroke-width:3px
+    style ROOT fill:#000000,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style A fill:#ffffff,stroke:#000000,stroke-width:2px
+    style B fill:#ffffff,stroke:#000000,stroke-width:2px
+    style MERGE fill:#e5ffe5,stroke:#00ff00,stroke-width:3px
 ```
 
 **Key properties**:

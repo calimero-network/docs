@@ -154,7 +154,7 @@ meroctl call --context-id <CONTEXT_ID> --method add_item --args '{"key": "hello"
 **Subscribe to events:**
 - WebSocket: Connect to `ws://localhost:2528/ws`
 - Use `subscribe` method with `context_id` and `event_type`
-- See [WebSocket Reference](../reference/websocket-streams.md) for details
+- See [API Reference](../reference/index.md) for details
 
 See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/blob/master/crates/meroctl/README.md) for complete CLI documentation.
 

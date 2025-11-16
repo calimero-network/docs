@@ -1,19 +1,53 @@
 # API Reference
 
-API documentation for Calimero nodes and clients.
+Complete API documentation for Calimero nodes and clients.
 
-## Core API
+## Server API
 
-| Topic | Documentation | Repository |
-| --- | --- | --- |
-| **HTTP Methods** | [API Methods](http-methods.md) | [`core/crates/server/README.md`](https://github.com/calimero-network/core/blob/master/crates/server/README.md) |
-| **WebSocket** | [WebSocket Streams](websocket-streams.md) | [`core/crates/server/README.md`](https://github.com/calimero-network/core/blob/master/crates/server/README.md) |
-| **Error Codes** | [Error Codes](error-codes.md) | [`core/crates/server/README.md`](https://github.com/calimero-network/core/blob/master/crates/server/README.md) |
+Calimero nodes expose a JSON-RPC API over HTTP with WebSocket support for real-time subscriptions.
 
-## Additional Reference
+**Base URL**: `http://localhost:2528` (default)
 
-- **JSON-RPC**: Standard JSON-RPC 2.0 over HTTP
-- **WebSocket/SSE**: Real-time event subscriptions
-- **Admin API**: Node management endpoints
+### Endpoints
 
-For complete API documentation, see [`core/crates/server/README.md`](https://github.com/calimero-network/core/blob/master/crates/server/README.md).
+- **JSON-RPC**: `/jsonrpc` - Standard JSON-RPC 2.0 calls
+- **WebSocket**: `/ws` - Real-time subscriptions
+- **SSE**: `/sse` - Server-Sent Events for subscriptions
+- **Admin API**: `/admin-api/` - Node management endpoints
+
+### API Methods
+
+Common methods:
+- `context.create` - Create a new context
+- `context.list` - List all contexts
+- `context.call` - Call a method on a context
+- `app.install` - Install an application
+- `identity.create` - Create an identity
+
+### Authentication
+
+Most endpoints require JWT authentication. See [Identity](../core-concepts/identity.md) for authentication flows.
+
+## Complete Documentation
+
+For complete API documentation, including all methods, request/response formats, and error codes:
+
+**→ [`core/crates/server/README.md`](https://github.com/calimero-network/core/blob/master/crates/server/README.md)**
+
+## Client SDKs
+
+For easier client development, use the official SDKs:
+
+- **JavaScript/TypeScript**: [`@calimero/client`](https://github.com/calimero-network/calimero-client-js) - See [Client SDKs](../tools-apis/client-sdks.md)
+- **Python**: [`calimero-client-py`](https://github.com/calimero-network/calimero-client-py) - See [Client SDKs](../tools-apis/client-sdks.md)
+- **Rust**: [`core/crates/client`](https://github.com/calimero-network/core/blob/master/crates/client/README.md)
+
+## CLI Reference
+
+For command-line operations, see [`meroctl` CLI](../tools-apis/meroctl-cli.md).
+
+## Related Topics
+
+- [Tools & APIs](../tools-apis/index.md) - SDKs and developer tools
+- [Core Concepts](../core-concepts/index.md) - Architecture and concepts
+- [Running Nodes](../operator-track/run-a-local-network.md) - Node setup

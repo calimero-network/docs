@@ -332,7 +332,7 @@ meroctl --node calimero-node-1 call \
 ## Related Topics
 
 - [SDK Guide](../builder-directory/sdk-guide.md) - Complete SDK reference
-- [Build Your First Application](../getting-started/build-your-first-application.md) - Step-by-step tutorial
+- [Build Your First Application](../getting-started/index.md) - Step-by-step tutorial
 - [Applications](../core-concepts/applications.md) - Application architecture
 
 ## Deep Dives

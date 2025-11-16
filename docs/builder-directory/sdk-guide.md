@@ -420,7 +420,7 @@ For detailed SDK documentation:
 
 ## Related Topics
 
-- [Build Your First Application](../getting-started/build-your-first-application.md) - Step-by-step tutorial
+- [Getting Started](../getting-started/index.md) - Complete getting started guide
 - [Applications](../core-concepts/applications.md) - Application architecture overview
 - [Core Apps Examples](../examples/core-apps-examples.md) - Reference implementations
 
