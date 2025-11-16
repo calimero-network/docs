@@ -89,26 +89,26 @@ The **Architecture Overview** explains how all components work together:
 
 ## How Concepts Relate
 
-```
-┌─────────────────────────────────────────────────┐
-│ Node (merod)                                    │
-│  ┌──────────────────────────────────────────┐  │
-│  │ Context A                                  │  │
-│  │  ┌────────────────────────────────────┐  │  │
-│  │  │ Application (WASM)                 │  │  │
-│  │  │  - CRDT State                       │  │  │
-│  │  │  - Events                          │  │  │
-│  │  └────────────────────────────────────┘  │  │
-│  │  ┌────────────────────────────────────┐  │  │
-│  │  │ Members (Identities)                │  │  │
-│  │  │  - Root Key: alice.near            │  │  │
-│  │  │  - Client Key: ed25519:abc...      │  │  │
-│  │  └────────────────────────────────────┘  │  │
-│  └──────────────────────────────────────────┘  │
-│  ┌──────────────────────────────────────────┐  │
-│  │ Context B (separate instance)            │  │
-│  └──────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    subgraph "Node (merod)"
+        subgraph "Context A"
+            APP1[Application WASM<br/>CRDT State + Events]
+            MEMBERS1[Members Identities<br/>Root Key: alice.near<br/>Client Key: ed25519...]
+        end
+        subgraph "Context B"
+            APP2[Application WASM<br/>CRDT State + Events]
+            MEMBERS2[Members Identities<br/>Root Key: bob.near<br/>Client Key: ed25519...]
+        end
+    end
+    
+    APP1 -.->|isolated state| APP2
+    MEMBERS1 -.->|separate access| MEMBERS2
+    
+    style APP1 fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    style APP2 fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    style MEMBERS1 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    style MEMBERS2 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
 ```
 
 ## Learning Path
@@ -129,8 +129,9 @@ The **Architecture Overview** explains how all components work together:
 
 **Need to operate?** See:
 
-- [Operator Track](../operator-track/index.md) - Running and managing nodes
-- [Reference](../reference/index.md) - API documentation
+- [Running Nodes](../operator-track/run-a-local-network.md) - Setup and deployment
+- [Monitoring](../operator-track/monitor-and-debug.md) - Observability
+- [API Reference](../reference/http-methods.md) - HTTP endpoints
 
 ---
 

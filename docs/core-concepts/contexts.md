@@ -13,18 +13,35 @@ Contexts provide:
 
 ## Context Lifecycle
 
+```mermaid
+stateDiagram-v2
+    [*] --> Created: Install App
+    Created --> Invited: Invite Members
+    Invited --> Joined: Accept Invitation
+    Joined --> Active: Start Using
+    Active --> [*]: Delete Context
+    
+    note right of Created
+        - WASM installed
+        - State initialized
+        - Creator = first member
+    end note
+    
+    note right of Invited
+        - Invitation sent
+        - Permissions set
+    end note
+    
+    note right of Active
+        - Members can call methods
+        - State syncs across nodes
+        - Events propagate
+    end note
+```
+
 ### 1. Creation
 
-A context is created when an application is installed and initialized:
-
-```bash
-# Install application
-meroctl app install --path app.wasm --context-id <CONTEXT_ID>
-
-# Create context (happens automatically on first install)
-# Or create explicitly:
-meroctl context create --application-id <APP_ID> --protocol near
-```
+A context is created when an application is installed. See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/blob/master/crates/meroctl/README.md) for CLI details.
 
 **What happens:**
 - Application WASM is installed on the node
@@ -79,37 +96,32 @@ Context members have different permission levels:
 
 ## State Isolation Model
 
-Each context maintains completely isolated state:
-
-```
-┌─────────────────────────────────────────────────┐
-│ Context A                                        │
-│  ┌──────────────────────────────────────────┐  │
-│  │ Shared CRDT State                         │  │
-│  │ - UnorderedMap<String, String>           │  │
-│  │ - Vector<Event>                           │  │
-│  │ - Counter                                 │  │
-│  └──────────────────────────────────────────┘  │
-│  ┌──────────────────────────────────────────┐  │
-│  │ Private Storage (per-node)               │  │
-│  │ - Node-local secrets                     │  │
-│  │ - Cached data                           │  │
-│  └──────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────┐
-│ Context B (completely separate)                 │
-│  ┌──────────────────────────────────────────┐  │
-│  │ Shared CRDT State                         │  │
-│  │ - Different data, different members      │  │
-│  └──────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    subgraph "Context A"
+        CRDT1[Shared CRDT State<br/>UnorderedMap, Vector, Counter<br/>Replicated across nodes]
+        PRIVATE1[Private Storage<br/>Node-local secrets<br/>Never synced]
+    end
+    
+    subgraph "Context B"
+        CRDT2[Shared CRDT State<br/>Different data<br/>Different members]
+        PRIVATE2[Private Storage<br/>Node-local only]
+    end
+    
+    CRDT1 -.->|isolated| CRDT2
+    
+    style CRDT1 fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+    style CRDT2 fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+    style PRIVATE1 fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style PRIVATE2 fill:#fff3e0,stroke:#e65100,stroke-width:2px
 ```
 
 **Key points:**
 - **Shared CRDT State**: Replicated across all member nodes, automatically synchronized
 - **Private Storage**: Node-local data that never leaves the executing node
 - **Complete Isolation**: Context A cannot access Context B's state
+
+See [`core/crates/storage/README.md`](https://github.com/calimero-network/core/blob/master/crates/storage/README.md) for CRDT implementation details.
 
 ## Multi-Chain Integration
 

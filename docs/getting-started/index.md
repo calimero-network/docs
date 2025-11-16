@@ -112,7 +112,7 @@ After completing the getting started guide:
 
 - **[Architecture Overview](../core-concepts/architecture.md)** - How it all works
 - **[Privacy & Security](../privacy-verifiability-security/index.md)** - Security model
-- **[Support](../support/index.md)** - Get help and contribute
+- **[GitHub Discussions](https://github.com/calimero-network/core/discussions)** - Get help and contribute
 
 ## Common Questions
 

@@ -120,60 +120,31 @@ extra_javascript:
 # Navigation structure
 nav:
   - Home: index.md
-  - Introduction: intro/index.md
-  - Build:
-      - Getting Started:
-          - Overview: getting-started/index.md
-          - Installation Checklist: getting-started/installation-checklist.md
-          - Launch Your First Context: getting-started/launch-your-first-context.md
-          - Build Your First Application: getting-started/build-your-first-application.md
-          - Sample App Walkthrough: getting-started/sample-app-walkthrough.md
-      - Builder Directory:
-          - Overview: builder-directory/index.md
-          - SDK Guide: builder-directory/sdk-guide.md
-          - JavaScript SDK Guide: builder-directory/js-sdk-guide.md
-      - Examples:
-          - Overview: examples/index.md
-          - Core Apps Examples: examples/core-apps-examples.md
-          - Battleships: examples/battleships.md
-          - Shared Todo Backlog: examples/shared-todo-backlog.md
-          - Split Bills: examples/split-bills.md
-          - Additional Templates: examples/additional-templates.md
+  - Quick Start: getting-started/index.md
   - Learn:
-      - Core Concepts:
-          - Overview: core-concepts/index.md
-          - Contexts: core-concepts/contexts.md
-          - Identity: core-concepts/identity.md
-          - Applications: core-concepts/applications.md
-          - Nodes: core-concepts/nodes.md
-          - Architecture Overview: core-concepts/architecture.md
-      - Privacy, Verifiability & Security: privacy-verifiability-security/index.md
+      - Core Concepts: core-concepts/index.md
+      - Architecture: core-concepts/architecture.md
+      - Applications: core-concepts/applications.md
+      - Contexts: core-concepts/contexts.md
+      - Identity: core-concepts/identity.md
+      - Nodes: core-concepts/nodes.md
+  - Build:
+      - Overview: builder-directory/index.md
+      - Rust SDK: builder-directory/sdk-guide.md
+      - JavaScript SDK: builder-directory/js-sdk-guide.md
+      - Examples: examples/index.md
   - Operate:
-      - Operator Track:
-          - Overview: operator-track/index.md
-          - Run a Local Network: operator-track/run-a-local-network.md
-          - Join Existing Contexts: operator-track/join-existing-contexts.md
-          - Monitor & Debug: operator-track/monitor-and-debug.md
-          - Production Deployment Notes: operator-track/production-deployment-notes.md
-      - Reference:
-          - Overview: reference/index.md
-          - Commitments & Consistency: reference/commitments-consistency.md
-          - Response Envelope: reference/response-envelope.md
-          - HTTP Methods: reference/http-methods.md
-          - WebSocket Streams: reference/websocket-streams.md
-          - Error Codes & Retries: reference/error-codes.md
-          - Versioning & Changelog: reference/versioning-changelog.md
+      - Running Nodes: operator-track/run-a-local-network.md
+      - Monitoring: operator-track/monitor-and-debug.md
   - Tools & APIs:
       - Overview: tools-apis/index.md
-      - meroctl CLI: tools-apis/meroctl-cli.md
+      - CLI (meroctl): tools-apis/meroctl-cli.md
       - Client SDKs: tools-apis/client-sdks.md
       - Developer Tools: tools-apis/developer-tools.md
-  - Support:
-      - Overview: support/index.md
-      - FAQ: support/faq.md
-      - Contact Channels: support/contact-channels.md
-      - Contribution Guide: support/contribution-guide.md
-      - Roadmap & Feedback: support/roadmap-feedback.md
+  - Reference:
+      - API Methods: reference/http-methods.md
+      - WebSocket: reference/websocket-streams.md
+      - Error Codes: reference/error-codes.md
 
 # Extra configuration
 extra:
