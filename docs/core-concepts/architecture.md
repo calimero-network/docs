@@ -5,16 +5,16 @@ Calimero's architecture consists of four main layers that work together to enabl
 ## Four-Layer Architecture
 
 ```mermaid
-graph TB
-    APP[Application Layer<br/>WASM apps + SDK<br/>CRDT collections<br/>Event emission]
-    NODE[Node Layer<br/>Synchronization & execution<br/>Dual sync paths<br/>Event handlers<br/>Blob distribution]
-    STORAGE[Storage Layer<br/>CRDT storage<br/>DAG causal ordering<br/>Out-of-order handling<br/>Merkle trees]
-    NETWORK[Network Layer<br/>libp2p P2P<br/>JSON-RPC server<br/>WebSocket/SSE<br/>Authentication]
+flowchart TD
+    APP[Application<br/>WASM apps & SDK]
+    NODE[Node<br/>Sync & execution]
+    STORAGE[Storage<br/>CRDT & DAG]
+    NETWORK[Network<br/>P2P & APIs]
     
-    APP -->|executes| NODE
-    NODE -->|stores| STORAGE
-    STORAGE -->|syncs via| NETWORK
-    NETWORK -->|provides| NODE
+    APP --> NODE
+    NODE --> STORAGE
+    STORAGE --> NETWORK
+    NETWORK --> NODE
     
     style APP fill:#e5ffe5,stroke:#000000,stroke-width:3px
     style NODE fill:#ffffff,stroke:#00ff00,stroke-width:3px
@@ -24,36 +24,23 @@ graph TB
 
 ## Transaction Flow
 
-**Simple view:**
+**Transaction Flow:**
 ```mermaid
-sequenceDiagram
-    Client->>Node: call("add_item", args)
-    Node->>WASM: execute()
-    WASM->>Storage: CRDT operations
-    Storage->>Node: ExecutionOutcome
-    Node->>Network: Broadcast delta
-    Network->>Peer: Propagate (~100ms)
-    Node->>Client: Result
+flowchart LR
+    CLIENT[Client<br/>RPC call] --> NODE[Node<br/>Execute]
+    NODE --> WASM[WASM<br/>Process]
+    WASM --> STORAGE[Storage<br/>CRDT ops]
+    STORAGE --> NODE
+    NODE --> NETWORK[Network<br/>Broadcast]
+    NETWORK --> PEER[Peer<br/>~100ms]
+    NODE --> CLIENT
     
-    style Client fill:#ffffff,stroke:#000000
-    style Node fill:#e5ffe5,stroke:#00ff00
-    style WASM fill:#ffffff,stroke:#000000
-```
-
-**Detailed execution:**
-```mermaid
-sequenceDiagram
-    WASM->>Storage: map.insert(key, value)
-    Storage->>Storage: Generate Action
-    Storage->>Storage: Calculate Merkle hash
-    Storage->>Storage: Collect in DELTA_CONTEXT
-    Storage->>Node: Return ExecutionOutcome
-    Node->>DAG: Create CausalDelta
-    Node->>Network: Broadcast via Gossipsub
-    
-    style WASM fill:#ffffff,stroke:#000000
-    style Storage fill:#e5ffe5,stroke:#00ff00
-    style Node fill:#ffffff,stroke:#00ff00
+    style CLIENT fill:#ffffff,stroke:#000000,stroke-width:2px
+    style NODE fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
+    style WASM fill:#ffffff,stroke:#000000,stroke-width:2px
+    style STORAGE fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
+    style NETWORK fill:#ffffff,stroke:#00ff00,stroke-width:2px
+    style PEER fill:#e5ffe5,stroke:#000000,stroke-width:2px
 ```
 
 See [`core/crates/runtime/README.md`](https://github.com/calimero-network/core/blob/master/crates/runtime/README.md) for execution details.
@@ -68,38 +55,38 @@ Fast real-time propagation (~100-200ms):
 
 ```mermaid
 flowchart LR
-    A[Transaction<br/>executed] --> B[Create<br/>CausalDelta]
-    B --> C[Broadcast via<br/>Gossipsub]
-    C --> D[All peers receive<br/>~100-200ms]
-    D --> E{Parents<br/>ready?}
-    E -->|Yes| F[Apply<br/>immediately]
-    E -->|No| G[Buffer as<br/>pending]
-    F --> H[Execute<br/>event handlers]
+    TXN[Execute] --> DELTA[Create Delta]
+    DELTA --> GOSSIP[Gossipsub]
+    GOSSIP --> RECEIVE[Peers receive]
+    RECEIVE --> READY{Ready?}
+    READY -->|Yes| APPLY[Apply]
+    READY -->|No| BUFFER[Buffer]
+    APPLY --> EVENTS[Events]
     
-    style A fill:#ffffff,stroke:#000000,stroke-width:2px
-    style F fill:#e5ffe5,stroke:#00ff00,stroke-width:3px
-    style H fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
-    style G fill:#ffffff,stroke:#00ff00,stroke-width:2px
+    style TXN fill:#ffffff,stroke:#000000,stroke-width:2px
+    style APPLY fill:#e5ffe5,stroke:#00ff00,stroke-width:3px
+    style EVENTS fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
+    style BUFFER fill:#ffffff,stroke:#00ff00,stroke-width:2px
 ```
 
 ### Path 2: Periodic P2P Sync (Fallback)
 
-Catch-up every 10-30 seconds for eventual consistency:
+Catch-up every 10-30 seconds:
 
 ```mermaid
 flowchart LR
-    T[SyncManager<br/>timer] --> S[Select<br/>random peer]
-    S --> O[Open P2P<br/>stream]
-    O --> X[Exchange<br/>DAG heads]
-    X --> D{Heads<br/>differ?}
-    D -->|Yes| R[Request<br/>missing deltas]
-    D -->|No| C[Up to date]
-    R --> A[Apply<br/>deltas]
-    A --> C
+    TIMER[Timer] --> PEER[Select Peer]
+    PEER --> STREAM[Open Stream]
+    STREAM --> HEADS[Exchange Heads]
+    HEADS --> DIFF{Differ?}
+    DIFF -->|Yes| REQUEST[Request Deltas]
+    DIFF -->|No| SYNC[Synced]
+    REQUEST --> APPLY2[Apply]
+    APPLY2 --> SYNC
     
-    style T fill:#ffffff,stroke:#000000,stroke-width:2px
-    style C fill:#e5ffe5,stroke:#00ff00,stroke-width:3px
-    style A fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
+    style TIMER fill:#ffffff,stroke:#000000,stroke-width:2px
+    style SYNC fill:#e5ffe5,stroke:#00ff00,stroke-width:3px
+    style APPLY2 fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
 ```
 
 **Why both paths?**
@@ -110,13 +97,13 @@ See [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob
 
 ## DAG-Based Causal Ordering
 
-The DAG ensures deltas are applied in correct causal order, even when received out-of-order:
+The DAG ensures deltas are applied in correct causal order:
 
 ```mermaid
-graph LR
-    ROOT[Delta 0<br/>ROOT] --> A[Delta 1A<br/>Node A]
-    ROOT --> B[Delta 1B<br/>Node B]
-    A --> MERGE[Delta 2<br/>MERGE]
+flowchart LR
+    ROOT[Root] --> A[Delta A]
+    ROOT --> B[Delta B]
+    A --> MERGE[Merge]
     B --> MERGE
     
     style ROOT fill:#000000,stroke:#00ff00,stroke-width:3px,color:#ffffff
@@ -134,21 +121,13 @@ graph LR
 ## Key Components
 
 ```mermaid
-graph TB
-    SDK[SDK<br/>crates/sdk]
-    RUNTIME[Runtime<br/>crates/runtime]
-    STORAGE[Storage<br/>crates/storage]
-    DAG[DAG<br/>crates/dag]
-    NODE[Node<br/>crates/node]
-    NETWORK[Network<br/>crates/network]
-    SERVER[Server<br/>crates/server]
-    
-    SDK -->|executes via| RUNTIME
-    RUNTIME -->|uses| STORAGE
-    STORAGE -->|tracks in| DAG
-    NODE -->|orchestrates| RUNTIME
-    NODE -->|syncs via| NETWORK
-    SERVER -->|exposes| NODE
+flowchart TD
+    SDK[SDK] --> RUNTIME[Runtime]
+    RUNTIME --> STORAGE[Storage]
+    STORAGE --> DAG[DAG]
+    NODE[Node] --> RUNTIME
+    NODE --> NETWORK[Network]
+    SERVER[Server] --> NODE
     
     style SDK fill:#e5ffe5,stroke:#000000,stroke-width:2px
     style RUNTIME fill:#ffffff,stroke:#00ff00,stroke-width:2px

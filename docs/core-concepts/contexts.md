@@ -97,21 +97,13 @@ Context members have different permission levels:
 ## State Isolation Model
 
 ```mermaid
-graph TB
-    subgraph "Context A"
-        CRDT1[Shared CRDT State<br/>UnorderedMap, Vector, Counter<br/>Replicated across nodes]
-        PRIVATE1[Private Storage<br/>Node-local secrets<br/>Never synced]
-    end
+flowchart LR
+    CTX1[Context A<br/>Shared State] --> PRIVATE1[Private<br/>Storage]
+    CTX2[Context B<br/>Shared State] --> PRIVATE2[Private<br/>Storage]
+    CTX1 -.->|isolated| CTX2
     
-    subgraph "Context B"
-        CRDT2[Shared CRDT State<br/>Different data<br/>Different members]
-        PRIVATE2[Private Storage<br/>Node-local only]
-    end
-    
-    CRDT1 -.->|isolated| CRDT2
-    
-    style CRDT1 fill:#e5ffe5,stroke:#000000,stroke-width:3px
-    style CRDT2 fill:#e5ffe5,stroke:#000000,stroke-width:3px
+    style CTX1 fill:#e5ffe5,stroke:#000000,stroke-width:2px
+    style CTX2 fill:#e5ffe5,stroke:#000000,stroke-width:2px
     style PRIVATE1 fill:#ffffff,stroke:#00ff00,stroke-width:2px
     style PRIVATE2 fill:#ffffff,stroke:#00ff00,stroke-width:2px
 ```

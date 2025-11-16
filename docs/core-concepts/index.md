@@ -90,25 +90,24 @@ The **Architecture Overview** explains how all components work together:
 ## How Concepts Relate
 
 ```mermaid
-graph TB
-    subgraph "Node (merod)"
-        subgraph "Context A"
-            APP1[Application WASM<br/>CRDT State + Events]
-            MEMBERS1[Members Identities<br/>Root Key: alice.near<br/>Client Key: ed25519...]
-        end
-        subgraph "Context B"
-            APP2[Application WASM<br/>CRDT State + Events]
-            MEMBERS2[Members Identities<br/>Root Key: bob.near<br/>Client Key: ed25519...]
-        end
-    end
+flowchart LR
+    NODE[Node<br/>merod]
+    CTX1[Context A<br/>App + State]
+    CTX2[Context B<br/>App + State]
+    ID1[Identity A<br/>alice.near]
+    ID2[Identity B<br/>bob.near]
     
-    APP1 -.->|isolated state| APP2
-    MEMBERS1 -.->|separate access| MEMBERS2
+    NODE --> CTX1
+    NODE --> CTX2
+    ID1 --> CTX1
+    ID2 --> CTX2
+    CTX1 -.->|isolated| CTX2
     
-    style APP1 fill:#e5ffe5,stroke:#000000,stroke-width:3px
-    style APP2 fill:#e5ffe5,stroke:#000000,stroke-width:3px
-    style MEMBERS1 fill:#ffffff,stroke:#00ff00,stroke-width:2px
-    style MEMBERS2 fill:#ffffff,stroke:#00ff00,stroke-width:2px
+    style NODE fill:#000000,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style CTX1 fill:#e5ffe5,stroke:#000000,stroke-width:2px
+    style CTX2 fill:#e5ffe5,stroke:#000000,stroke-width:2px
+    style ID1 fill:#ffffff,stroke:#00ff00,stroke-width:2px
+    style ID2 fill:#ffffff,stroke:#00ff00,stroke-width:2px
 ```
 
 ## Learning Path

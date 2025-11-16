@@ -41,18 +41,19 @@ Build and deploy with [`meroctl`](../tools-apis/meroctl-cli.md). See [SDK Guide]
 ### WASM Execution Flow
 
 ```mermaid
-sequenceDiagram
-    Client->>Node: call("add_item", args)
-    Node->>WASM: execute()
-    WASM->>Storage: CRDT operations
-    Storage->>Node: ExecutionOutcome
-    Node->>Network: Broadcast delta
-    Node->>Client: Result
+flowchart LR
+    CLIENT[Client] --> NODE[Node]
+    NODE --> WASM[WASM]
+    WASM --> STORAGE[Storage]
+    STORAGE --> NODE
+    NODE --> NETWORK[Network]
+    NODE --> CLIENT
     
-    style Client fill:#ffffff,stroke:#000000,stroke-width:2px
-    style Node fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
+    style CLIENT fill:#ffffff,stroke:#000000,stroke-width:2px
+    style NODE fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
     style WASM fill:#ffffff,stroke:#000000,stroke-width:2px
-    style Storage fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
+    style STORAGE fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
+    style NETWORK fill:#ffffff,stroke:#00ff00,stroke-width:2px
 ```
 
 ### Execution Model
