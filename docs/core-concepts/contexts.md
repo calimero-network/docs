@@ -110,10 +110,10 @@ graph TB
     
     CRDT1 -.->|isolated| CRDT2
     
-    style CRDT1 fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
-    style CRDT2 fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
-    style PRIVATE1 fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    style PRIVATE2 fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style CRDT1 fill:#e5ffe5,stroke:#000000,stroke-width:3px
+    style CRDT2 fill:#e5ffe5,stroke:#000000,stroke-width:3px
+    style PRIVATE1 fill:#ffffff,stroke:#00ff00,stroke-width:2px
+    style PRIVATE2 fill:#ffffff,stroke:#00ff00,stroke-width:2px
 ```
 
 **Key points:**

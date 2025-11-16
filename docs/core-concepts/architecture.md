@@ -4,37 +4,22 @@ Calimero's architecture consists of four main layers that work together to enabl
 
 ## Four-Layer Architecture
 
-```
-┌─────────────────────────────────────────────────────────┐
-│ 1. Application Layer                                    │
-│    - WASM apps using Calimero SDK                       │
-│    - CRDT collections (UnorderedMap, Vector, Counter)   │
-│    - Event emission for real-time updates               │
-└────────────────────────┬────────────────────────────────┘
-                         │
-┌────────────────────────┴────────────────────────────────┐
-│ 2. Node Layer                                           │
-│    - Orchestrates synchronization & execution           │
-│    - Dual sync paths: Gossipsub + Periodic P2P         │
-│    - Event handler execution                            │
-│    - Blob distribution                                  │
-└────────────────────────┬────────────────────────────────┘
-                         │
-┌────────────────────────┴────────────────────────────────┐
-│ 3. Storage Layer                                        │
-│    - CRDT storage with automatic merging                │
-│    - DAG for causal ordering                            │
-│    - Out-of-order delivery handling                     │
-│    - Merkle trees for state comparison                  │
-└────────────────────────┬────────────────────────────────┘
-                         │
-┌────────────────────────┴────────────────────────────────┐
-│ 4. Network Layer                                        │
-│    - libp2p (Gossipsub, Streams, DHT)                   │
-│    - JSON-RPC server                                    │
-│    - WebSocket/SSE subscriptions                        │
-│    - Authentication & authorization                     │
-└─────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    APP[Application Layer<br/>WASM apps + SDK<br/>CRDT collections<br/>Event emission]
+    NODE[Node Layer<br/>Synchronization & execution<br/>Dual sync paths<br/>Event handlers<br/>Blob distribution]
+    STORAGE[Storage Layer<br/>CRDT storage<br/>DAG causal ordering<br/>Out-of-order handling<br/>Merkle trees]
+    NETWORK[Network Layer<br/>libp2p P2P<br/>JSON-RPC server<br/>WebSocket/SSE<br/>Authentication]
+    
+    APP -->|executes| NODE
+    NODE -->|stores| STORAGE
+    STORAGE -->|syncs via| NETWORK
+    NETWORK -->|provides| NODE
+    
+    style APP fill:#e5ffe5,stroke:#000000,stroke-width:3px
+    style NODE fill:#ffffff,stroke:#00ff00,stroke-width:3px
+    style STORAGE fill:#e5ffe5,stroke:#000000,stroke-width:3px
+    style NETWORK fill:#ffffff,stroke:#00ff00,stroke-width:3px
 ```
 
 ## Transaction Flow
@@ -133,11 +118,11 @@ flowchart TB
     
     G6B -.->|Eventually| P6
     
-    style G1 fill:#4DABF7,stroke:#333,stroke-width:3px,color:#000
-    style G6A fill:#51CF66,stroke:#333,stroke-width:3px,color:#000
-    style G6B fill:#FFB84D,stroke:#333,stroke-width:3px,color:#000
-    style P1 fill:#FF6B6B,stroke:#333,stroke-width:3px,color:#000
-    style P8 fill:#51CF66,stroke:#333,stroke-width:3px,color:#000
+    style G1 fill:#ffffff,stroke:#000000,stroke-width:3px
+    style G6A fill:#e5ffe5,stroke:#00ff00,stroke-width:3px
+    style G6B fill:#ffffff,stroke:#00ff00,stroke-width:2px
+    style P1 fill:#ffffff,stroke:#000000,stroke-width:2px
+    style P8 fill:#e5ffe5,stroke:#00ff00,stroke-width:3px
 ```
 
 **Why both paths?**
@@ -162,10 +147,10 @@ graph TB
         F1B --> F2
     end
     
-    style F0 fill:#4DABF7,stroke:#333,stroke-width:3px,color:#000
-    style F1A fill:#FF6B6B,stroke:#333,stroke-width:3px,color:#000
-    style F1B fill:#FF6B6B,stroke:#333,stroke-width:3px,color:#000
-    style F2 fill:#51CF66,stroke:#333,stroke-width:3px,color:#000
+    style F0 fill:#000000,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style F1A fill:#ffffff,stroke:#000000,stroke-width:2px
+    style F1B fill:#ffffff,stroke:#000000,stroke-width:2px
+    style F2 fill:#e5ffe5,stroke:#00ff00,stroke-width:3px
 ```
 
 **Key properties**:

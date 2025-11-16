@@ -21,10 +21,13 @@ graph TD
     CLIENT2 -->|signs transactions| CTX2[Context B]
     CLIENT3 -->|signs transactions| CTX3[Context C]
     
-    style ROOT fill:#e3f2fd,stroke:#1976d2,stroke-width:3px
-    style CLIENT1 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
-    style CLIENT2 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
-    style CLIENT3 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    style ROOT fill:#000000,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style CLIENT1 fill:#e5ffe5,stroke:#000000,stroke-width:2px
+    style CLIENT2 fill:#e5ffe5,stroke:#000000,stroke-width:2px
+    style CLIENT3 fill:#e5ffe5,stroke:#000000,stroke-width:2px
+    style CTX1 fill:#ffffff,stroke:#00ff00,stroke-width:2px
+    style CTX2 fill:#ffffff,stroke:#00ff00,stroke-width:2px
+    style CTX3 fill:#ffffff,stroke:#00ff00,stroke-width:2px
 ```
 
 ### Root Keys

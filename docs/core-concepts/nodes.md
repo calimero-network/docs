@@ -33,20 +33,21 @@ merod --node-type peer --swarm-addrs /ip4/127.0.0.1/tcp/2428
 
 ## Node Architecture
 
-```
-┌─────────────────────────────────────────────────────────┐
-│ NodeManager (Actix Actor)                               │
-│  - Orchestrates all components                          │
-│  - Periodic timers (cleanup, heartbeat)                 │
-└────────────────┬────────────────────────────────────┘
-                 │
-     ┌───────────┴───────────┬─────────────┐
-     │                       │             │
-┌────▼────────┐    ┌────────▼──────┐   ┌──▼───────────┐
-│NodeClients  │    │NodeManagers   │   │NodeState     │
-│ - Context   │    │ - BlobManager │   │ - BlobCache  │
-│ - Node      │    │ - SyncManager │   │ - DeltaStores│
-└─────────────┘    └───────────────┘   └──────────────┘
+```mermaid
+graph TB
+    NODEMGR[NodeManager Actix Actor<br/>Orchestrates all components<br/>Periodic timers cleanup heartbeat]
+    CLIENTS[NodeClients<br/>Context Node]
+    MANAGERS[NodeManagers<br/>BlobManager SyncManager]
+    STATE[NodeState<br/>BlobCache DeltaStores]
+    
+    NODEMGR -->|manages| CLIENTS
+    NODEMGR -->|manages| MANAGERS
+    NODEMGR -->|manages| STATE
+    
+    style NODEMGR fill:#000000,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style CLIENTS fill:#e5ffe5,stroke:#000000,stroke-width:2px
+    style MANAGERS fill:#ffffff,stroke:#00ff00,stroke-width:2px
+    style STATE fill:#e5ffe5,stroke:#000000,stroke-width:2px
 ```
 
 ### NodeManager

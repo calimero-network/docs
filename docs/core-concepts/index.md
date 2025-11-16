@@ -105,10 +105,10 @@ graph TB
     APP1 -.->|isolated state| APP2
     MEMBERS1 -.->|separate access| MEMBERS2
     
-    style APP1 fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
-    style APP2 fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
-    style MEMBERS1 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
-    style MEMBERS2 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    style APP1 fill:#e5ffe5,stroke:#000000,stroke-width:3px
+    style APP2 fill:#e5ffe5,stroke:#000000,stroke-width:3px
+    style MEMBERS1 fill:#ffffff,stroke:#00ff00,stroke-width:2px
+    style MEMBERS2 fill:#ffffff,stroke:#00ff00,stroke-width:2px
 ```
 
 ## Learning Path

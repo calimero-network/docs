@@ -51,8 +51,8 @@ flowchart TD
     WASM --> OPT
     OPT --> FINAL
     
-    style TS fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
-    style FINAL fill:#c8e6c9,stroke:#388e3c,stroke-width:3px
+    style TS fill:#ffffff,stroke:#000000,stroke-width:2px
+    style FINAL fill:#e5ffe5,stroke:#000000,stroke-width:3px
 ```
 
 ### Runtime Execution
@@ -84,11 +84,11 @@ graph TB
     QJS --> HOST
     HOST --> RUNTIME
     
-    style JS fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
-    style SDK fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
-    style QJS fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    style HOST fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
-    style RUNTIME fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    style JS fill:#ffffff,stroke:#000000,stroke-width:2px
+    style SDK fill:#e5ffe5,stroke:#000000,stroke-width:2px
+    style QJS fill:#ffffff,stroke:#00ff00,stroke-width:2px
+    style HOST fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
+    style RUNTIME fill:#000000,stroke:#00ff00,stroke-width:3px,color:#ffffff
 ```
 
 **How it works:**
