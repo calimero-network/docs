@@ -5,16 +5,11 @@ Calimero's architecture consists of four main layers that work together to enabl
 ## Four-Layer Architecture
 
 ```mermaid
-flowchart TD
-    APP[Application<br/>WASM apps & SDK]
-    NODE[Node<br/>Sync & execution]
-    STORAGE[Storage<br/>CRDT & DAG]
-    NETWORK[Network<br/>P2P & APIs]
-    
-    APP --> NODE
-    NODE --> STORAGE
-    STORAGE --> NETWORK
-    NETWORK --> NODE
+flowchart LR
+    APP[Application<br/>WASM apps & SDK] --> NODE[Node<br/>Sync & execution]
+    NODE --> STORAGE[Storage<br/>CRDT & DAG]
+    STORAGE --> NETWORK[Network<br/>P2P & APIs]
+    NETWORK -.-> NODE
     
     style APP fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
     style NODE fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
@@ -130,13 +125,13 @@ flowchart LR
 ## Key Components
 
 ```mermaid
-flowchart TD
-    SDK[SDK] --> RUNTIME[Runtime]
+flowchart LR
+    SERVER[Server] --> NODE[Node]
+    NODE --> RUNTIME[Runtime]
+    NODE --> NETWORK[Network]
+    SDK[SDK] --> RUNTIME
     RUNTIME --> STORAGE[Storage]
     STORAGE --> DAG[DAG]
-    NODE[Node] --> RUNTIME
-    NODE --> NETWORK[Network]
-    SERVER[Server] --> NODE
     
     style SDK fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
     style RUNTIME fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff

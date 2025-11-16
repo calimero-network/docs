@@ -34,7 +34,7 @@ merod --node-type peer --swarm-addrs /ip4/127.0.0.1/tcp/2428
 ## Node Architecture
 
 ```mermaid
-flowchart TD
+flowchart LR
     MGR[NodeManager<br/>Orchestrator] --> CLIENTS[Clients<br/>Context & Node]
     MGR --> MANAGERS[Managers<br/>Blob & Sync]
     MGR --> STATE[State<br/>Cache & Deltas]

@@ -14,11 +14,11 @@ Contexts provide:
 ## Context Lifecycle
 
 ```mermaid
-flowchart TD
-    START[Start] --> CREATED[Created<br/>WASM installed<br/>State initialized<br/>Creator = first member]
-    CREATED --> INVITED[Invited<br/>Invitation sent<br/>Permissions set]
+flowchart LR
+    START[Start] --> CREATED[Created<br/>WASM installed]
+    CREATED --> INVITED[Invited<br/>Invitation sent]
     INVITED --> JOINED[Joined<br/>Accept invitation]
-    JOINED --> ACTIVE[Active<br/>Members can call methods<br/>State syncs<br/>Events propagate]
+    JOINED --> ACTIVE[Active<br/>Members can call]
     ACTIVE --> END[End<br/>Delete context]
     
     style START fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff

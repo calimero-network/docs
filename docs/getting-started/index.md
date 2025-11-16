@@ -281,9 +281,3 @@ A: Calimero supports wallet-based authentication (NEAR, Ethereum, ICP). See [Ide
 
 **Q: Can I use this offline?**  
 A: Yes! Calimero is offline-first. Apps work offline and sync when online.
-
-## Getting Help
-
-- **Discord**: [Join our community](https://discord.gg/wZRC73DVpU)
-- **GitHub Issues**: [Report bugs or ask questions](https://github.com/calimero-network/core/issues)
-- **Documentation**: Browse the docs for detailed guides

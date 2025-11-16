@@ -7,7 +7,7 @@ Calimero uses **cryptographic identities** to manage access control and authenti
 Calimero supports a hierarchical identity model:
 
 ```mermaid
-flowchart TD
+flowchart LR
     ROOT[Root Key<br/>alice.near] --> CLIENT1[Client Key A]
     ROOT --> CLIENT2[Client Key B]
     ROOT --> CLIENT3[Client Key C]

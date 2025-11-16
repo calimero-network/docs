@@ -128,17 +128,19 @@ nav:
       - Contexts: core-concepts/contexts.md
       - Identity: core-concepts/identity.md
       - Nodes: core-concepts/nodes.md
-  - Build:
-      - Rust SDK: builder-directory/sdk-guide.md
-      - JavaScript SDK: builder-directory/js-sdk-guide.md
-      - Examples: examples/index.md
-  - Operate:
-      - Running Nodes: operator-track/run-a-local-network.md
-      - Monitoring: operator-track/monitor-and-debug.md
-      - CLI (meroctl): tools-apis/meroctl-cli.md
-      - Client SDKs: tools-apis/client-sdks.md
-      - Developer Tools: tools-apis/developer-tools.md
-  - Reference: reference/index.md
+  - Guides:
+      - Building Applications:
+          - Rust SDK: builder-directory/sdk-guide.md
+          - JavaScript SDK: builder-directory/js-sdk-guide.md
+          - Examples: examples/index.md
+      - Running Nodes:
+          - Run a Local Network: operator-track/run-a-local-network.md
+          - Monitoring: operator-track/monitor-and-debug.md
+      - Tools:
+          - CLI (meroctl): tools-apis/meroctl-cli.md
+          - Client SDKs: tools-apis/client-sdks.md
+          - Developer Tools: tools-apis/developer-tools.md
+      - API Reference: reference/index.md
 
 # Extra configuration
 extra:

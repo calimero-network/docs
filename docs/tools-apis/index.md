@@ -46,14 +46,6 @@ Use this directory as a jumping-off point; it shows you **what exists** and **wh
 | --- | --- | --- |
 | Merobox Workflows | [`workflows/` in example repos](https://github.com/calimero-network/battleships/tree/main/workflows) | Reusable network topologies for local + CI. |
 | Docs & CI scripts | [`calimero-network/docs`](https://github.com/calimero-network/docs#readme) | MkDocs site, link policies, CI glue. |
-| Homebrew Tap | [`calimero-network/homebrew-tap`](https://github.com/calimero-network/homebrew-tap#readme) | Package distribution for CLI and runtime binaries. |
-
-## Advanced & Research
-
-| Project | Reference | Notes |
-| --- | --- | --- |
-| MPC Signer | [`calimero-network/experiments/mpc-signer`](https://github.com/calimero-network/experiments/tree/main/mpc-signer#readme) | Threshold signing, custody experiments, ZK exploration. |
-| Escrow | [`calimero-network/escrow`](https://github.com/calimero-network/escrow#readme) | Bridge contracts, marketplace patterns, L1 attestations. |
 
 !!! tip
     Pick a tool, follow its README end-to-end, then link back into MKDocs when you need a refresher. These pages stay minimal by design.
