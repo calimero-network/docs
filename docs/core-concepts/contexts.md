@@ -14,29 +14,19 @@ Contexts provide:
 ## Context Lifecycle
 
 ```mermaid
-stateDiagram-v2
-    [*] --> Created: Install App
-    Created --> Invited: Invite Members
-    Invited --> Joined: Accept Invitation
-    Joined --> Active: Start Using
-    Active --> [*]: Delete Context
+flowchart TD
+    START[Start] --> CREATED[Created<br/>WASM installed<br/>State initialized<br/>Creator = first member]
+    CREATED --> INVITED[Invited<br/>Invitation sent<br/>Permissions set]
+    INVITED --> JOINED[Joined<br/>Accept invitation]
+    JOINED --> ACTIVE[Active<br/>Members can call methods<br/>State syncs<br/>Events propagate]
+    ACTIVE --> END[End<br/>Delete context]
     
-    note right of Created
-        - WASM installed
-        - State initialized
-        - Creator = first member
-    end note
-    
-    note right of Invited
-        - Invitation sent
-        - Permissions set
-    end note
-    
-    note right of Active
-        - Members can call methods
-        - State syncs across nodes
-        - Events propagate
-    end note
+    style START fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style CREATED fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style INVITED fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style JOINED fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style ACTIVE fill:#000000,stroke:#00ff00,stroke-width:4px,color:#ffffff
+    style END fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
 ```
 
 ### 1. Creation
