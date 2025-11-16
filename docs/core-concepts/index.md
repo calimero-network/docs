@@ -103,11 +103,11 @@ flowchart LR
     ID2 --> CTX2
     CTX1 -.->|isolated| CTX2
     
-    style NODE fill:#000000,stroke:#00ff00,stroke-width:3px,color:#ffffff
-    style CTX1 fill:#e5ffe5,stroke:#000000,stroke-width:2px
-    style CTX2 fill:#e5ffe5,stroke:#000000,stroke-width:2px
-    style ID1 fill:#ffffff,stroke:#00ff00,stroke-width:2px
-    style ID2 fill:#ffffff,stroke:#00ff00,stroke-width:2px
+    style NODE fill:#000000,stroke:#00ff00,stroke-width:4px,color:#ffffff
+    style CTX1 fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style CTX2 fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style ID1 fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style ID2 fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
 ```
 
 ## Learning Path

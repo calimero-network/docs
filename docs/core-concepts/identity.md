@@ -16,13 +16,13 @@ flowchart TD
     CLIENT2 --> CTX2[Context B]
     CLIENT3 --> CTX3[Context C]
     
-    style ROOT fill:#000000,stroke:#00ff00,stroke-width:3px,color:#ffffff
-    style CLIENT1 fill:#e5ffe5,stroke:#000000,stroke-width:2px
-    style CLIENT2 fill:#e5ffe5,stroke:#000000,stroke-width:2px
-    style CLIENT3 fill:#e5ffe5,stroke:#000000,stroke-width:2px
-    style CTX1 fill:#ffffff,stroke:#00ff00,stroke-width:2px
-    style CTX2 fill:#ffffff,stroke:#00ff00,stroke-width:2px
-    style CTX3 fill:#ffffff,stroke:#00ff00,stroke-width:2px
+    style ROOT fill:#000000,stroke:#00ff00,stroke-width:4px,color:#ffffff
+    style CLIENT1 fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style CLIENT2 fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style CLIENT3 fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style CTX1 fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style CTX2 fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style CTX3 fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
 ```
 
 ### Root Keys

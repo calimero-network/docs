@@ -49,11 +49,11 @@ flowchart LR
     NODE --> NETWORK[Network]
     NODE --> CLIENT
     
-    style CLIENT fill:#ffffff,stroke:#000000,stroke-width:2px
-    style NODE fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
-    style WASM fill:#ffffff,stroke:#000000,stroke-width:2px
-    style STORAGE fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
-    style NETWORK fill:#ffffff,stroke:#00ff00,stroke-width:2px
+    style CLIENT fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style NODE fill:#000000,stroke:#00ff00,stroke-width:4px,color:#ffffff
+    style WASM fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style STORAGE fill:#000000,stroke:#00ff00,stroke-width:4px,color:#ffffff
+    style NETWORK fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
 ```
 
 ### Execution Model

@@ -39,10 +39,10 @@ flowchart TD
     MGR --> MANAGERS[Managers<br/>Blob & Sync]
     MGR --> STATE[State<br/>Cache & Deltas]
     
-    style MGR fill:#000000,stroke:#00ff00,stroke-width:3px,color:#ffffff
-    style CLIENTS fill:#e5ffe5,stroke:#000000,stroke-width:2px
-    style MANAGERS fill:#ffffff,stroke:#00ff00,stroke-width:2px
-    style STATE fill:#e5ffe5,stroke:#000000,stroke-width:2px
+    style MGR fill:#000000,stroke:#00ff00,stroke-width:4px,color:#ffffff
+    style CLIENTS fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style MANAGERS fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style STATE fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
 ```
 
 ### Components

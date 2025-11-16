@@ -29,11 +29,11 @@ flowchart LR
     QJS --> WASM[WASI-SDK<br/>to WASM]
     WASM --> OPT[Optimize<br/>~500KB]
     
-    style TS fill:#ffffff,stroke:#000000,stroke-width:2px
-    style BUILD fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
-    style QJS fill:#ffffff,stroke:#000000,stroke-width:2px
-    style WASM fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
-    style OPT fill:#000000,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style TS fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style BUILD fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style QJS fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style WASM fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style OPT fill:#000000,stroke:#00ff00,stroke-width:4px,color:#ffffff
 ```
 
 ### Runtime Execution
@@ -45,11 +45,11 @@ flowchart LR
     QJS --> HOST[Host<br/>Functions]
     HOST --> RUNTIME[Calimero<br/>Runtime]
     
-    style JS fill:#ffffff,stroke:#000000,stroke-width:2px
-    style SDK fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
-    style QJS fill:#ffffff,stroke:#000000,stroke-width:2px
-    style HOST fill:#e5ffe5,stroke:#00ff00,stroke-width:2px
-    style RUNTIME fill:#000000,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style JS fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style SDK fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style QJS fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style HOST fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
+    style RUNTIME fill:#000000,stroke:#00ff00,stroke-width:4px,color:#ffffff
 ```
 
 **How it works:**
