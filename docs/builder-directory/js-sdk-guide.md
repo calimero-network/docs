@@ -22,69 +22,73 @@ The JavaScript SDK (`calimero-sdk-js`) consists of two main packages:
 
 ### Build Pipeline
 
-```
-TypeScript Source
-      ↓
- [TypeScript Compiler]
-      ↓
- JavaScript (ES6 modules)
-      ↓
- [Rollup] Bundle with dependencies
-      ↓
- JavaScript Bundle
-      ↓
- [QuickJS qjsc] Compile to C bytecode
-      ↓
- code.h (C header)
-      ↓
- [Extract Methods] Parse AST
-      ↓
- methods.h (C header)
-      ↓
- [Clang/WASI-SDK] Compile to WASM
-      ↓
- WASM Binary
-      ↓
- [wasi-stub + wasm-opt] Optimize
-      ↓
- Final Service (~500KB)
+```mermaid
+flowchart TD
+    TS[TypeScript Source]
+    TC[TypeScript Compiler]
+    JS[JavaScript ES6 modules]
+    ROLLUP[Rollup Bundle with dependencies]
+    BUNDLE[JavaScript Bundle]
+    QJSC[QuickJS qjsc Compile to C bytecode]
+    CODEH[code.h C header]
+    EXTRACT[Extract Methods Parse AST]
+    METHODS[methods.h C header]
+    CLANG[Clang/WASI-SDK Compile to WASM]
+    WASM[WASM Binary]
+    OPT[wasi-stub + wasm-opt Optimize]
+    FINAL[Final Service ~500KB]
+    
+    TS --> TC
+    TC --> JS
+    JS --> ROLLUP
+    ROLLUP --> BUNDLE
+    BUNDLE --> QJSC
+    QJSC --> CODEH
+    CODEH --> EXTRACT
+    EXTRACT --> METHODS
+    METHODS --> CLANG
+    CLANG --> WASM
+    WASM --> OPT
+    OPT --> FINAL
+    
+    style TS fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    style FINAL fill:#c8e6c9,stroke:#388e3c,stroke-width:3px
 ```
 
 ### Runtime Execution
 
-```
-┌─────────────────────────────────────────┐
-│ JavaScript Application                  │
-│ (Your code with decorators)             │
-└──────────────┬──────────────────────────┘
-               │
-┌──────────────┴──────────────────────────┐
-│ @calimero/sdk                           │
-│ - Decorators (@State, @Logic, etc.)     │
-│ - CRDT Collections                      │
-│ - Event System                          │
-└──────────────┬──────────────────────────┘
-               │
-┌──────────────┴──────────────────────────┐
-│ QuickJS Runtime (in WASM)               │
-│ - JavaScript interpreter                │
-│ - ~450KB overhead                       │
-└──────────────┬──────────────────────────┘
-               │
-┌──────────────┴──────────────────────────┐
-│ Calimero Host Functions                 │
-│ (calimero-sys)                          │
-│ - storage_read/write                    │
-│ - emit/commit                           │
-│ - context_id/executor_id                │
-└──────────────┬──────────────────────────┘
-               │
-┌──────────────┴──────────────────────────┐
-│ Calimero Runtime (Wasmer)               │
-│ - WASM execution                        │
-│ - P2P synchronization                   │
-│ - Storage (RocksDB)                     │
-└─────────────────────────────────────────┘
+```mermaid
+graph TB
+    subgraph "JavaScript Application"
+        JS[Your code with decorators]
+    end
+    
+    subgraph "@calimero/sdk"
+        SDK[Decorators, CRDT Collections, Event System]
+    end
+    
+    subgraph "QuickJS Runtime (in WASM)"
+        QJS[JavaScript interpreter<br/>~450KB overhead]
+    end
+    
+    subgraph "Calimero Host Functions"
+        HOST[storage_read/write<br/>emit/commit<br/>context_id/executor_id]
+    end
+    
+    subgraph "Calimero Runtime (Wasmer)"
+        RUNTIME[WASM execution<br/>P2P synchronization<br/>Storage RocksDB]
+    end
+    
+    JS --> SDK
+    SDK --> QJS
+    QJS --> HOST
+    HOST --> RUNTIME
+    
+    style JS fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    style SDK fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    style QJS fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style HOST fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+    style RUNTIME fill:#fce4ec,stroke:#c2185b,stroke-width:2px
 ```
 
 **How it works:**

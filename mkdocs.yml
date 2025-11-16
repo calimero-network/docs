@@ -61,6 +61,44 @@ theme:
 # Plugins (install with: pip install <plugin-name>)
 plugins:
   - search  # Built-in search functionality
+  - mermaid2:  # Mermaid diagram support
+      arguments:
+        theme: "default"
+        themeVariables:
+          primaryColor: "#ffffff"
+          primaryTextColor: "#000000"
+          primaryBorderColor: "#000000"
+          lineColor: "#000000"
+          secondaryColor: "#f5f5f5"
+          tertiaryColor: "#e0e0e0"
+          background: "#ffffff"
+          mainBkg: "#ffffff"
+          secondBkg: "#f5f5f5"
+          textColor: "#000000"
+          noteBkgColor: "#fff9c4"
+          noteTextColor: "#000000"
+          noteBorderColor: "#ffd700"
+          actorBorder: "#000000"
+          actorBkg: "#ffffff"
+          actorTextColor: "#000000"
+          actorLineColor: "#000000"
+          signalColor: "#000000"
+          signalTextColor: "#000000"
+          labelBoxBkgColor: "#ffffff"
+          labelBoxBorderColor: "#000000"
+          labelTextColor: "#000000"
+          loopTextColor: "#000000"
+          activationBorderColor: "#000000"
+          activationBkgColor: "#f5f5f5"
+          sequenceNumberColor: "#000000"
+          sectionBkgColor: "#ffffff"
+          altBkgColor: "#f5f5f5"
+          clusterBkg: "#ffffff"
+          clusterBorder: "#000000"
+          defaultLinkColor: "#1976d2"
+          titleColor: "#000000"
+          edgeLabelBackground: "#ffffff"
+          labelBackground: "#ffffff"
 
 # Custom CSS for branding and logo switching
 extra_css:
@@ -153,7 +191,11 @@ markdown_extensions:
       anchor_linenums: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
   - admonition
