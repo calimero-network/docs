@@ -131,7 +131,7 @@ graph TB
 
 - [Running Nodes](../operator-track/run-a-local-network.md) - Setup and deployment
 - [Monitoring](../operator-track/monitor-and-debug.md) - Observability
-- [API Reference](../reference/http-methods.md) - HTTP endpoints
+- [API Reference](../reference/index.md) - Complete API documentation
 
 ---
 
