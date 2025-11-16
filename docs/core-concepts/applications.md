@@ -75,103 +75,53 @@ sequenceDiagram
 
 ## CRDT State Management
 
-Applications use CRDT collections for conflict-free state:
+Applications use CRDT collections for conflict-free state. See [`core/crates/storage/README.md`](https://github.com/calimero-network/core/blob/master/crates/storage/README.md) for complete CRDT documentation.
 
-### Available Collections
+**Available collections:**
+- `Counter` - Distributed counters (sum)
+- `LwwRegister<T>` - Last-write-wins registers
+- `UnorderedMap<K,V>` - Key-value maps
+- `Vector<T>` - Ordered lists
+- `UnorderedSet<T>` - Unique sets (union)
+- `Option<T>` - Optional CRDTs
 
-| Collection | Use Case | Merge Strategy |
-| --- | --- | --- |
-| **Counter** | Metrics, counters | Sum |
-| **LwwRegister&lt;T&gt;** | Single values | Latest timestamp |
-| **UnorderedMap&lt;K,V&gt;** | Key-value storage | Recursive per-entry |
-| **Vector&lt;T&gt;** | Ordered lists | Element-wise |
-| **UnorderedSet&lt;T&gt;** | Unique values | Union |
-| **Option&lt;T&gt;** | Optional CRDTs | Recursive if Some |
-
-### Nested Structures
-
-CRDTs can be nested arbitrarily:
-
-```rust
-#[app::state]
-pub struct TeamMetrics {
-    // Map of team member → Map of metric → Counter
-    member_metrics: UnorderedMap<String, UnorderedMap<String, Counter>>,
-}
-```
+CRDTs can be nested arbitrarily for complex data structures.
 
 ## Event System
 
-Applications can emit events for real-time updates:
+Applications emit events for real-time updates. Events propagate to all peers automatically.
 
-```rust
-#[app::state(emits = ItemAdded)]
-pub struct MyApp {
-    items: UnorderedMap<String, String>,
-}
-
-#[derive(BorshSerialize, BorshDeserialize)]
-pub struct ItemAdded {
-    key: String,
-    value: String,
-}
-
-#[app::logic]
-impl MyApp {
-    pub fn add_item(&mut self, key: String, value: String) -> app::Result<()> {
-        self.items.insert(key.clone(), value.clone())?;
-        app::emit(ItemAdded { key, value })?;
-        Ok(())
-    }
-}
-```
-
-**Event lifecycle**:
+**Event lifecycle:**
 1. Emitted during method execution
-2. Included in delta broadcast to all peers
-3. Event handlers execute on peer nodes (not author node)
-4. Handlers can update UI or trigger side effects
+2. Broadcast to all peers via delta
+3. Handlers execute on peer nodes
+4. Handlers can update state or trigger side effects
+
+See [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md) for event examples.
 
 ## Private Storage
 
-For node-local data (secrets, caches, per-node counters):
+For node-local data (secrets, caches) that never syncs across nodes:
 
 ```rust
 use calimero_sdk::private_storage;
 
-pub fn use_private_storage() {
-    let secrets = private_storage::entry::<Secrets>("my-secrets");
-    secrets.write(|s| {
-        s.token = "rotated-token".to_string();
-    });
-}
+let secrets = private_storage::entry::<Secrets>("my-secrets");
+secrets.write(|s| { s.token = "rotated".to_string(); });
 ```
 
-**Key properties**:
-- Not replicated across nodes
-- Stored via `storage_read` / `storage_write` directly
-- Never included in CRDT deltas
-- Accessible only on the executing node
+See [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md) for private storage details.
 
 ## Views vs Mutations
 
-Mark read-only methods with `#[app::view]`:
+Mark read-only methods with `#[app::view]` to skip persistence:
 
 ```rust
-#[app::logic]
-impl MyApp {
-    // Mutation - persists state changes
-    pub fn add_item(&mut self, key: String, value: String) -> app::Result<()> {
-        self.items.insert(key, value)?;
-        Ok(())
-    }
-    
-    // View - read-only, skips persistence
-    #[app::view]
-    pub fn get_item(&self, key: &str) -> app::Result<Option<String>> {
-        self.items.get(key).map_err(Into::into)
-    }
+#[app::view]  // Read-only, no delta generated
+pub fn get_item(&self, key: &str) -> Option<String> {
+    self.items.get(key)
 }
+```
 ```
 
 **Benefits**:

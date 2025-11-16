@@ -143,7 +143,7 @@ core/
 └── e2e-tests/       # End-to-end test suite
 ```
 
-For detailed component explanations, see [Architecture Overview](../core-concepts/architecture.md#component-map).
+For detailed component explanations, see [Architecture Overview](../core-concepts/architecture.md#key-components).
 
 ## Next Steps
 

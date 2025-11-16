@@ -50,96 +50,58 @@ graph TB
     style STATE fill:#e5ffe5,stroke:#000000,stroke-width:2px
 ```
 
-### NodeManager
-Main orchestrator that manages:
-- **Periodic timers**:
-  - Blob eviction (every 5 min)
-  - Delta cleanup (every 60 sec)
-  - Hash heartbeat (every 30 sec)
-- **Context subscriptions**: Subscribe to all contexts on startup
-- **Lifecycle management**: Start/stop, graceful shutdown
+### Components
 
-### NodeClients
-External service clients:
-- **ContextClient**: Execute WASM methods, query DAG heads, get root hash
-- **NodeClient**: Subscribe/unsubscribe to contexts, broadcast deltas, open P2P streams
+- **NodeManager**: Orchestrates sync, events, lifecycle, periodic timers
+- **NodeClients**: ContextClient (WASM execution), NodeClient (P2P operations)
+- **NodeManagers**: BlobManager (content storage), SyncManager (periodic sync)
+- **NodeState**: Blob cache, delta stores per context
 
-### NodeManagers
-Service managers:
-- **BlobManager**: Store blobs (content-addressed), retrieve by ID, garbage collection
-- **SyncManager**: Trigger periodic sync, track last sync time per context, coordinate P2P streams
-
-### NodeState
-Runtime state (mutable caches):
-- **blob_cache**: LRU cache for frequently accessed blobs
-- **delta_stores**: Per-context DAG stores
+See [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md) for detailed architecture.
 
 ## Synchronization
 
-Nodes use a **dual-path synchronization strategy**:
+Nodes use dual-path sync:
+- **Gossipsub** (~100-200ms) - Fast real-time broadcast
+- **Periodic P2P** (every 10-30s) - Catch-up and recovery
 
-### Path 1: Gossipsub Broadcast (Primary)
-- **Latency**: ~100-200ms
-- **Reliability**: Excellent in good network conditions
-- **Purpose**: Fast, real-time propagation
-
-All peers receive deltas via Gossipsub mesh within ~100-200ms.
-
-### Path 2: Periodic P2P Sync (Fallback)
-- **Frequency**: Every 10-30 seconds
-- **Reliability**: Ensures eventual consistency
-- **Purpose**: Catch-up after network issues or downtime
-
-Direct P2P stream exchange of missing deltas ensures no data loss.
-
-For detailed sync flow, see [Architecture Overview](architecture.md#synchronization-flow).
+See [Architecture Overview](architecture.md#synchronization-flow) for sync flow diagrams.
 
 ## Event Handling
 
-When a delta is applied:
-
-1. **Author node**: Skips event handler (assumes local UI already updated)
-2. **Peer nodes**: Execute event handlers automatically after delta application
-3. **Event propagation**: Events are included in delta broadcast to all peers
-
-This ensures:
-- Real-time updates across all nodes
-- No duplicate event handling on author node
-- Consistent event ordering via DAG causal ordering
+When deltas are applied:
+1. Author node skips handlers (local UI already updated)
+2. Peer nodes execute handlers automatically
+3. Events propagate via DAG causal ordering
 
 ## Blob Distribution
 
-Nodes manage content-addressed blob storage:
+Content-addressed blob storage:
+- Blobs stored by hash (blob ID)
+- LRU cache with eviction (5 min or 100 blobs / 500 MB)
+- P2P distribution via streams
+- Periodic garbage collection
 
-- **Storage**: Blobs stored by content hash (blob ID)
-- **Caching**: LRU cache for frequently accessed blobs (evicts after 5 min, or when cache exceeds 100 blobs / 500 MB)
-- **Distribution**: Peers request blobs from each other via P2P streams
-- **Garbage collection**: Unused blobs evicted periodically
+See [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md) for blob management details.
 
 ## Admin Surfaces
 
-Nodes expose several interfaces:
+**JSON-RPC** (port 2528):
+- `/jsonrpc` - RPC calls
 
-### JSON-RPC Server
-- **Port**: 2528 (default)
-- **Purpose**: Client interaction, method calls, queries
-- **Endpoints**: `/jsonrpc` (RPC calls), `/jsonrpc/stream` (subscriptions)
+**WebSocket** (`/ws`):
+- Real-time subscriptions (deltas, events, state changes)
+- JSON-RPC over WebSocket
 
-### WebSocket
-- **Purpose**: Real-time subscriptions (deltas, events, state changes)
-- **Endpoint**: `/ws`
-- **Protocol**: JSON-RPC over WebSocket
+**SSE** (`/sse`):
+- Alternative to WebSocket for event streaming
+- Browser-friendly real-time updates
 
-### Server-Sent Events (SSE)
-- **Purpose**: Alternative to WebSocket for event streaming
-- **Endpoint**: `/sse`
-- **Use case**: Browser-friendly real-time updates
+**Admin API** (`/admin-api/`):
+- Node administration, context management, identity operations
+- JWT token authentication
 
-### Admin API
-- **Port**: 2528 (default)
-- **Endpoint**: `/admin-api/`
-- **Purpose**: Node administration, context management, identity operations
-- **Authentication**: JWT tokens
+See [`core/crates/server/README.md`](https://github.com/calimero-network/core/blob/master/crates/server/README.md) for API details.
 
 ## Monitoring & Debugging
 

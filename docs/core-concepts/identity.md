@@ -53,158 +53,65 @@ A **root key** is the master identity for a user or node. It's typically:
 
 ## Identity Generation
 
-### Creating a New Identity
+Generate identities with `meroctl`:
 
 ```bash
-# Generate a new identity on a node
 meroctl identity create --node-name node1
-
-# Output:
-# Public Key: ed25519:abc123...
-# Stored in: ~/.calimero/identities/node1/
 ```
 
-**What happens:**
-- Ed25519 keypair is generated
-- Private key is stored securely on the node
-- Public key is returned for sharing
+See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/blob/master/crates/meroctl/README.md) for CLI details.
 
-### Using Blockchain Wallets
+## Blockchain Wallet Integration
 
-Calimero integrates with blockchain wallets for identity:
+Calimero supports wallet-based authentication:
 
-| Protocol | Wallet Integration | Identity Source |
-| --- | --- | --- |
-| **NEAR** | NEAR Wallet, Ledger | NEAR account ID + signature |
-| **Ethereum** | MetaMask, WalletConnect | Ethereum address + signature |
-| **ICP** | Internet Identity, Plug | ICP principal + signature |
-| **Stellar** | Stellar Wallet | Stellar account + signature |
+| Protocol | Identity Source |
+| --- | --- |
+| **NEAR** | NEAR account ID + signature |
+| **Ethereum** | Ethereum address + signature |
+| **ICP** | ICP principal + signature |
+| **Stellar** | Stellar account + signature |
 
-**Authentication Flow:**
-1. User connects wallet (e.g., MetaMask)
-2. User signs a challenge message
-3. Calimero verifies signature against blockchain
-4. Identity is established and JWT token issued
+**Flow:**
+1. User connects wallet
+2. Signs challenge message
+3. Calimero verifies signature
+4. JWT token issued
+
+See [`calimero-client-js/README.md`](https://github.com/calimero-network/calimero-client-js#readme) for client authentication examples.
 
 ## Authentication Flows
 
-### NEAR Protocol
-
-```typescript
-// Client-side authentication
-import { connect, keyStores } from 'near-api-js';
-
-const keyStore = new keyStores.BrowserLocalStorageKeyStore();
-const near = await connect({
-  networkId: 'testnet',
-  keyStore,
-});
-
-// Sign challenge
-const account = await near.account('user.near');
-const signature = await account.connection.signer.signMessage(
-  challenge,
-  account.accountId,
-  'testnet'
-);
-
-// Send to Calimero auth service
-const jwt = await fetch('/auth/near', {
-  method: 'POST',
-  body: JSON.stringify({ accountId, signature, challenge }),
-});
-```
-
-### Ethereum
-
-```typescript
-// Using ethers.js
-import { ethers } from 'ethers';
-
-const provider = new ethers.BrowserProvider(window.ethereum);
-const signer = await provider.getSigner();
-const address = await signer.getAddress();
-
-// Sign challenge
-const signature = await signer.signMessage(challenge);
-
-// Send to Calimero auth service
-const jwt = await fetch('/auth/ethereum', {
-  method: 'POST',
-  body: JSON.stringify({ address, signature, challenge }),
-});
-```
-
-### ICP (Internet Computer)
-
-```typescript
-// Using @dfinity/agent
-import { Actor, HttpAgent } from '@dfinity/agent';
-
-const agent = new HttpAgent({ identity });
-const principal = await agent.getPrincipal();
-
-// Sign challenge using Internet Identity
-const signature = await agent.sign(challenge);
-
-// Send to Calimero auth service
-const jwt = await fetch('/auth/icp', {
-  method: 'POST',
-  body: JSON.stringify({ principal, signature, challenge }),
-});
-```
+For wallet authentication examples, see:
+- **JavaScript**: [`calimero-client-js/README.md`](https://github.com/calimero-network/calimero-client-js#readme) - Client-side auth flows
+- **Python**: [`calimero-client-py/README.md`](https://github.com/calimero-network/calimero-client-py#readme) - Python client auth
 
 ## JWT Tokens
 
-After authentication, Calimero issues **JWT (JSON Web Token)** tokens:
+After authentication, Calimero issues JWT tokens containing:
+- `context_id` - Target context
+- `executor_public_key` - Client key for execution
+- `permissions` - Access permissions
+- `exp` - Expiration timestamp
 
-```json
-{
-  "context_id": "context-123",
-  "executor_public_key": "ed25519:abc...",
-  "permissions": ["read", "write", "execute"],
-  "exp": 1234567890
-}
-```
-
-**Token usage:**
-- Included in API requests: `Authorization: Bearer <token>`
-- Proves identity and permissions
-- Expires after configured time
-- Refreshable via refresh token
+**Usage:**
+- Include in API requests: `Authorization: Bearer <token>`
+- Tokens expire and can be refreshed
+- See [`core/crates/auth/README.md`](https://github.com/calimero-network/core/blob/master/crates/auth/README.md) for details
 
 ## Key Management
 
-### Hierarchical Key Management
+**Hierarchical structure:**
+- Root keys delegate to client keys per context
+- Each context has separate client keys
+- Keys can be revoked independently
 
-```
-Root Key (NEAR account: alice.near)
-│
-├── Context A Client Key
-│   ├── Can execute methods in Context A
-│   └── Can read/write Context A state
-│
-├── Context B Client Key
-│   ├── Can execute methods in Context B
-│   └── Can read/write Context B state
-│
-└── Context C Client Key (revoked)
-    └── No longer has access
-```
-
-**Benefits:**
-- **Granular Control**: Different keys for different contexts
-- **Easy Revocation**: Revoke one key without affecting others
-- **Audit Trail**: Track which key performed which action
-
-### Key Revocation
-
+**Revoke access:**
 ```bash
-# Revoke a client key's access to a context
-meroctl context revoke \
-  --context-id <CONTEXT_ID> \
-  --member-id <CLIENT_KEY_PUBLIC_KEY>
+meroctl context revoke --context-id <CONTEXT_ID> --member-id <PUBLIC_KEY>
 ```
+
+See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/blob/master/crates/meroctl/README.md) for key management commands.
 
 **What happens:**
 - Key is removed from context membership

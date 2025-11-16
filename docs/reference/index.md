@@ -1,42 +1,19 @@
-# Reference
+# API Reference
 
-> Placeholder index — populate with method tables and schemas later.
+API documentation for Calimero nodes and clients.
 
-- [Commitments & Consistency Levels](commitments-consistency.md)
-- [Response Envelope](response-envelope.md)
-- [HTTP Methods](http-methods.md)
-- [WebSocket Streams](websocket-streams.md)
-- [Error Codes & Retries](error-codes.md)
-- [Versioning & Changelog](versioning-changelog.md)
+## Core API
 
-## Commitments & Consistency Levels
+| Topic | Documentation | Repository |
+| --- | --- | --- |
+| **HTTP Methods** | [API Methods](http-methods.md) | [`core/crates/server/README.md`](https://github.com/calimero-network/core/blob/master/crates/server/README.md) |
+| **WebSocket** | [WebSocket Streams](websocket-streams.md) | [`core/crates/server/README.md`](https://github.com/calimero-network/core/blob/master/crates/server/README.md) |
+| **Error Codes** | [Error Codes](error-codes.md) | [`core/crates/server/README.md`](https://github.com/calimero-network/core/blob/master/crates/server/README.md) |
 
-- Define processed/confirmed/finalized semantics.
-- Plan to include comparison table.
+## Additional Reference
 
-## Response Envelope
+- **JSON-RPC**: Standard JSON-RPC 2.0 over HTTP
+- **WebSocket/SSE**: Real-time event subscriptions
+- **Admin API**: Node management endpoints
 
-- Document standard JSON structure (`context`, `value`, `error`).
-- Note to provide sample payloads.
-
-## HTTP Methods
-
-- Group endpoints by domain (Contexts, Applications, Identity, Admin).
-- Prepare tables with method, params, responses.
-
-## WebSocket Streams
-
-- Outline subscription flow and message formats.
-- Add example subscribe/unsubscribe sequences.
-
-## Error Codes & Retries
-
-- List canonical codes and recommended handling.
-
-## Versioning & Changelog
-
-- Describe release cadence and links to repo changelogs.
-
----
-
-_This section is a scaffold; flesh out with canonical data once API audits conclude._
+For complete API documentation, see [`core/crates/server/README.md`](https://github.com/calimero-network/core/blob/master/crates/server/README.md).

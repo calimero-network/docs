@@ -141,71 +141,36 @@ Each protocol provides:
 
 ## Context Operations
 
-### Querying State
-
+**Query state:**
 ```bash
-# Call a view method (read-only)
-meroctl call \
-  --context-id <CONTEXT_ID> \
-  --method get_item \
-  --args '{"key": "hello"}'
+meroctl call --context-id <CONTEXT_ID> --method get_item --args '{"key": "hello"}'
 ```
 
-### Mutating State
-
+**Mutate state:**
 ```bash
-# Call a mutation method
-meroctl call \
-  --context-id <CONTEXT_ID> \
-  --method add_item \
-  --args '{"key": "hello", "value": "world"}' \
-  --executor-public-key <YOUR_KEY>
+meroctl call --context-id <CONTEXT_ID> --method add_item --args '{"key": "hello", "value": "world"}' --executor-public-key <KEY>
 ```
 
-### Subscribing to Events
+**Subscribe to events:**
+- WebSocket: Connect to `ws://localhost:2528/ws`
+- Use `subscribe` method with `context_id` and `event_type`
+- See [WebSocket Reference](../reference/websocket-streams.md) for details
 
-```bash
-# Subscribe via WebSocket
-wscat -c ws://localhost:2528/ws
-
-# Subscribe to context events
-{
-  "jsonrpc": "2.0",
-  "id": 1,
-  "method": "subscribe",
-  "params": {
-    "context_id": "<CONTEXT_ID>",
-    "event_type": "ItemAdded"
-  }
-}
-```
+See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/blob/master/crates/meroctl/README.md) for complete CLI documentation.
 
 ## Context Management
 
-### Listing Contexts
-
+**List contexts:**
 ```bash
-# List all contexts on a node
 meroctl context list
-
-# Get context details
-meroctl context get --context-id <CONTEXT_ID>
 ```
 
-### Revoking Access
-
+**Revoke access:**
 ```bash
-# Revoke a member's access
-meroctl context revoke \
-  --context-id <CONTEXT_ID> \
-  --member-id <PUBLIC_KEY>
+meroctl context revoke --context-id <CONTEXT_ID> --member-id <PUBLIC_KEY>
 ```
 
-**What happens:**
-- Member is removed from context
-- Member can no longer call methods
-- Member stops receiving updates
-- State remains intact (no data deletion)
+Revoking access removes the member but preserves state history.
 
 ## Best Practices
 

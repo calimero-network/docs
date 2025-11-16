@@ -1,33 +1,35 @@
-# Operator Track
+# Operating Calimero Nodes
 
-> Placeholder road map — fill with actionable guidance as operator docs mature.
+Guidance for running and managing Calimero nodes in production.
 
-- [Run a Local Network](run-a-local-network.md)
-- [Join Existing Contexts](join-existing-contexts.md)
-- [Monitor & Debug](monitor-and-debug.md)
-- [Production Deployment Notes](production-deployment-notes.md)
+## Quick Links
 
-## Run a Local Network
+| Task | Guide | Repository Docs |
+| --- | --- | --- |
+| **Local Development** | [Run a Local Network](run-a-local-network.md) | [`merobox/README.md`](https://github.com/calimero-network/merobox#readme) |
+| **Monitoring** | [Monitor & Debug](monitor-and-debug.md) | [`core/crates/node/readme/troubleshooting.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/troubleshooting.md) |
 
-- Document hardware prerequisites.
-- Summarize `merobox` bootstrap steps.
-- Link to monitoring endpoints.
+## Running Nodes
 
-## Join Existing Contexts
+For complete node documentation, see [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md).
 
-- Explain invite flow, acceptance, and key management.
-- Reference admin API endpoints.
+**Quick start:**
+```bash
+# Install merod
+cargo install --path core/crates/merod
 
-## Monitor & Debug
+# Run coordinator
+merod --node-type coordinator
 
-- Highlight Admin Dashboard, Node Console, logs, metrics.
-- Plan to add screenshots and diagrams.
+# Run peer
+merod --node-type peer --swarm-addrs /ip4/127.0.0.1/tcp/2428
+```
 
-## Production Deployment Notes
+**Or use Merobox:**
+```bash
+merobox run --count 2
+```
 
-- Capture backup strategy, upgrades, observability stack.
-- Provide checklist for securing nodes in production.
+## Monitoring
 
----
-
-_Stub content: expand each section with concise instructions and canonical README links._
+See [Monitor & Debug](monitor-and-debug.md) for observability and troubleshooting.
