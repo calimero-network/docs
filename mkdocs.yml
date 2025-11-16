@@ -129,6 +129,7 @@ nav:
       - Overview: tools-apis/index.md
       - meroctl CLI: tools-apis/meroctl-cli.md
       - Client SDKs: tools-apis/client-sdks.md
+      - Developer Tools: tools-apis/developer-tools.md
   - Support:
       - Overview: support/index.md
       - FAQ: support/faq.md

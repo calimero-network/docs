@@ -15,10 +15,15 @@ Use this directory as a jumping-off point; it shows you **what exists** and **wh
 
 ## Developer Tooling
 
+!!! tip "Developer Tools Guide"
+    For comprehensive documentation on Merobox, ABI Codegen, and create-mero-app, see the [Developer Tools Guide](developer-tools.md).
+
 | Tool | Reference | Notes |
 | --- | --- | --- |
-| Merobox | [`calimero-network/merobox`](https://github.com/calimero-network/merobox#readme) | Docker workflows for local multi-node networks and Application ID capture. |
-| Mero Devtools JS | [`calimero-network/mero-devtools-js`](https://github.com/calimero-network/mero-devtools-js#readme) | Scaffolds, ABI generators, TypeScript helpers. |
+| Developer Tools | [Developer Tools Guide](developer-tools.md) | Comprehensive guide to Merobox (local networks), ABI Codegen (TypeScript generation), and create-mero-app (boilerplate scaffolding). |
+| Merobox | [`calimero-network/merobox`](https://github.com/calimero-network/merobox#readme) | Docker workflows for local multi-node networks, testing, and workflow orchestration. |
+| ABI Codegen | [`calimero-network/mero-devtools-js`](https://github.com/calimero-network/mero-devtools-js#readme) | Generate TypeScript clients from Rust application ABIs. |
+| create-mero-app | [`calimero-network/mero-devtools-js`](https://github.com/calimero-network/mero-devtools-js#readme) | Scaffold new Calimero apps from kv-store boilerplate. |
 | Design System | [`calimero-network/design-system`](https://github.com/calimero-network/design-system#readme) | Shared UI components and tokens. |
 | Plugins | [`calimero-network/plugins`](https://github.com/calimero-network/plugins#readme) | Automation hooks and extension samples. |
 
