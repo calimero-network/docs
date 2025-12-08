@@ -34,7 +34,7 @@ Calimero is a component of a broader **privacy-oriented architecture** — modul
 
 ## Hardening Checklist
 
-1. Anchor critical context membership changes to your chosen L1 (NEAR, Ethereum, Starknet, ICP).
+1. Anchor critical context membership changes to NEAR.
 2. Enable event payload hashing when emitting sensitive data; share full payloads via authenticated channels only.
 3. Rotate client keys on a cadence and revoke stale devices at the root key level.
 4. Run periodic Merkle checkpoint comparisons across nodes to detect divergence early.
@@ -47,7 +47,7 @@ Calimero is a component of a broader **privacy-oriented architecture** — modul
 | Runtime architecture & security model | [`calimero-network/core` – Architecture](https://github.com/calimero-network/core#architecture){:target="_blank"} | Details on `merod`, networking layers, and verification primitives |
 | Identity delegation & permissions | [`calimero-network/contracts` – Identity module](https://github.com/calimero-network/contracts/blob/main/README.mdx#identity-module){:target="_blank"} | How root/client keys, invites, and revocations are enforced |
 | Context lifecycle & admin API | [`calimero-network/merobox` – Workflows](https://github.com/calimero-network/merobox#workflows){:target="_blank"} | Managing contexts, capturing Application IDs, production rollouts |
-| Authentication adapters & wallet flows | [`calimero-network/core/apps/auth`](https://github.com/calimero-network/core/tree/main/apps/auth#readme){:target="_blank"} | Challenge/response flows for NEAR, Ethereum, Starknet, ICP |
+| Authentication adapters & wallet flows | [`calimero-network/core/apps/auth`](https://github.com/calimero-network/core/tree/main/apps/auth#readme){:target="_blank"} | Challenge/response flows for NEAR |
 | Advanced cryptography experiments | [`calimero-network/experiments/mpc-signer`](https://github.com/calimero-network/experiments/tree/main/mpc-signer#readme){:target="_blank"} | Threshold signing, multi-party custody, and ZK experiments |
 
 _This page stays high-level. For full setup steps, audit procedures, and API details, follow the linked READMEs._

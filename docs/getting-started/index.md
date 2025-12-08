@@ -286,7 +286,7 @@ A: For local development, yes. Use `merobox` to run nodes locally. For productio
 A: Applications can be written in Rust (compiled to WASM) or JavaScript/TypeScript (using `@calimero-network/calimero-sdk-js`). Clients can use JavaScript/TypeScript or Python.
 
 **Q: How do I handle authentication?**  
-A: Calimero supports wallet-based authentication (NEAR, Ethereum, ICP). See [Identity](../core-concepts/identity.md) and [Client SDKs](../tools-apis/client-sdks.md).
+A: Calimero supports NEAR wallet-based authentication. See [Identity](../core-concepts/identity.md) and [Client SDKs](../tools-apis/client-sdks.md).
 
 **Q: Can I use this offline?**  
 A: Yes! Calimero is offline-first. Apps work offline and sync when online.

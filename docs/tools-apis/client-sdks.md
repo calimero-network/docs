@@ -513,7 +513,7 @@ function App() {
 The JavaScript client has **full authentication support** including:
 
 - **JWT token management** - Automatic token storage and refresh
-- **Wallet-based authentication** - Support for NEAR, Ethereum, and other wallets
+- **Wallet-based authentication** - Support for NEAR wallet
 - **React components** - Pre-built UI components (`ClientLogin`, `SetupModal`)
 - **Manual token handling** - Direct token management APIs
 

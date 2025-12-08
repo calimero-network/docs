@@ -29,7 +29,7 @@ flowchart LR
 
 A **root key** is the master identity for a user or node. It's typically:
 
-- Generated from a blockchain wallet (NEAR, Ethereum, etc.)
+- Generated from a NEAR wallet
 - Used for high-level operations (creating contexts, managing memberships)
 - Stored securely (hardware wallet, keychain, etc.)
 
@@ -63,9 +63,7 @@ Calimero supports wallet-based authentication:
 | Protocol | Identity Source |
 | --- | --- |
 | **NEAR** | NEAR account ID + signature |
-| **Ethereum** | Ethereum address + signature |
-| **ICP** | ICP principal + signature |
-| **Stellar** | Stellar account + signature |
+
 
 **Flow:**
 1. User connects wallet
@@ -131,9 +129,6 @@ import { ClientLogin } from '@calimero-network/calimero-client';
 
 **Supported wallets:**
 - NEAR Wallet
-- MetaMask (Ethereum)
-- WalletConnect
-- Internet Identity (ICP)
 
 ### Python Client
 
@@ -144,7 +139,7 @@ from calimero_client_py import create_connection, AuthMode
 connection = create_connection(
     base_url="https://node.calimero.network",
     auth_mode=AuthMode.WALLET,
-    wallet_type="near"  # or "ethereum", "icp"
+    wallet_type="near"
 )
 ```
 

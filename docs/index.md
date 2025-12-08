@@ -47,6 +47,6 @@ Calimero is a privacy-focused application layer for peer-to-peer collaboration. 
 ## Highlights
 
 - **Contexts as private networks** — CRDT-backed state and scoped storage so teams can collaborate without global consensus.
-- **Hierarchical identities** — Root keys delegate client keys per device, integrating with NEAR, Ethereum, Starknet, and ICP wallets.
+- **Hierarchical identities** — Root keys delegate client keys per device, integrating with NEAR wallets.
 - **Modular runtime** — `merod` orchestrates networking ([libp2p](https://libp2p.io/){:target="_blank"}), storage, and WASM apps with JSON-RPC/WebSocket surfaces.
 - **Repository-first docs** — Detailed flows live in project READMEs such as [`calimero-network/core`](https://github.com/calimero-network/core#readme){:target="_blank"} and [`calimero-network/merobox`](https://github.com/calimero-network/merobox#readme){:target="_blank"}.
