@@ -13,7 +13,7 @@ At the application layer, Calimero provides a shared environment for collaborati
 | **CRDT-based Sync** | Automatic conflict resolution without coordination |
 | **Offline-first** | Works without connectivity, syncs when online |
 | **Event-driven** | Real-time notifications across nodes |
-| **WASM Runtime** | Write apps in Rust, run in sandboxed environment |
+| **WASM Runtime** | Write apps in Rust or TypeScript, run in sandboxed environment |
 | **Multi-chain** | Integrates with NEAR, ICP, Ethereum, Stellar |
 
 ## Key Design Principles

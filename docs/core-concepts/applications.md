@@ -4,7 +4,7 @@ Calimero **applications** are WASM (WebAssembly) modules that run inside the Cal
 
 ## Application Model
 
-Applications are compiled from Rust (or other supported languages) to WebAssembly and executed in a sandboxed environment. They use the Calimero SDK to:
+Applications are compiled from Rust or TypeScript to WebAssembly and executed in a sandboxed environment. They use the Calimero SDK to:
 
 - Define **state** using CRDT collections
 - Implement **logic** that mutates state
@@ -139,7 +139,7 @@ See [`core/crates/runtime/README.md`](https://github.com/calimero-network/core/b
 
 Applications export an ABI (Application Binary Interface) that clients use:
 
-1. **Build WASM**: Compile Rust code to WASM
+1. **Build WASM**: Compile Rust or TypeScript code to WASM
 2. **Generate ABI**: Extract method signatures, types, events
 3. **Client bindings**: Generate TypeScript/Python clients from ABI
 4. **Type safety**: Full type information for client calls

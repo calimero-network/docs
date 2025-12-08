@@ -504,7 +504,7 @@ After scaffolding, customize your app:
 
 ### Next Steps
 
-1. **Build the WASM** - Compile Rust to WASM: `cd logic && ./build.sh`
+1. **Build the WASM** - Compile Rust or TypeScript to WASM: `cd logic && ./build.sh`
 2. **Generate TypeScript Client** - Use ABI codegen to generate client types
 3. **Start Local Network** - Use Merobox to start local nodes: `merobox bootstrap run workflows/local-network.yml`
 4. **Run Frontend** - Start the React app: `cd app && pnpm dev`

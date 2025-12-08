@@ -149,14 +149,14 @@ battleships/
 
 **Why this structure:**
 
-- `logic/` contains your Rust business logic compiled to WASM
+- `logic/` contains your Rust or TypeScript business logic compiled to WASM
 - `app/` is your React frontend that calls into the WASM
 - `workflows/` your local merobox configuration and workflow
 - `scripts/` automates building, deploying, and testing
 
 #### Phase 2: Domain Modeling (Rust Backend)
 
-The AI starts by modeling your domain in Rust. For Battleships, this means:
+The AI starts by modeling your domain in Rust or TypeScript. For Battleships, this means:
 
 **2.1 Core Types** (`board.rs`, `ships.rs`)
 
@@ -936,7 +936,7 @@ Now that it works, dig into what was created:
 **🔍 Things to notice:**
 
 - **Type safety everywhere** - Rust types flow to TypeScript
-- **Clear separation** - Logic in Rust, UI in React, network in YAML
+- **Clear separation** - Logic in Rust/TypeScript, UI in React, network in YAML
 - **No boilerplate** - `#[calimero::state]` and `#[calimero::logic]` do the heavy lifting
 - **Event-driven** - State changes emit events, frontend reacts
 
