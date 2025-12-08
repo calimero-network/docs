@@ -14,7 +14,7 @@ At the application layer, Calimero provides a shared environment for collaborati
 | **Offline-first** | Works without connectivity, syncs when online |
 | **Event-driven** | Real-time notifications across nodes |
 | **WASM Runtime** | Write apps in Rust, run in sandboxed environment |
-| **Multi-chain** | Integrates with NEAR, ICP, Ethereum, Stellar, zkSync |
+| **Multi-chain** | Integrates with NEAR, ICP, Ethereum, Stellar |
 
 ## Key Design Principles
 
