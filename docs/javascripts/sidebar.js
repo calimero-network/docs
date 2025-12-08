@@ -1,5 +1,8 @@
 document$.subscribe(() => {
   const hideIfSingle = (selector) => {
+    // Only hide sidebars on desktop (min-width: 76.25rem = 1220px)
+    if (window.innerWidth < 1220) return;
+
     const sidebar = document.querySelector(selector);
     if (!sidebar) return;
 

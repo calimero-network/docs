@@ -142,6 +142,33 @@
 
 [data-md-color-scheme="slate"] .md-header {
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background-color: var(--calimero-neutral-900);
+}
+
+/* LIGHT MODE: Mobile drawer styling */
+[data-md-color-scheme="default"] .md-nav--primary .md-nav__title {
+  background-color: #FFFFFF;
+  color: #FFF !important;
+}
+
+[data-md-color-scheme="default"] .md-nav--primary {
+  background-color: #FFFFFF;
+}
+
+/* DARK MODE: Make text and icons white */
+[data-md-color-scheme="slate"] .md-nav__title {
+  color: #FFFFFF !important;
+  background-color: #111111 !important;
+}
+
+[data-md-color-scheme="slate"] .md-source,
+[data-md-color-scheme="slate"] .md-source__icon,
+[data-md-color-scheme="slate"] .md-source__repository {
+  color: #FFFFFF !important;
+}
+
+[data-md-color-scheme="slate"] .md-source svg {
+  fill: #FFFFFF;
 }
 
 [data-md-color-scheme="slate"] .md-tabs {
@@ -227,23 +254,30 @@ blockquote {
   color: var(--calimero-green-500);
 }
 
-/* Light mode: use black logo and proper header colors */
+/* Light mode: use BLACK logo */
 [data-md-color-scheme="default"] .md-header__button.md-logo img,
 [data-md-color-scheme="default"] .md-logo img {
   content: url("../assets/img/logo-black.svg");
 }
 
-[data-md-color-scheme="default"] .md-header {
-  background-color: var(--md-default-bg-color);
-  color: var(--md-default-fg-color);
-  box-shadow: none;
-  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+/* Light mode MOBILE: use WHITE logo for mobile drawer */
+@media screen and (max-width: 1219px) {
+  [data-md-color-scheme="default"] .md-nav--primary .md-nav__title[for="__drawer"] .md-logo img {
+    content: url("../assets/img/logo-white.svg");
+  }
 }
 
-/* Dark mode: use white logo and proper header colors */
+[data-md-color-scheme="default"] .md-header {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), rgba(240, 246, 222, 0.85));
+  border-bottom: 1px solid rgba(31, 31, 31, 0.08);
+  box-shadow: 0 4px 12px rgba(19, 18, 21, 0.05);
+}
+
+/* Dark mode: use BLACK logo (swapped) */
 [data-md-color-scheme="slate"] .md-header__button.md-logo img,
 [data-md-color-scheme="slate"] .md-logo img {
-  content: url("../assets/img/logo-white.svg");
+  content: url("../assets/img/logo-black.svg");
+  filter: invert(1) brightness(1.2);
 }
 
 [data-md-color-scheme="slate"] .md-header {
