@@ -2,9 +2,9 @@
 
 ## What is Calimero?
 
-**Calimero Core** is the runtime for building peer-to-peer applications with automatic conflict-free synchronization. It enables offline-first, distributed apps that sync when online, without central servers.
+**Calimero** is a peer-to-peer framework for building self-sovereign, local-first applications with automatic, conflict-free synchronization. It enables developers to create distributed apps where users own their data, operate offline, and sync with peers when connectivity is available—without relying on centralized servers.
 
-Calimero is an application layer built on top of the network — a place for collaboration, computation, and coordination between peers. Where a blockchain would rely on **consensus**, Calimero uses **CRDTs (Conflict-free Replicated Data Types)** for distributed consistency without global agreement.
+At the application layer, Calimero provides a shared environment for collaboration, computation, and coordination between peers. Instead of relying on **global consensus** like blockchains do, it achieves distributed consistency through **CRDTs (Conflict-free Replicated Data Types)**—allowing independent nodes to converge on the same state without coordination, leaders, or ordering guarantees.
 
 ## Core Value Proposition
 
@@ -27,11 +27,11 @@ Calimero is an application layer built on top of the network — a place for col
 
 Calimero combines several powerful technologies to deliver a unique distributed computing platform:
 
-- ✅ **Automatic conflict resolution** via CRDTs — no manual merge code needed. Write natural code with nested data structures; the storage layer handles synchronization automatically.
-- ✅ **Causal ordering** via DAG — handles out-of-order network delivery gracefully. Deltas can arrive in any order; the system buffers and applies them in correct causal sequence.
-- ✅ **Dual sync strategy** — fast broadcast (~100-200ms) + reliable catch-up. Gossipsub provides real-time propagation, while periodic P2P sync ensures eventual consistency even after network issues.
-- ✅ **Event-driven architecture** — real-time updates without polling. Applications emit events that automatically propagate to all peers and trigger handlers.
-- ✅ **Local-first** — data owned by users, no central authority required. Your data lives on your devices; you control access and sharing.
+- **Automatic conflict resolution** via CRDTs — no manual merge code needed. Write natural code with nested data structures; the storage layer handles synchronization automatically.
+- **Causal ordering** via DAG — handles out-of-order network delivery gracefully. Deltas can arrive in any order; the system buffers and applies them in correct causal sequence.
+- **Dual sync strategy** — fast broadcast (~100-200ms) + reliable catch-up. Gossipsub provides real-time propagation, while periodic P2P sync ensures eventual consistency even after network issues.
+- **Event-driven architecture** — real-time updates without polling. Applications emit events that automatically propagate to all peers and trigger handlers.
+- **Local-first** — data owned by users, no central authority required. Your data lives on your devices; you control access and sharing.
 
 ## Use Cases
 
