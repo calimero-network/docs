@@ -25,7 +25,6 @@ Use this directory as a jumping-off point; it shows you **what exists** and **wh
 | ABI Codegen | [`calimero-network/mero-devtools-js`](https://github.com/calimero-network/mero-devtools-js#readme){:target="_blank"} | Generate TypeScript clients from Rust application ABIs. |
 | create-mero-app | [`calimero-network/mero-devtools-js`](https://github.com/calimero-network/mero-devtools-js#readme){:target="_blank"} | Scaffold new Calimero apps from kv-store boilerplate. |
 | Design System | [`calimero-network/design-system`](https://github.com/calimero-network/design-system#readme){:target="_blank"} | Shared UI components and tokens. |
-| Plugins | [`calimero-network/plugins`](https://github.com/calimero-network/plugins#readme){:target="_blank"} | Automation hooks and extension samples. |
 
 ## SDKs & Clients
 

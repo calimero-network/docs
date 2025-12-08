@@ -27,7 +27,6 @@ meroctl --node node1 app install --path build/kv_store.wasm
 For complete applications, see:
 
 - **Battleships** - Multiplayer game - [`battleships`](https://github.com/calimero-network/battleships){:target="_blank"} repository
-- **Shared Todo** - Collaborative task list - [`shared-todo-backlog`](https://github.com/calimero-network/shared-todo-backlog){:target="_blank"} repository
 - **KV Store** - Template app - Created via `npx create-mero-app`
 
 ## By Complexity

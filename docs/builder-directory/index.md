@@ -49,8 +49,6 @@ git clone https://github.com/calimero-network/battleships
 cd battleships
 pnpm install
 
-# Or explore other examples (coming soon)
-git clone https://github.com/calimero-network/awesome-apps
 ```
 
 **Time:** Variable  
