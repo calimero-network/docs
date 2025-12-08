@@ -29,7 +29,7 @@ Calimero combines several powerful technologies to deliver a unique distributed 
 
 - **Automatic conflict resolution** via CRDTs — no manual merge code needed. Write natural code with nested data structures; the storage layer handles synchronization automatically.
 - **Causal ordering** via DAG — handles out-of-order network delivery gracefully. Deltas can arrive in any order; the system buffers and applies them in correct causal sequence.
-- **Dual sync strategy** — fast broadcast (~100-200ms) + reliable catch-up. Gossipsub provides real-time propagation, while periodic P2P sync ensures eventual consistency even after network issues.
+- **Dual sync strategy** — fast broadcast (~100-200ms) + reliable catch-up. [Gossipsub](https://docs.rs/gossipsub/latest/gossipsub/){:target="_blank"} provides real-time propagation, while periodic P2P sync ensures eventual consistency even after network issues.
 - **Event-driven architecture** — real-time updates without polling. Applications emit events that automatically propagate to all peers and trigger handlers.
 - **Local-first** — data owned by users, no central authority required. Your data lives on your devices; you control access and sharing.
 
@@ -42,7 +42,7 @@ Calimero enables a wide range of decentralized applications:
 | **Collaborative Editing** | Real-time document collaboration without servers. Multiple users edit simultaneously; conflicts resolve automatically via CRDTs. |
 | **Decentralized Social** | User-controlled social networks. Each user runs their own node; data ownership and privacy by default. |
 | **P2P Gaming** | Multiplayer games with automatic state sync. Game state synchronizes across players even with network interruptions. |
-| **IoT Networks** | Decentralized device coordination. Devices coordinate without central servers; works offline and syncs when online. |
+| **[IoT Networks](https://en.wikipedia.org/wiki/Internet_of_things){:target="_blank"}** | Decentralized device coordination. Devices coordinate without central servers; works offline and syncs when online. |
 | **Supply Chain** | Transparent, multi-party tracking. All participants maintain their own copy; automatic conflict resolution handles concurrent updates. |
 | **Healthcare** | Private, patient-controlled medical records. Patients own their data; selective sharing with healthcare providers via encrypted contexts. |
 
@@ -87,14 +87,14 @@ Calimero's architecture consists of four main layers:
 - CRDT storage with automatic merging
 - DAG (Directed Acyclic Graph) for causal ordering
 - Handles out-of-order delivery with dependency resolution
-- Merkle trees for efficient state comparison
+- [Merkle trees](https://en.wikipedia.org/wiki/Merkle_tree){:target="_blank"} for efficient state comparison
 
 **Documentation**: [Architecture Overview](../core-concepts/architecture.md) → [`core/crates/storage/README.md`](https://github.com/calimero-network/core/blob/master/crates/storage/README.md)
 
 ### 4. Network Layer
 - libp2p-based P2P (Gossipsub, reliable streams, DHT discovery)
-- JSON-RPC server for client interaction
-- WebSocket/SSE for real-time subscriptions
+- [JSON-RPC](https://www.jsonrpc.org/){:target="_blank"} server for client interaction
+- [WebSocket](https://en.wikipedia.org/wiki/WebSocket){:target="_blank"}/[SSE](https://en.wikipedia.org/wiki/Server-sent_events){:target="_blank"} for real-time subscriptions
 - Authentication and authorization
 
 **Documentation**: [Reference](../reference/index.md) → [`core/crates/network/README.md`](https://github.com/calimero-network/core/blob/master/crates/network/README.md)
@@ -147,14 +147,14 @@ For detailed component explanations, see [Architecture Overview](../core-concept
 
 ## Next Steps
 
-- 📖 **New to Calimero?** → [Getting Started](../getting-started/index.md)
-- 🏗️ **Ready to build?** → [Builder Directory](../builder-directory/index.md)
-- 🎓 **Want to learn?** → [Core Concepts](../core-concepts/index.md)
-- ⚙️ **Need to operate?** → [Operator Track](../operator-track/index.md)
+- **New to Calimero?** → [Getting Started](../getting-started/index.md)
+- **Ready to build?** → [Builder Directory](../builder-directory/index.md)
+- **Want to learn?** → [Core Concepts](../core-concepts/index.md)
+- **Need to operate?** → [Operator Track](../operator-track/index.md)
 
 ---
 
-**Built with ❤️ by the Calimero Network team**
+**Built by the Calimero Network team**
 
-For questions, reach out on [Discord](https://discord.gg/wZRC73DVpU) or [GitHub Issues](https://github.com/calimero-network/core/issues).
+For questions, reach out on [Discord](https://discord.gg/wZRC73DVpU){:target="_blank"}, [GitHub Issues](https://github.com/calimero-network/core/issues){:target="_blank"}, or email [support@calimero.network](mailto:support@calimero.network){:target="_blank"}.
 
