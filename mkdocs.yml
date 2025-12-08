@@ -4,7 +4,7 @@ site_description: Lightweight documentation for the Calimero network and develop
 site_url: https://docs.calimero.network
 
 # Repository
-repo_url: https://github.com/calimero-network/docs
+repo_url: https://github.com/calimero-network
 edit_uri: ""
 
 # Theme Configuration

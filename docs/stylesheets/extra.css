@@ -314,4 +314,9 @@ blockquote {
   display: none !important;
 }
 
+/* Hide repository stats (stars/forks count) */
+.md-source__facts {
+  display: none;
+}
+
 
