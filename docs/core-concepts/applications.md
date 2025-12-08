@@ -13,7 +13,7 @@ Applications are compiled from Rust (or other supported languages) to WebAssembl
 
 ## Quick Start
 
-See [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md) for complete SDK documentation.
+See [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md){:target="_blank"} for complete SDK documentation.
 
 **Minimal example:**
 
@@ -65,7 +65,7 @@ flowchart LR
 
 ## CRDT State Management
 
-Applications use CRDT collections for conflict-free state. See [`core/crates/storage/README.md`](https://github.com/calimero-network/core/blob/master/crates/storage/README.md) for complete CRDT documentation.
+Applications use CRDT collections for conflict-free state. See [`core/crates/storage/README.md`](https://github.com/calimero-network/core/blob/master/crates/storage/README.md){:target="_blank"} for complete CRDT documentation.
 
 **Available collections:**
 - `Counter` - Distributed counters (sum)
@@ -87,7 +87,7 @@ Applications emit events for real-time updates. Events propagate to all peers au
 3. Handlers execute on peer nodes
 4. Handlers can update state or trigger side effects
 
-See [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md) for event examples.
+See [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md){:target="_blank"} for event examples.
 
 ## Private Storage
 
@@ -100,7 +100,7 @@ let secrets = private_storage::entry::<Secrets>("my-secrets");
 secrets.write(|s| { s.token = "rotated".to_string(); });
 ```
 
-See [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md) for private storage details.
+See [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md){:target="_blank"} for private storage details.
 
 ## Views vs Mutations
 
@@ -133,7 +133,7 @@ WASM execution is bounded:
 - **Execution time**: Metered with gas-like system
 - **Register limits**: Number and size of storage registers
 
-See [`core/crates/runtime/README.md`](https://github.com/calimero-network/core/blob/master/crates/runtime/README.md) for detailed limits.
+See [`core/crates/runtime/README.md`](https://github.com/calimero-network/core/blob/master/crates/runtime/README.md){:target="_blank"} for detailed limits.
 
 ## ABI Generation
 
@@ -150,18 +150,18 @@ Tools:
 
 ## Example Applications
 
-- **kv-store**: Simple key-value store ([`core/apps/kv-store`](https://github.com/calimero-network/core/tree/master/apps/kv-store))
-- **blobs**: File/blob sharing ([`core/apps/blobs`](https://github.com/calimero-network/core/tree/master/apps/blobs))
-- **battleships**: Multiplayer game ([`battleships`](https://github.com/calimero-network/battleships))
+- **kv-store**: Simple key-value store ([`core/apps/kv-store`](https://github.com/calimero-network/core/tree/master/apps/kv-store){:target="_blank"})
+- **blobs**: File/blob sharing ([`core/apps/blobs`](https://github.com/calimero-network/core/tree/master/apps/blobs){:target="_blank"})
+- **battleships**: Multiplayer game ([`battleships`](https://github.com/calimero-network/battleships){:target="_blank"})
 
 ## Deep Dives
 
 For detailed application development:
 
-- **SDK Documentation**: [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md) - API reference and examples
-- **Storage Collections**: [`core/crates/storage/README.md`](https://github.com/calimero-network/core/blob/master/crates/storage/README.md) - CRDT types and merge semantics
-- **Runtime**: [`core/crates/runtime/README.md`](https://github.com/calimero-network/core/blob/master/crates/runtime/README.md) - WASM execution engine
-- **Integration Guide**: [`core/crates/node/readme/integration-guide.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/integration-guide.md) - Building applications
+- **SDK Documentation**: [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md){:target="_blank"} - API reference and examples
+- **Storage Collections**: [`core/crates/storage/README.md`](https://github.com/calimero-network/core/blob/master/crates/storage/README.md){:target="_blank"} - CRDT types and merge semantics
+- **Runtime**: [`core/crates/runtime/README.md`](https://github.com/calimero-network/core/blob/master/crates/runtime/README.md){:target="_blank"} - WASM execution engine
+- **Integration Guide**: [`core/crates/node/readme/integration-guide.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/integration-guide.md){:target="_blank"} - Building applications
 
 ## Related Topics
 

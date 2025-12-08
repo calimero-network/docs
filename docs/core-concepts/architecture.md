@@ -38,7 +38,7 @@ flowchart LR
     style PEER fill:#1a1a1a,stroke:#00ff00,stroke-width:3px,color:#ffffff
 ```
 
-See [`core/crates/runtime/README.md`](https://github.com/calimero-network/core/blob/master/crates/runtime/README.md) for execution details.
+See [`core/crates/runtime/README.md`](https://github.com/calimero-network/core/blob/master/crates/runtime/README.md){:target="_blank"} for execution details.
 
 ## Synchronization Flow
 
@@ -97,7 +97,7 @@ flowchart LR
 - **Gossipsub**: Fast (~100-200ms), reliable in good network conditions
 - **Periodic sync**: Ensures eventual consistency even with packet loss, partitions, or downtime
 
-See [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md) for sync configuration details.
+See [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md){:target="_blank"} for sync configuration details.
 
 ## DAG-Based Causal Ordering
 
@@ -144,39 +144,39 @@ flowchart LR
 
 | Component | Purpose | Repository |
 | --- | --- | --- |
-| **SDK** | `#[app::state]`, `#[app::logic]`, CRDT collections, events | [`core/crates/sdk`](https://github.com/calimero-network/core/blob/master/crates/sdk) |
-| **Runtime** | WASM execution (Wasmer), sandboxing | [`core/crates/runtime`](https://github.com/calimero-network/core/blob/master/crates/runtime) |
-| **Storage** | CRDT collections, merge semantics | [`core/crates/storage`](https://github.com/calimero-network/core/blob/master/crates/storage) |
-| **DAG** | Causal delta tracking, dependency resolution | [`core/crates/dag`](https://github.com/calimero-network/core/blob/master/crates/dag) |
-| **Node** | NodeManager orchestrates sync, events, blobs | [`core/crates/node`](https://github.com/calimero-network/core/blob/master/crates/node) |
-| **Network** | libp2p P2P (Gossipsub, streams, DHT) | [`core/crates/network`](https://github.com/calimero-network/core/blob/master/crates/network) |
-| **Server** | JSON-RPC API, WebSocket/SSE | [`core/crates/server`](https://github.com/calimero-network/core/blob/master/crates/server) |
-| **merod** | Node binary (coordinator/peer) | [`core/crates/merod`](https://github.com/calimero-network/core/blob/master/crates/merod) |
-| **meroctl** | CLI for node operations | [`core/crates/meroctl`](https://github.com/calimero-network/core/blob/master/crates/meroctl) |
+| **SDK** | `#[app::state]`, `#[app::logic]`, CRDT collections, events | [`core/crates/sdk`](https://github.com/calimero-network/core/blob/master/crates/sdk){:target="_blank"} |
+| **Runtime** | WASM execution (Wasmer), sandboxing | [`core/crates/runtime`](https://github.com/calimero-network/core/blob/master/crates/runtime){:target="_blank"} |
+| **Storage** | CRDT collections, merge semantics | [`core/crates/storage`](https://github.com/calimero-network/core/blob/master/crates/storage){:target="_blank"} |
+| **DAG** | Causal delta tracking, dependency resolution | [`core/crates/dag`](https://github.com/calimero-network/core/blob/master/crates/dag){:target="_blank"} |
+| **Node** | NodeManager orchestrates sync, events, blobs | [`core/crates/node`](https://github.com/calimero-network/core/blob/master/crates/node){:target="_blank"} |
+| **Network** | libp2p P2P (Gossipsub, streams, DHT) | [`core/crates/network`](https://github.com/calimero-network/core/blob/master/crates/network){:target="_blank"} |
+| **Server** | JSON-RPC API, WebSocket/SSE | [`core/crates/server`](https://github.com/calimero-network/core/blob/master/crates/server){:target="_blank"} |
+| **merod** | Node binary (coordinator/peer) | [`core/crates/merod`](https://github.com/calimero-network/core/blob/master/crates/merod){:target="_blank"} |
+| **meroctl** | CLI for node operations | [`core/crates/meroctl`](https://github.com/calimero-network/core/blob/master/crates/meroctl){:target="_blank"} |
 
-See [`core/README.md`](https://github.com/calimero-network/core#readme) for complete architecture.
+See [`core/README.md`](https://github.com/calimero-network/core#readme){:target="_blank"} for complete architecture.
 
 ## Component Details
 
 For detailed information on each component, see their README files:
 
-- **SDK**: [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md) - Macros, CRDTs, events
-- **Runtime**: [`core/crates/runtime/README.md`](https://github.com/calimero-network/core/blob/master/crates/runtime/README.md) - WASM execution, sandboxing
-- **Storage**: [`core/crates/storage/README.md`](https://github.com/calimero-network/core/blob/master/crates/storage/README.md) - CRDT collections, merging
-- **DAG**: [`core/crates/dag/README.md`](https://github.com/calimero-network/core/blob/master/crates/dag/README.md) - Causal ordering, dependency resolution
-- **Node**: [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md) - NodeManager, sync, events
-- **Network**: [`core/crates/network/README.md`](https://github.com/calimero-network/core/blob/master/crates/network/README.md) - libp2p, Gossipsub, P2P
-- **Server**: [`core/crates/server/README.md`](https://github.com/calimero-network/core/blob/master/crates/server/README.md) - JSON-RPC, WebSocket, SSE
+- **SDK**: [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md){:target="_blank"} - Macros, CRDTs, events
+- **Runtime**: [`core/crates/runtime/README.md`](https://github.com/calimero-network/core/blob/master/crates/runtime/README.md){:target="_blank"} - WASM execution, sandboxing
+- **Storage**: [`core/crates/storage/README.md`](https://github.com/calimero-network/core/blob/master/crates/storage/README.md){:target="_blank"} - CRDT collections, merging
+- **DAG**: [`core/crates/dag/README.md`](https://github.com/calimero-network/core/blob/master/crates/dag/README.md){:target="_blank"} - Causal ordering, dependency resolution
+- **Node**: [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md){:target="_blank"} - NodeManager, sync, events
+- **Network**: [`core/crates/network/README.md`](https://github.com/calimero-network/core/blob/master/crates/network/README.md){:target="_blank"} - libp2p, Gossipsub, P2P
+- **Server**: [`core/crates/server/README.md`](https://github.com/calimero-network/core/blob/master/crates/server/README.md){:target="_blank"} - JSON-RPC, WebSocket, SSE
 
 ## Deep Dives
 
 For detailed architecture information:
 
-- **DAG Logic**: [`core/crates/dag/README.md`](https://github.com/calimero-network/core/blob/master/crates/dag/README.md) - Causal ordering algorithms
-- **Node Architecture**: [`core/crates/node/readme/architecture.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/architecture.md) - Complete system design
-- **Sync Protocol**: [`core/crates/node/readme/sync-protocol.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/sync-protocol.md) - Delta propagation details
-- **Storage**: [`core/crates/storage/README.md`](https://github.com/calimero-network/core/blob/master/crates/storage/README.md) - CRDT types and merge semantics
-- **Network**: [`core/crates/network/README.md`](https://github.com/calimero-network/core/blob/master/crates/network/README.md) - P2P protocols and configuration
+- **DAG Logic**: [`core/crates/dag/README.md`](https://github.com/calimero-network/core/blob/master/crates/dag/README.md){:target="_blank"} - Causal ordering algorithms
+- **Node Architecture**: [`core/crates/node/readme/architecture.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/architecture.md){:target="_blank"} - Complete system design
+- **Sync Protocol**: [`core/crates/node/readme/sync-protocol.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/sync-protocol.md){:target="_blank"} - Delta propagation details
+- **Storage**: [`core/crates/storage/README.md`](https://github.com/calimero-network/core/blob/master/crates/storage/README.md){:target="_blank"} - CRDT types and merge semantics
+- **Network**: [`core/crates/network/README.md`](https://github.com/calimero-network/core/blob/master/crates/network/README.md){:target="_blank"} - P2P protocols and configuration
 
 ---
 

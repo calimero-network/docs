@@ -59,10 +59,10 @@ See [Example Applications](../examples/index.md) for working implementations.
 
 | If you are… | Start here |
 | --- | --- |
-| **Building apps** | [Getting Started](../getting-started/index.md) → [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md) |
-| **Running nodes** | [Run a Local Network](../operator-track/run-a-local-network.md) → [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md) |
-| **Understanding sync** | [Architecture Overview](../core-concepts/architecture.md) → [`core/crates/dag/README.md`](https://github.com/calimero-network/core/blob/master/crates/dag/README.md) |
-| **Debugging issues** | [Monitor & Debug](../operator-track/monitor-and-debug.md) → [`core/crates/node/readme/troubleshooting.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/troubleshooting.md) |
+| **Building apps** | [Getting Started](../getting-started/index.md) → [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md){:target="_blank"} |
+| **Running nodes** | [Run a Local Network](../operator-track/run-a-local-network.md) → [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md){:target="_blank"} |
+| **Understanding sync** | [Architecture Overview](../core-concepts/architecture.md) → [`core/crates/dag/README.md`](https://github.com/calimero-network/core/blob/master/crates/dag/README.md){:target="_blank"} |
+| **Debugging issues** | [Monitor & Debug](../operator-track/monitor-and-debug.md) → [`core/crates/node/readme/troubleshooting.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/troubleshooting.md){:target="_blank"} |
 
 ## Core Architecture Layers
 
@@ -73,7 +73,7 @@ Calimero's architecture consists of four main layers:
 - CRDT collections: `UnorderedMap`, `Vector`, `Counter`, `LwwRegister`
 - Event emission for real-time updates
 
-**Documentation**: [Applications](../core-concepts/applications.md) → [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md)
+**Documentation**: [Applications](../core-concepts/applications.md) → [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md){:target="_blank"}
 
 ### 2. Node Layer
 - Orchestrates synchronization and execution
@@ -81,7 +81,7 @@ Calimero's architecture consists of four main layers:
 - Event handler execution across the network
 - Blob distribution for file sharing
 
-**Documentation**: [Nodes](../core-concepts/nodes.md) → [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md)
+**Documentation**: [Nodes](../core-concepts/nodes.md) → [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md){:target="_blank"}
 
 ### 3. Storage Layer
 - CRDT storage with automatic merging
@@ -89,7 +89,7 @@ Calimero's architecture consists of four main layers:
 - Handles out-of-order delivery with dependency resolution
 - [Merkle trees](https://en.wikipedia.org/wiki/Merkle_tree){:target="_blank"} for efficient state comparison
 
-**Documentation**: [Architecture Overview](../core-concepts/architecture.md) → [`core/crates/storage/README.md`](https://github.com/calimero-network/core/blob/master/crates/storage/README.md)
+**Documentation**: [Architecture Overview](../core-concepts/architecture.md) → [`core/crates/storage/README.md`](https://github.com/calimero-network/core/blob/master/crates/storage/README.md){:target="_blank"}
 
 ### 4. Network Layer
 - libp2p-based P2P (Gossipsub, reliable streams, DHT discovery)
@@ -97,7 +97,7 @@ Calimero's architecture consists of four main layers:
 - [WebSocket](https://en.wikipedia.org/wiki/WebSocket){:target="_blank"}/[SSE](https://en.wikipedia.org/wiki/Server-sent_events){:target="_blank"} for real-time subscriptions
 - Authentication and authorization
 
-**Documentation**: [Reference](../reference/index.md) → [`core/crates/network/README.md`](https://github.com/calimero-network/core/blob/master/crates/network/README.md)
+**Documentation**: [Reference](../reference/index.md) → [`core/crates/network/README.md`](https://github.com/calimero-network/core/blob/master/crates/network/README.md){:target="_blank"}
 
 ## How It Works (Transaction Flow)
 

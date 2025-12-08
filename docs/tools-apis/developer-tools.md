@@ -461,7 +461,7 @@ pnpm dev
 
 ### What Gets Generated
 
-The tool clones the [`calimero-network/kv-store`](https://github.com/calimero-network/kv-store) repository and copies:
+The tool clones the [`calimero-network/kv-store`](https://github.com/calimero-network/kv-store){:target="_blank"} repository and copies:
 
 - **Rust Application** (`logic/`) - WASM application with CRDT state
 - **React Frontend** (`app/`) - React application with TypeScript

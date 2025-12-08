@@ -31,7 +31,7 @@ flowchart LR
 
 ### 1. Creation
 
-A context is created when an application is installed. See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/blob/master/crates/meroctl/README.md) for CLI details.
+A context is created when an application is installed. See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/blob/master/crates/meroctl/README.md){:target="_blank"} for CLI details.
 
 **What happens:**
 - Application WASM is installed on the node
@@ -103,7 +103,7 @@ flowchart LR
 - **Private Storage**: Node-local data that never leaves the executing node
 - **Complete Isolation**: Context A cannot access Context B's state
 
-See [`core/crates/storage/README.md`](https://github.com/calimero-network/core/blob/master/crates/storage/README.md) for CRDT implementation details.
+See [`core/crates/storage/README.md`](https://github.com/calimero-network/core/blob/master/crates/storage/README.md){:target="_blank"} for CRDT implementation details.
 
 ## Multi-Chain Integration
 
@@ -138,7 +138,7 @@ meroctl call --context-id <CONTEXT_ID> --method add_item --args '{"key": "hello"
 - Use `subscribe` method with `context_id` and `event_type`
 - See [API Reference](../reference/index.md) for details
 
-See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/blob/master/crates/meroctl/README.md) for complete CLI documentation.
+See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/blob/master/crates/meroctl/README.md){:target="_blank"} for complete CLI documentation.
 
 ## Context Management
 
@@ -165,9 +165,9 @@ Revoking access removes the member but preserves state history.
 
 For detailed context documentation:
 
-- **Context Management**: [`core/crates/context/README.md`](https://github.com/calimero-network/core/blob/master/crates/context/README.md) - Lifecycle and operations
+- **Context Management**: [`core/crates/context/README.md`](https://github.com/calimero-network/core/blob/master/crates/context/README.md){:target="_blank"} - Lifecycle and operations
 - **Identity & Permissions**: [Identity](identity.md) - Cryptographic identities and access control
-- **Merobox Workflows**: [`merobox` README](https://github.com/calimero-network/merobox#readme) - Automated context creation and management
+- **Merobox Workflows**: [`merobox` README](https://github.com/calimero-network/merobox#readme){:target="_blank"} - Automated context creation and management
 
 ## Related Topics
 

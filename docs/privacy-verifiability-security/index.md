@@ -44,10 +44,10 @@ Calimero is a component of a broader **privacy-oriented architecture** — modul
 
 | Topic | Reference | Why it matters |
 | --- | --- | --- |
-| Runtime architecture & security model | [`calimero-network/core` – Architecture](https://github.com/calimero-network/core#architecture) | Details on `merod`, networking layers, and verification primitives |
-| Identity delegation & permissions | [`calimero-network/contracts` – Identity module](https://github.com/calimero-network/contracts/blob/main/README.mdx#identity-module) | How root/client keys, invites, and revocations are enforced |
-| Context lifecycle & admin API | [`calimero-network/merobox` – Workflows](https://github.com/calimero-network/merobox#workflows) | Managing contexts, capturing Application IDs, production rollouts |
-| Authentication adapters & wallet flows | [`calimero-network/core/apps/auth`](https://github.com/calimero-network/core/tree/main/apps/auth#readme) | Challenge/response flows for NEAR, Ethereum, Starknet, ICP |
-| Advanced cryptography experiments | [`calimero-network/experiments/mpc-signer`](https://github.com/calimero-network/experiments/tree/main/mpc-signer#readme) | Threshold signing, multi-party custody, and ZK experiments |
+| Runtime architecture & security model | [`calimero-network/core` – Architecture](https://github.com/calimero-network/core#architecture){:target="_blank"} | Details on `merod`, networking layers, and verification primitives |
+| Identity delegation & permissions | [`calimero-network/contracts` – Identity module](https://github.com/calimero-network/contracts/blob/main/README.mdx#identity-module){:target="_blank"} | How root/client keys, invites, and revocations are enforced |
+| Context lifecycle & admin API | [`calimero-network/merobox` – Workflows](https://github.com/calimero-network/merobox#workflows){:target="_blank"} | Managing contexts, capturing Application IDs, production rollouts |
+| Authentication adapters & wallet flows | [`calimero-network/core/apps/auth`](https://github.com/calimero-network/core/tree/main/apps/auth#readme){:target="_blank"} | Challenge/response flows for NEAR, Ethereum, Starknet, ICP |
+| Advanced cryptography experiments | [`calimero-network/experiments/mpc-signer`](https://github.com/calimero-network/experiments/tree/main/mpc-signer#readme){:target="_blank"} | Threshold signing, multi-party custody, and ZK experiments |
 
 _This page stays high-level. For full setup steps, audit procedures, and API details, follow the linked READMEs._

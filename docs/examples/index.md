@@ -6,7 +6,7 @@ Learn Calimero by exploring working examples. All examples include source code, 
 
 **[Core Apps Examples](core-apps-examples.md)** — Reference implementations from `core/apps` demonstrating SDK patterns and CRDT usage.
 
-These examples live in [`calimero-network/core/apps`](https://github.com/calimero-network/core/tree/master/apps):
+These examples live in [`calimero-network/core/apps`](https://github.com/calimero-network/core/tree/master/apps){:target="_blank"}:
 
 - **kv-store** - Basic CRDT operations, key-value storage
 - **blobs** - File/blob management with content addressing
@@ -26,8 +26,8 @@ meroctl --node node1 app install --path build/kv_store.wasm
 
 For complete applications, see:
 
-- **Battleships** - Multiplayer game - [`battleships`](https://github.com/calimero-network/battleships) repository
-- **Shared Todo** - Collaborative task list - [`shared-todo-backlog`](https://github.com/calimero-network/shared-todo-backlog) repository
+- **Battleships** - Multiplayer game - [`battleships`](https://github.com/calimero-network/battleships){:target="_blank"} repository
+- **Shared Todo** - Collaborative task list - [`shared-todo-backlog`](https://github.com/calimero-network/shared-todo-backlog){:target="_blank"} repository
 - **KV Store** - Template app - Created via `npx create-mero-app`
 
 ## By Complexity

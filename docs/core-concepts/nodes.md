@@ -52,7 +52,7 @@ flowchart LR
 - **NodeManagers**: BlobManager (content storage), SyncManager (periodic sync)
 - **NodeState**: Blob cache, delta stores per context
 
-See [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md) for detailed architecture.
+See [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md){:target="_blank"} for detailed architecture.
 
 ## Synchronization
 
@@ -77,7 +77,7 @@ Content-addressed blob storage:
 - P2P distribution via streams
 - Periodic garbage collection
 
-See [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md) for blob management details.
+See [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md){:target="_blank"} for blob management details.
 
 ## Admin Surfaces
 
@@ -96,7 +96,7 @@ See [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob
 - Node administration, context management, identity operations
 - JWT token authentication
 
-See [`core/crates/server/README.md`](https://github.com/calimero-network/core/blob/master/crates/server/README.md) for API details.
+See [`core/crates/server/README.md`](https://github.com/calimero-network/core/blob/master/crates/server/README.md){:target="_blank"} for API details.
 
 ## Monitoring & Debugging
 
@@ -120,10 +120,10 @@ Nodes can be configured via:
 
 For detailed node documentation:
 
-- **Node Architecture**: [`core/crates/node/readme/architecture.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/architecture.md) - Complete system design
-- **Sync Configuration**: [`core/crates/node/readme/sync-configuration.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/sync-configuration.md) - Tuning parameters
-- **Event Handling**: [`core/crates/node/readme/event-handling.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/event-handling.md) - Event flow and handlers
-- **Troubleshooting**: [`core/crates/node/readme/troubleshooting.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/troubleshooting.md) - Common issues
+- **Node Architecture**: [`core/crates/node/readme/architecture.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/architecture.md){:target="_blank"} - Complete system design
+- **Sync Configuration**: [`core/crates/node/readme/sync-configuration.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/sync-configuration.md){:target="_blank"} - Tuning parameters
+- **Event Handling**: [`core/crates/node/readme/event-handling.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/event-handling.md){:target="_blank"} - Event flow and handlers
+- **Troubleshooting**: [`core/crates/node/readme/troubleshooting.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/troubleshooting.md){:target="_blank"} - Common issues
 
 ## Related Topics
 

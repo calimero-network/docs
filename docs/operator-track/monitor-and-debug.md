@@ -53,7 +53,7 @@ docker logs calimero-node-1 --follow
 
 ## Troubleshooting
 
-See [`core/crates/node/readme/troubleshooting.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/troubleshooting.md) for:
+See [`core/crates/node/readme/troubleshooting.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/troubleshooting.md){:target="_blank"} for:
 - Common issues and solutions
 - Performance tuning
 - Network problems
@@ -65,4 +65,4 @@ Nodes expose metrics at:
 - **Admin API**: `http://localhost:2528/admin-api/metrics`
 - **Prometheus**: Configure in node settings
 
-See [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md) for monitoring configuration.
+See [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md){:target="_blank"} for monitoring configuration.

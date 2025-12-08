@@ -311,7 +311,7 @@ meroctl --node node1 context ls
 
 For detailed CLI documentation:
 
-- **Source Code**: [`core/crates/meroctl`](https://github.com/calimero-network/core/tree/master/crates/meroctl) - Full implementation
+- **Source Code**: [`core/crates/meroctl`](https://github.com/calimero-network/core/tree/master/crates/meroctl){:target="_blank"} - Full implementation
 - **Examples**: See `EXAMPLES` constants in source files for more usage patterns
 
 ## Related Topics

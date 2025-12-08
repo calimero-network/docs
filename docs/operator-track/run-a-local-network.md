@@ -4,7 +4,7 @@ Quick guide to running Calimero nodes locally for development and testing.
 
 ## Using Merobox (Recommended)
 
-Merobox is the easiest way to run local networks. See [`merobox/README.md`](https://github.com/calimero-network/merobox#readme) for complete documentation.
+Merobox is the easiest way to run local networks. See [`merobox/README.md`](https://github.com/calimero-network/merobox#readme){:target="_blank"} for complete documentation.
 
 **Quick start:**
 ```bash

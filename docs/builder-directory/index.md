@@ -75,12 +75,12 @@ Keep this loop handy; the walkthrough below explains each step in detail and sho
 
 ## The AI-Assisted Path (Walkthrough)
 
-This walkthrough uses **Cursor** (an AI-powered IDE) to build a complete Calimero application. We'll use the [Battleships game](https://github.com/calimero-network/battleships) as our example to show you exactly what happens at each step.
+This walkthrough uses **Cursor** (an AI-powered IDE) to build a complete Calimero application. We'll use the [Battleships game](https://github.com/calimero-network/battleships){:target="_blank"} as our example to show you exactly what happens at each step.
 
 ### Prerequisites
 
-1. **Install Cursor** - [Download here](https://cursor.sh)
-2. **Install Docker** - [Download here](https://www.docker.com/products/docker-desktop) (required for `merobox`)
+1. **Install Cursor** - [Download here](https://cursor.sh){:target="_blank"}
+2. **Install Docker** - [Download here](https://www.docker.com/products/docker-desktop){:target="_blank"} (required for `merobox`)
 3. **Have an idea** - Know what you want to build (or follow along with Battleships)
 4. **Basic familiarity** - Know JavaScript/TypeScript and have seen Rust (don't need to be an expert)
 
@@ -990,7 +990,7 @@ By following this walkthrough (or just reading it), you now understand:
 
 ### Do I need to be a Rust expert?
 
-No. The AI generates idiomatic Rust, and you can mostly work in JavaScript. But basic Rust familiarity helps - consider the [Rust Book](https://doc.rust-lang.org/book/) for fundamentals.
+No. The AI generates idiomatic Rust, and you can mostly work in JavaScript. But basic Rust familiarity helps - consider the [Rust Book](https://doc.rust-lang.org/book/){:target="_blank"} for fundamentals.
 
 ### Can I use a different frontend framework?
 

@@ -210,7 +210,7 @@ See workflow in [`workflows/example.yml`](https://github.com/calimero-network/co
 
 ## team-metrics
 
-**Location**: [`core/apps/team-metrics-macro`](https://github.com/calimero-network/core/tree/master/apps/team-metrics-macro) and [`core/apps/team-metrics-custom`](https://github.com/calimero-network/core/tree/master/apps/team-metrics-custom)
+**Location**: [`core/apps/team-metrics-macro`](https://github.com/calimero-network/core/tree/master/apps/team-metrics-macro){:target="_blank"} and [`core/apps/team-metrics-custom`](https://github.com/calimero-network/core/tree/master/apps/team-metrics-custom){:target="_blank"}
 
 **What it does:**
 Demonstrates nested CRDT structures for team metrics tracking.

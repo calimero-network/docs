@@ -32,15 +32,15 @@ Most endpoints require JWT authentication. See [Identity](../core-concepts/ident
 
 For complete API documentation, including all methods, request/response formats, and error codes:
 
-**→ [`core/crates/server/README.md`](https://github.com/calimero-network/core/blob/master/crates/server/README.md)**
+**→ [`core/crates/server/README.md`](https://github.com/calimero-network/core/blob/master/crates/server/README.md){:target="_blank"}**
 
 ## Client SDKs
 
 For easier client development, use the official SDKs:
 
-- **JavaScript/TypeScript**: [`@calimero/client`](https://github.com/calimero-network/calimero-client-js) - See [Client SDKs](../tools-apis/client-sdks.md)
-- **Python**: [`calimero-client-py`](https://github.com/calimero-network/calimero-client-py) - See [Client SDKs](../tools-apis/client-sdks.md)
-- **Rust**: [`core/crates/client`](https://github.com/calimero-network/core/blob/master/crates/client/README.md)
+- **JavaScript/TypeScript**: [`@calimero/client`](https://github.com/calimero-network/calimero-client-js){:target="_blank"} - See [Client SDKs](../tools-apis/client-sdks.md)
+- **Python**: [`calimero-client-py`](https://github.com/calimero-network/calimero-client-py){:target="_blank"} - See [Client SDKs](../tools-apis/client-sdks.md)
+- **Rust**: [`core/crates/client`](https://github.com/calimero-network/core/blob/master/crates/client/README.md){:target="_blank"}
 
 ## CLI Reference
 
