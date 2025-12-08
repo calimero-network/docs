@@ -353,4 +353,10 @@ blockquote {
   display: none;
 }
 
+/* Hide "Made with Material for MkDocs" footer text but keep social links */
+.md-copyright {
+  opacity: 0;
+  pointer-events: none;
+}
+
 

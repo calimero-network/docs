@@ -147,9 +147,9 @@ nav:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/calimero-network/docs
-    - icon: fontawesome/brands/twitter
-      link: https://twitter.com/CalimeroNetwork
+      link: https://github.com/calimero-network
+    - icon: fontawesome/brands/x-twitter
+      link: https://x.com/CalimeroNetwork
     - icon: fontawesome/solid/globe
       link: https://calimero.network
 
