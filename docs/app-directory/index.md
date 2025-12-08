@@ -5,7 +5,7 @@ The App Directory showcases existing **Calimero applications** that you can depl
 ## Getting Started
 
 You can browse available apps directly from the **Calimero Application Registry**:
-👉 [Calimero App Registry](https://github.com/calimero-network/apps)
+👉 [Calimero App Registry](https://github.com/calimero-network/app-registry){:target="_blank"}
 
 To get started:
 
@@ -17,9 +17,9 @@ More detailed guides and configuration examples will be added here soon.
 
 ## Featured Projects
 
-- `Battleships` — Turn-based multiplayer with private boards and Merobox workflows. [Repo README](https://github.com/calimero-network/battleships#readme)
-- `Shared Todo Backlog` — Collaborative backlog with CRDT sync patterns. [Repo README](https://github.com/calimero-network/shared-todo-backlog#readme)
-- `Split Bills` — Expense sharing with delegation flows and settlement patterns. [Repo README](https://github.com/calimero-network/split-bills#readme)
-- `KV Store` — Minimal read/write example ideal for first integrations. [Repo README](https://github.com/calimero-network/kv-store#readme)
-- `Demo Blob App` — File-style payload handling plus frontend wiring. [Repo README](https://github.com/calimero-network/demo-blob-app#readme)
-- `Calimero Curb Chat` — Rich messaging UI with cross-device workflows. [Repo README](https://github.com/calimero-network/calimero-curb-chat#readme)
+- `Battleships` — Turn-based multiplayer with private boards and Merobox workflows. [Repo README](https://github.com/calimero-network/battleships#readme){:target="_blank"}
+- `Shared Todo Backlog` — Collaborative backlog with CRDT sync patterns. [Repo README](https://github.com/calimero-network/shared-todo-backlog#readme){:target="_blank"}
+- `Split Bills` — Expense sharing with delegation flows and settlement patterns. [Repo README](https://github.com/calimero-network/split-bills#readme){:target="_blank"}
+- `KV Store` — Minimal read/write example ideal for first integrations. [Repo README](https://github.com/calimero-network/kv-store#readme){:target="_blank"}
+- `Demo Blob App` — File-style payload handling plus frontend wiring. [Repo README](https://github.com/calimero-network/demo-blob-app#readme){:target="_blank"}
+- `Calimero Curb Chat` — Rich messaging UI with cross-device workflows. [Repo README](https://github.com/calimero-network/calimero-curb-chat#readme){:target="_blank"}

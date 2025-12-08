@@ -216,9 +216,9 @@ def test_my_app(calimero_cluster):
 
 ### Related Documentation
 
-- **Repository**: [`calimero-network/merobox`](https://github.com/calimero-network/merobox)
-- **PyPI Package**: [`merobox`](https://pypi.org/project/merobox/)
-- **README**: [`merobox/README.md`](https://github.com/calimero-network/merobox/blob/master/README.md)
+- **Repository**: [`calimero-network/merobox`](https://github.com/calimero-network/merobox){:target="_blank"}
+- **PyPI Package**: [`merobox`](https://pypi.org/project/merobox/){:target="_blank"}
+- **README**: [`merobox/README.md`](https://github.com/calimero-network/merobox/blob/master/README.md){:target="_blank"}
 
 ## ABI Codegen
 
@@ -413,9 +413,9 @@ Add to your `package.json`:
 
 ### Related Documentation
 
-- **Repository**: [`calimero-network/mero-devtools-js`](https://github.com/calimero-network/mero-devtools-js)
-- **NPM Package**: [`@calimero-network/abi-codegen`](https://www.npmjs.com/package/@calimero-network/abi-codegen)
-- **README**: [`mero-devtools-js/README.md`](https://github.com/calimero-network/mero-devtools-js/blob/master/README.md)
+- **Repository**: [`calimero-network/mero-devtools-js`](https://github.com/calimero-network/mero-devtools-js){:target="_blank"}
+- **NPM Package**: [`@calimero-network/abi-codegen`](https://www.npmjs.com/package/@calimero-network/abi-codegen){:target="_blank"}
+- **README**: [`mero-devtools-js/README.md`](https://github.com/calimero-network/mero-devtools-js/blob/master/README.md){:target="_blank"}
 
 ## create-mero-app
 
@@ -519,10 +519,10 @@ After scaffolding, customize your app:
 
 ### Related Documentation
 
-- **Repository**: [`calimero-network/mero-devtools-js`](https://github.com/calimero-network/mero-devtools-js)
-- **NPM Package**: [`create-mero-app`](https://www.npmjs.com/package/create-mero-app)
-- **README**: [`mero-devtools-js/create-mero-app/README.md`](https://github.com/calimero-network/mero-devtools-js/blob/master/create-mero-app/README.md)
-- **kv-store Example**: [`calimero-network/kv-store`](https://github.com/calimero-network/kv-store)
+- **Repository**: [`calimero-network/mero-devtools-js`](https://github.com/calimero-network/mero-devtools-js){:target="_blank"}
+- **NPM Package**: [`create-mero-app`](https://www.npmjs.com/package/create-mero-app){:target="_blank"}
+- **README**: [`mero-devtools-js/create-mero-app/README.md`](https://github.com/calimero-network/mero-devtools-js/blob/master/create-mero-app/README.md){:target="_blank"}
+- **kv-store Example**: [`calimero-network/kv-store`](https://github.com/calimero-network/kv-store){:target="_blank"}
 
 ## Complete Development Workflow
 

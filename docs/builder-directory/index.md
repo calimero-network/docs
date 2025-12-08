@@ -8,11 +8,11 @@ Before we dive in, here are the tools we'll be using:
 
 ### Core Tools
 
-- **`merod`** - The runtime that executes your Calimero applications. [Source code](https://github.com/calimero-network/core)
+- **`merod`** - The runtime that executes your Calimero applications. [Source code](https://github.com/calimero-network/core){:target="_blank"}
 
-- **`merobox`** - Docker orchestration tool that makes it trivial to spin up local Calimero nodes (`merod` instances). [Source code](https://github.com/calimero-network/merobox)
+- **`merobox`** - Docker orchestration tool that makes it trivial to spin up local Calimero nodes (`merod` instances). [Source code](https://github.com/calimero-network/merobox){:target="_blank"}
 
-- **`mero-devtools-js`** - JavaScript wrappers for Calimero tooling to keep your development workflow simple and consistent. [Source code](https://github.com/calimero-network/mero-devtools-js)
+- **`mero-devtools-js`** - JavaScript wrappers for Calimero tooling to keep your development workflow simple and consistent. [Source code](https://github.com/calimero-network/mero-devtools-js){:target="_blank"}
 
 - **`@calimero-network/abi-codegen`** - Generates TypeScript clients from your Rust backend, keeping frontend/backend in sync.
 
@@ -89,7 +89,7 @@ This walkthrough uses **Cursor** (an AI-powered IDE) to build a complete Calimer
 The key to AI-assisted development is giving the AI the right context. We've created a specialized prompt that teaches the AI about Calimero development patterns.
 
 **Access the prompt:**  
-[Calimero Bootstrap Prompt](https://gist.github.com/antonpaisov/270d609b43798a926f1755e4036319f5)
+[Calimero Bootstrap Prompt](https://gist.github.com/antonpaisov/270d609b43798a926f1755e4036319f5){:target="_blank"}
 
 **In Cursor:**
 
@@ -1021,7 +1021,7 @@ mod tests {
 
 ### Can I see the full Battleships code?
 
-Yes! [github.com/calimero-network/battleships](https://github.com/calimero-network/battleships)
+Yes! [github.com/calimero-network/battleships](https://github.com/calimero-network/battleships){:target="_blank"}
 
 ### Is this production-ready?
 
