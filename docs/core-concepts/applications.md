@@ -146,7 +146,7 @@ Applications export an ABI (Application Binary Interface) that clients use:
 
 Tools:
 - **`calimero-abi`**: Rust tool for ABI generation
-- **`@calimero/abi-codegen`**: TypeScript client generator
+- **`@calimero-network/abi-codegen`**: TypeScript client generator
 
 ## Example Applications
 

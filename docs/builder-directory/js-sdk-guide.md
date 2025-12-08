@@ -8,8 +8,8 @@ Build Calimero services using **TypeScript/JavaScript**. The JavaScript SDK comp
 
 The JavaScript SDK (`calimero-sdk-js`) consists of two main packages:
 
-- **`@calimero/sdk`** - Decorators, CRDT collections, event system, and environment bindings
-- **`@calimero/cli`** - Build toolchain (Rollup → QuickJS → WASM)
+- **`@calimero-network/calimero-sdk-js`** - Decorators, CRDT collections, event system, and environment bindings
+- **`@calimero-network/calimero-cli-js`** - Build toolchain (Rollup → QuickJS → WASM)
 
 **Key features:**
 - Write services in TypeScript/JavaScript instead of Rust
@@ -69,16 +69,21 @@ flowchart LR
 ### Installation
 
 ```bash
-pnpm add @calimero/sdk
-pnpm add -D @calimero/cli typescript
+pnpm add @calimero-network/calimero-sdk-js
+pnpm add -D @calimero-network/calimero-cli-js typescript
 ```
+
+**NPM Resources:**
+
+- [calimero-sdk-js](https://www.npmjs.com/package/@calimero-network/calimero-sdk-js){:target="_blank"}
+- [calimero-cli-js](https://www.npmjs.com/package/@calimero-network/calimero-cli-js){:target="_blank"}
 
 ### Minimal Service
 
 ```typescript
-import { State, Logic, Init, View } from '@calimero/sdk';
-import { Counter } from '@calimero/sdk/collections';
-import * as env from '@calimero/sdk/env';
+import { State, Logic, Init, View } from '@calimero-network/calimero-sdk-js';
+import { Counter } from '@calimero-network/calimero-sdk-js/collections';
+import * as env from '@calimero-network/calimero-sdk-js/env';
 
 @State
 export class CounterApp {
@@ -135,8 +140,8 @@ meroctl --node node1 call \
 Marks a class as application state:
 
 ```typescript
-import { State } from '@calimero/sdk';
-import { UnorderedMap, Counter } from '@calimero/sdk/collections';
+import { State } from '@calimero-network/calimero-sdk-js';
+import { UnorderedMap, Counter } from '@calimero-network/calimero-sdk-js/collections';
 
 @State
 export class MyApp {
@@ -155,7 +160,7 @@ export class MyApp {
 Marks a class as application logic (methods):
 
 ```typescript
-import { Logic, Init } from '@calimero/sdk';
+import { Logic, Init } from '@calimero-network/calimero-sdk-js';
 
 @Logic(MyApp)
 export class MyAppLogic extends MyApp {
@@ -213,7 +218,7 @@ export class MyAppLogic extends MyApp {
 Marks event classes:
 
 ```typescript
-import { Event } from '@calimero/sdk';
+import { Event } from '@calimero-network/calimero-sdk-js';
 
 @Event
 export class ItemAdded {
@@ -253,7 +258,7 @@ The JavaScript SDK provides the same CRDT collections as the Rust SDK:
 Key-value storage with Last-Write-Wins conflict resolution:
 
 ```typescript
-import { UnorderedMap } from '@calimero/sdk/collections';
+import { UnorderedMap } from '@calimero-network/calimero-sdk-js/collections';
 
 const map = new UnorderedMap<string, string>();
 
@@ -283,7 +288,7 @@ const size = map.entries().length;
 Ordered list maintaining insertion order:
 
 ```typescript
-import { Vector } from '@calimero/sdk/collections';
+import { Vector } from '@calimero-network/calimero-sdk-js/collections';
 
 const vec = new Vector<string>();
 
@@ -306,7 +311,7 @@ const len = vec.len(); // number
 Distributed counter with automatic summation:
 
 ```typescript
-import { Counter } from '@calimero/sdk/collections';
+import { Counter } from '@calimero-network/calimero-sdk-js/collections';
 
 const counter = new Counter();
 
@@ -327,7 +332,7 @@ counter.decrementBy(2);
 Last-Write-Wins register for single values:
 
 ```typescript
-import { LwwRegister } from '@calimero/sdk/collections';
+import { LwwRegister } from '@calimero-network/calimero-sdk-js/collections';
 
 const register = new LwwRegister<string>();
 
@@ -346,7 +351,7 @@ const timestamp = register.timestamp(); // bigint
 Set with union-based merging:
 
 ```typescript
-import { UnorderedSet } from '@calimero/sdk/collections';
+import { UnorderedSet } from '@calimero-network/calimero-sdk-js/collections';
 
 const set = new UnorderedSet<string>();
 
@@ -409,7 +414,7 @@ if (metrics) {
 Emit events for real-time updates:
 
 ```typescript
-import { Event, emit, emitWithHandler } from '@calimero/sdk';
+import { Event, emit, emitWithHandler } from '@calimero-network/calimero-sdk-js';
 
 // Define event
 @Event
@@ -454,7 +459,7 @@ export class MyAppLogic extends MyApp {
 For node-local data (secrets, caches, per-node counters):
 
 ```typescript
-import { createPrivateEntry } from '@calimero/sdk';
+import { createPrivateEntry } from '@calimero-network/calimero-sdk-js';
 
 // Create private entry
 const secrets = createPrivateEntry<{ token: string }>('private:secrets');
@@ -488,8 +493,8 @@ cd my-calimero-service
 pnpm init
 
 # Install dependencies
-pnpm add @calimero/sdk
-pnpm add -D @calimero/cli typescript @types/node
+pnpm add @calimero-network/calimero-sdk-js
+pnpm add -D @calimero-network/calimero-cli-js typescript @types/node
 
 # Create TypeScript config
 cat > tsconfig.json << EOF
@@ -542,8 +547,8 @@ The CLI automatically handles:
 ### Pattern 1: Simple Key-Value Store
 
 ```typescript
-import { State, Logic, Init, View } from '@calimero/sdk';
-import { UnorderedMap, LwwRegister } from '@calimero/sdk/collections';
+import { State, Logic, Init, View } from '@calimero-network/calimero-sdk-js';
+import { UnorderedMap, LwwRegister } from '@calimero-network/calimero-sdk-js/collections';
 
 @State
 export class KvStore {
@@ -582,8 +587,8 @@ export class KvStoreLogic extends KvStore {
 ### Pattern 2: Metrics with Counters
 
 ```typescript
-import { State, Logic, Init, View } from '@calimero/sdk';
-import { UnorderedMap, Counter } from '@calimero/sdk/collections';
+import { State, Logic, Init, View } from '@calimero-network/calimero-sdk-js';
+import { UnorderedMap, Counter } from '@calimero-network/calimero-sdk-js/collections';
 
 @State
 export class Metrics {
@@ -618,9 +623,9 @@ export class MetricsLogic extends Metrics {
 ### Pattern 3: Event-Driven Updates
 
 ```typescript
-import { State, Logic, Init, Event, emitWithHandler } from '@calimero/sdk';
-import { UnorderedMap, Counter } from '@calimero/sdk/collections';
-import * as env from '@calimero/sdk/env';
+import { State, Logic, Init, Event, emitWithHandler } from '@calimero-network/calimero-sdk-js';
+import { UnorderedMap, Counter } from '@calimero-network/calimero-sdk-js/collections';
+import * as env from '@calimero-network/calimero-sdk-js/env';
 
 @Event
 export class ItemAdded {
