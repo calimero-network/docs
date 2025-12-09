@@ -412,9 +412,9 @@ calimero-abi extract \
 
 For detailed SDK documentation:
 
-- **Application SDK**: [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md) - Complete API reference
-- **Storage Collections**: [`core/crates/storage/README.md`](https://github.com/calimero-network/core/blob/master/crates/storage/README.md) - CRDT types and semantics
-- **Examples**: [`core/apps`](https://github.com/calimero-network/core/tree/master/apps) - Working application examples
+- **Application SDK**: [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md){:target="_blank"} - Complete API reference
+- **Storage Collections**: [`core/crates/storage/README.md`](https://github.com/calimero-network/core/blob/master/crates/storage/README.md){:target="_blank"} - CRDT types and semantics
+- **Examples**: [`core/apps`](https://github.com/calimero-network/core/tree/master/apps){:target="_blank"} - Working application examples
 
 ## Related Topics
 

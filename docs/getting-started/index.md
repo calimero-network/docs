@@ -17,10 +17,14 @@ Choose your path based on what you want to do:
 ### Prerequisites
 
 **Required:**
-- **Docker** 20.10+ (for running nodes)
-- **Python** 3.8+ (for merobox)
-- **Node.js** 18+ (for client SDKs and building JavaScript apps)
-- **Rust toolchain** (for building Rust applications)
+
+- **[Docker](https://www.docker.com/){:target="_blank"}** 20.10+ (for running nodes)
+
+- **[Python](https://www.python.org/){:target="_blank"}** 3.8+ (for merobox)
+
+- **[Node.js](https://nodejs.org/en){:target="_blank"}** 18+ (for client SDKs and building JavaScript apps)
+
+- **[Rust toolchain](https://rust-lang.org/tools/install/){:target="_blank"}** (for building Rust applications)
 
 **Optional:**
 - `merod` and `meroctl` (if building from source)
@@ -58,13 +62,19 @@ rustc --version
 
 ```bash
 # Install Calimero JavaScript SDK
-npm install @calimero/sdk @calimero/cli
+npm install @calimero-network/calimero-cli-js @calimero-network/calimero-sdk-js
 
 # Or with pnpm
-pnpm add @calimero/sdk @calimero/cli
+pnpm add @calimero-network/calimero-cli-js @calimero-network/calimero-sdk-js
 ```
 
-See [`merobox/README.md`](https://github.com/calimero-network/merobox#readme) for complete installation options.
+NPM resources:
+
+- [calimero-sdk-js](https://www.npmjs.com/package/@calimero-network/calimero-sdk-js){:target="_blank"}
+
+- [calimero-cli-js](https://www.npmjs.com/package/@calimero-network/calimero-cli-js){:target="_blank"}
+
+See [`merobox/README.md`](https://github.com/calimero-network/merobox#readme){:target="_blank"} for complete installation options.
 
 ## Step 2: Run a Local Network
 
@@ -223,7 +233,7 @@ See [Contexts](../core-concepts/contexts.md) for context management details.
 
 ### Core Examples
 
-Examples in [`core/apps`](https://github.com/calimero-network/core/tree/master/apps):
+Examples in [`core/apps`](https://github.com/calimero-network/core/tree/master/apps){:target="_blank"}:
 
 - **kv-store** - Simple key-value store (great for learning basics)
 - **blobs** - File/blob sharing with content addressing
@@ -273,10 +283,10 @@ See [Examples](../examples/index.md) for complete list.
 A: For local development, yes. Use `merobox` to run nodes locally. For production, you can use hosted nodes or run your own.
 
 **Q: Which language should I use?**  
-A: Applications can be written in Rust (compiled to WASM) or JavaScript/TypeScript (using `@calimero/sdk`). Clients can use JavaScript/TypeScript or Python.
+A: Applications can be written in Rust (compiled to WASM) or JavaScript/TypeScript (using `@calimero-network/calimero-sdk-js`). Clients can use JavaScript/TypeScript or Python.
 
 **Q: How do I handle authentication?**  
-A: Calimero supports wallet-based authentication (NEAR, Ethereum, ICP). See [Identity](../core-concepts/identity.md) and [Client SDKs](../tools-apis/client-sdks.md).
+A: Calimero supports NEAR wallet-based authentication. See [Identity](../core-concepts/identity.md) and [Client SDKs](../tools-apis/client-sdks.md).
 
 **Q: Can I use this offline?**  
 A: Yes! Calimero is offline-first. Apps work offline and sync when online.

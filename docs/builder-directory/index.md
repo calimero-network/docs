@@ -8,11 +8,11 @@ Before we dive in, here are the tools we'll be using:
 
 ### Core Tools
 
-- **`merod`** - The runtime that executes your Calimero applications. [Source code](https://github.com/calimero-network/core)
+- **`merod`** - The runtime that executes your Calimero applications. [Source code](https://github.com/calimero-network/core){:target="_blank"}
 
-- **`merobox`** - Docker orchestration tool that makes it trivial to spin up local Calimero nodes (`merod` instances). [Source code](https://github.com/calimero-network/merobox)
+- **`merobox`** - Docker orchestration tool that makes it trivial to spin up local Calimero nodes (`merod` instances). [Source code](https://github.com/calimero-network/merobox){:target="_blank"}
 
-- **`mero-devtools-js`** - JavaScript wrappers for Calimero tooling to keep your development workflow simple and consistent. [Source code](https://github.com/calimero-network/mero-devtools-js)
+- **`mero-devtools-js`** - JavaScript wrappers for Calimero tooling to keep your development workflow simple and consistent. [Source code](https://github.com/calimero-network/mero-devtools-js){:target="_blank"}
 
 - **`@calimero-network/abi-codegen`** - Generates TypeScript clients from your Rust backend, keeping frontend/backend in sync.
 
@@ -49,8 +49,6 @@ git clone https://github.com/calimero-network/battleships
 cd battleships
 pnpm install
 
-# Or explore other examples (coming soon)
-git clone https://github.com/calimero-network/awesome-apps
 ```
 
 **Time:** Variable  
@@ -75,12 +73,12 @@ Keep this loop handy; the walkthrough below explains each step in detail and sho
 
 ## The AI-Assisted Path (Walkthrough)
 
-This walkthrough uses **Cursor** (an AI-powered IDE) to build a complete Calimero application. We'll use the [Battleships game](https://github.com/calimero-network/battleships) as our example to show you exactly what happens at each step.
+This walkthrough uses **Cursor** (an AI-powered IDE) to build a complete Calimero application. We'll use the [Battleships game](https://github.com/calimero-network/battleships){:target="_blank"} as our example to show you exactly what happens at each step.
 
 ### Prerequisites
 
-1. **Install Cursor** - [Download here](https://cursor.sh)
-2. **Install Docker** - [Download here](https://www.docker.com/products/docker-desktop) (required for `merobox`)
+1. **Install Cursor** - [Download here](https://cursor.sh){:target="_blank"}
+2. **Install Docker** - [Download here](https://www.docker.com/products/docker-desktop){:target="_blank"} (required for `merobox`)
 3. **Have an idea** - Know what you want to build (or follow along with Battleships)
 4. **Basic familiarity** - Know JavaScript/TypeScript and have seen Rust (don't need to be an expert)
 
@@ -89,7 +87,7 @@ This walkthrough uses **Cursor** (an AI-powered IDE) to build a complete Calimer
 The key to AI-assisted development is giving the AI the right context. We've created a specialized prompt that teaches the AI about Calimero development patterns.
 
 **Access the prompt:**  
-[Calimero Bootstrap Prompt](https://gist.github.com/antonpaisov/270d609b43798a926f1755e4036319f5)
+[Calimero Bootstrap Prompt](https://gist.github.com/antonpaisov/270d609b43798a926f1755e4036319f5){:target="_blank"}
 
 **In Cursor:**
 
@@ -149,14 +147,14 @@ battleships/
 
 **Why this structure:**
 
-- `logic/` contains your Rust business logic compiled to WASM
+- `logic/` contains your Rust or TypeScript business logic compiled to WASM
 - `app/` is your React frontend that calls into the WASM
 - `workflows/` your local merobox configuration and workflow
 - `scripts/` automates building, deploying, and testing
 
 #### Phase 2: Domain Modeling (Rust Backend)
 
-The AI starts by modeling your domain in Rust. For Battleships, this means:
+The AI starts by modeling your domain in Rust or TypeScript. For Battleships, this means:
 
 **2.1 Core Types** (`board.rs`, `ships.rs`)
 
@@ -936,7 +934,7 @@ Now that it works, dig into what was created:
 **🔍 Things to notice:**
 
 - **Type safety everywhere** - Rust types flow to TypeScript
-- **Clear separation** - Logic in Rust, UI in React, network in YAML
+- **Clear separation** - Logic in Rust/TypeScript, UI in React, network in YAML
 - **No boilerplate** - `#[calimero::state]` and `#[calimero::logic]` do the heavy lifting
 - **Event-driven** - State changes emit events, frontend reacts
 
@@ -990,7 +988,7 @@ By following this walkthrough (or just reading it), you now understand:
 
 ### Do I need to be a Rust expert?
 
-No. The AI generates idiomatic Rust, and you can mostly work in JavaScript. But basic Rust familiarity helps - consider the [Rust Book](https://doc.rust-lang.org/book/) for fundamentals.
+No. The AI generates idiomatic Rust, and you can mostly work in JavaScript. But basic Rust familiarity helps - consider the [Rust Book](https://doc.rust-lang.org/book/){:target="_blank"} for fundamentals.
 
 ### Can I use a different frontend framework?
 
@@ -1021,7 +1019,7 @@ mod tests {
 
 ### Can I see the full Battleships code?
 
-Yes! [github.com/calimero-network/battleships](https://github.com/calimero-network/battleships)
+Yes! [github.com/calimero-network/battleships](https://github.com/calimero-network/battleships){:target="_blank"}
 
 ### Is this production-ready?
 

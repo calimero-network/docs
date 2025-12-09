@@ -6,12 +6,12 @@ Guidance for running and managing Calimero nodes in production.
 
 | Task | Guide | Repository Docs |
 | --- | --- | --- |
-| **Local Development** | [Run a Local Network](run-a-local-network.md) | [`merobox/README.md`](https://github.com/calimero-network/merobox#readme) |
-| **Monitoring** | [Monitor & Debug](monitor-and-debug.md) | [`core/crates/node/readme/troubleshooting.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/troubleshooting.md) |
+| **Local Development** | [Run a Local Network](run-a-local-network.md) | [`merobox/README.md`](https://github.com/calimero-network/merobox#readme){:target="_blank"} |
+| **Monitoring** | [Monitor & Debug](monitor-and-debug.md) | [`core/crates/node/readme/troubleshooting.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/troubleshooting.md){:target="_blank"} |
 
 ## Running Nodes
 
-For complete node documentation, see [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md).
+For complete node documentation, see [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob/master/crates/node/README.md){:target="_blank"}.
 
 **Quick start:**
 ```bash

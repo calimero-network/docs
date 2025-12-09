@@ -246,8 +246,8 @@ match client.list_contexts().await {
 
 ### Related Documentation
 
-- **Repository**: [`calimero-network/core/crates/client`](https://github.com/calimero-network/core/tree/master/crates/client)
-- **Source code**: [`core/crates/client/src`](https://github.com/calimero-network/core/tree/master/crates/client/src)
+- **Repository**: [`calimero-network/core/crates/client`](https://github.com/calimero-network/core/tree/master/crates/client){:target="_blank"}
+- **Source code**: [`core/crates/client/src`](https://github.com/calimero-network/core/tree/master/crates/client/src){:target="_blank"}
 
 ## Python Client SDK
 
@@ -424,9 +424,9 @@ python example_usage.py
 
 ### Related Documentation
 
-- **Repository**: [`calimero-network/calimero-client-py`](https://github.com/calimero-network/calimero-client-py)
-- **PyPI Package**: [`calimero-client-py`](https://pypi.org/project/calimero-client-py/)
-- **README**: [`calimero-client-py/README.md`](https://github.com/calimero-network/calimero-client-py/blob/master/README.md)
+- **Repository**: [`calimero-network/calimero-client-py`](https://github.com/calimero-network/calimero-client-py){:target="_blank"}
+- **PyPI Package**: [`calimero-client-py`](https://pypi.org/project/calimero-client-py/){:target="_blank"}
+- **README**: [`calimero-client-py/README.md`](https://github.com/calimero-network/calimero-client-py/blob/master/README.md){:target="_blank"}
 
 ## JavaScript Client SDK
 
@@ -513,7 +513,7 @@ function App() {
 The JavaScript client has **full authentication support** including:
 
 - **JWT token management** - Automatic token storage and refresh
-- **Wallet-based authentication** - Support for NEAR, Ethereum, and other wallets
+- **Wallet-based authentication** - Support for NEAR wallet
 - **React components** - Pre-built UI components (`ClientLogin`, `SetupModal`)
 - **Manual token handling** - Direct token management APIs
 
@@ -721,9 +721,9 @@ try {
 
 ### Related Documentation
 
-- **Repository**: [`calimero-network/calimero-client-js`](https://github.com/calimero-network/calimero-client-js)
-- **NPM Package**: [`@calimero-network/calimero-client`](https://www.npmjs.com/package/@calimero-network/calimero-client)
-- **README**: [`calimero-client-js/README.md`](https://github.com/calimero-network/calimero-client-js/blob/master/README.md)
+- **Repository**: [`calimero-network/calimero-client-js`](https://github.com/calimero-network/calimero-client-js){:target="_blank"}
+- **NPM Package**: [`@calimero-network/calimero-client`](https://www.npmjs.com/package/@calimero-network/calimero-client){:target="_blank"}
+- **README**: [`calimero-client-js/README.md`](https://github.com/calimero-network/calimero-client-js/blob/master/README.md){:target="_blank"}
 
 ## Comparison
 

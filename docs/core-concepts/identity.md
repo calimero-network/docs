@@ -29,7 +29,7 @@ flowchart LR
 
 A **root key** is the master identity for a user or node. It's typically:
 
-- Generated from a blockchain wallet (NEAR, Ethereum, etc.)
+- Generated from a NEAR wallet
 - Used for high-level operations (creating contexts, managing memberships)
 - Stored securely (hardware wallet, keychain, etc.)
 
@@ -54,7 +54,7 @@ Generate identities with `meroctl`:
 meroctl identity create --node node1
 ```
 
-See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/blob/master/crates/meroctl/README.md) for CLI details.
+See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/blob/master/crates/meroctl/README.md){:target="_blank"} for CLI details.
 
 ## Blockchain Wallet Integration
 
@@ -63,9 +63,7 @@ Calimero supports wallet-based authentication:
 | Protocol | Identity Source |
 | --- | --- |
 | **NEAR** | NEAR account ID + signature |
-| **Ethereum** | Ethereum address + signature |
-| **ICP** | ICP principal + signature |
-| **Stellar** | Stellar account + signature |
+
 
 **Flow:**
 1. User connects wallet
@@ -73,13 +71,13 @@ Calimero supports wallet-based authentication:
 3. Calimero verifies signature
 4. JWT token issued
 
-See [`calimero-client-js/README.md`](https://github.com/calimero-network/calimero-client-js#readme) for client authentication examples.
+See [`calimero-client-js/README.md`](https://github.com/calimero-network/calimero-client-js#readme){:target="_blank"} for client authentication examples.
 
 ## Authentication Flows
 
 For wallet authentication examples, see:
-- **JavaScript**: [`calimero-client-js/README.md`](https://github.com/calimero-network/calimero-client-js#readme) - Client-side auth flows
-- **Python**: [`calimero-client-py/README.md`](https://github.com/calimero-network/calimero-client-py#readme) - Python client auth
+- **JavaScript**: [`calimero-client-js/README.md`](https://github.com/calimero-network/calimero-client-js#readme){:target="_blank"} - Client-side auth flows
+- **Python**: [`calimero-client-py/README.md`](https://github.com/calimero-network/calimero-client-py#readme){:target="_blank"} - Python client auth
 
 ## JWT Tokens
 
@@ -92,7 +90,7 @@ After authentication, Calimero issues JWT tokens containing:
 **Usage:**
 - Include in API requests: `Authorization: Bearer <token>`
 - Tokens expire and can be refreshed
-- See [`core/crates/auth/README.md`](https://github.com/calimero-network/core/blob/master/crates/auth/README.md) for details
+- See [`core/crates/auth/README.md`](https://github.com/calimero-network/core/blob/master/crates/auth/README.md){:target="_blank"} for details
 
 ## Key Management
 
@@ -106,7 +104,7 @@ After authentication, Calimero issues JWT tokens containing:
 meroctl context revoke --context-id <CONTEXT_ID> --member-id <PUBLIC_KEY>
 ```
 
-See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/blob/master/crates/meroctl/README.md) for key management commands.
+See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/blob/master/crates/meroctl/README.md){:target="_blank"} for key management commands.
 
 **What happens:**
 - Key is removed from context membership
@@ -131,9 +129,6 @@ import { ClientLogin } from '@calimero-network/calimero-client';
 
 **Supported wallets:**
 - NEAR Wallet
-- MetaMask (Ethereum)
-- WalletConnect
-- Internet Identity (ICP)
 
 ### Python Client
 
@@ -144,7 +139,7 @@ from calimero_client_py import create_connection, AuthMode
 connection = create_connection(
     base_url="https://node.calimero.network",
     auth_mode=AuthMode.WALLET,
-    wallet_type="near"  # or "ethereum", "icp"
+    wallet_type="near"
 )
 ```
 
@@ -160,8 +155,8 @@ connection = create_connection(
 
 For detailed identity documentation:
 
-- **Identity Contracts**: [`contracts` README](https://github.com/calimero-network/contracts#readme) - Smart contract implementations
-- **Auth Service**: [`core/crates/auth/README.md`](https://github.com/calimero-network/core/blob/master/crates/auth/README.md) - Authentication service
+- **Identity Contracts**: [`contracts` README](https://github.com/calimero-network/contracts#readme){:target="_blank"} - Smart contract implementations
+- **Auth Service**: [`core/crates/auth/README.md`](https://github.com/calimero-network/core/blob/master/crates/auth/README.md){:target="_blank"} - Authentication service
 - **Client SDKs**: [Tools & APIs](../tools-apis/index.md) - Wallet integration guides
 
 ## Related Topics

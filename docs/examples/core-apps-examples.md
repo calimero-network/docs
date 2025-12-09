@@ -17,7 +17,7 @@ The `core/apps` directory contains reference implementations demonstrating vario
 
 ## kv-store
 
-**Location**: [`core/apps/kv-store`](https://github.com/calimero-network/core/tree/master/apps/kv-store)
+**Location**: [`core/apps/kv-store`](https://github.com/calimero-network/core/tree/master/apps/kv-store){:target="_blank"}
 
 **What it does:**
 Simple key-value store demonstrating basic CRDT operations and event emission.
@@ -73,7 +73,7 @@ meroctl --node node1 call \
 
 ## kv-store-with-handlers
 
-**Location**: [`core/apps/kv-store-with-handlers`](https://github.com/calimero-network/core/tree/master/apps/kv-store-with-handlers)
+**Location**: [`core/apps/kv-store-with-handlers`](https://github.com/calimero-network/core/tree/master/apps/kv-store-with-handlers){:target="_blank"}
 
 **What it does:**
 KV store with event handlers demonstrating real-time event processing.
@@ -91,7 +91,7 @@ KV store with event handlers demonstrating real-time event processing.
 
 ## blobs
 
-**Location**: [`core/apps/blobs`](https://github.com/calimero-network/core/tree/master/apps/blobs)
+**Location**: [`core/apps/blobs`](https://github.com/calimero-network/core/tree/master/apps/blobs){:target="_blank"}
 
 **What it does:**
 Demonstrates blob storage and distribution across the network.
@@ -135,7 +135,7 @@ meroctl --node node1 call \
 
 ## collaborative-editor
 
-**Location**: [`core/apps/collaborative-editor`](https://github.com/calimero-network/core/tree/master/apps/collaborative-editor)
+**Location**: [`core/apps/collaborative-editor`](https://github.com/calimero-network/core/tree/master/apps/collaborative-editor){:target="_blank"}
 
 **What it does:**
 Real-time collaborative text editor using RGA (Replicated Growable Array) CRDT.
@@ -184,7 +184,7 @@ meroctl --node node1 call \
 
 ## private-data
 
-**Location**: [`core/apps/private-data`](https://github.com/calimero-network/core/tree/master/apps/private-data)
+**Location**: [`core/apps/private-data`](https://github.com/calimero-network/core/tree/master/apps/private-data){:target="_blank"}
 
 **What it does:**
 Demonstrates private storage for node-local secrets and data.
@@ -201,7 +201,7 @@ Demonstrates private storage for node-local secrets and data.
 - Private cache management
 
 **Example usage:**
-See workflow in [`workflows/example.yml`](https://github.com/calimero-network/core/blob/master/apps/private-data/workflows/example.yml)
+See workflow in [`workflows/example.yml`](https://github.com/calimero-network/core/blob/master/apps/private-data/workflows/example.yml){:target="_blank"}
 
 **Learn from this example:**
 - Private storage API usage
@@ -210,7 +210,7 @@ See workflow in [`workflows/example.yml`](https://github.com/calimero-network/co
 
 ## team-metrics
 
-**Location**: [`core/apps/team-metrics-macro`](https://github.com/calimero-network/core/tree/master/apps/team-metrics-macro) and [`core/apps/team-metrics-custom`](https://github.com/calimero-network/core/tree/master/apps/team-metrics-custom)
+**Location**: [`core/apps/team-metrics-macro`](https://github.com/calimero-network/core/tree/master/apps/team-metrics-macro){:target="_blank"} and [`core/apps/team-metrics-custom`](https://github.com/calimero-network/core/tree/master/apps/team-metrics-custom){:target="_blank"}
 
 **What it does:**
 Demonstrates nested CRDT structures for team metrics tracking.
@@ -234,7 +234,7 @@ Demonstrates nested CRDT structures for team metrics tracking.
 
 ## xcall-example
 
-**Location**: [`core/apps/xcall-example`](https://github.com/calimero-network/core/tree/master/apps/xcall-example)
+**Location**: [`core/apps/xcall-example`](https://github.com/calimero-network/core/tree/master/apps/xcall-example){:target="_blank"}
 
 **What it does:**
 Demonstrates cross-context calls (xcall) for inter-context communication.
@@ -339,8 +339,8 @@ meroctl --node calimero-node-1 call \
 
 For detailed example documentation:
 
-- **kv-store**: [`core/apps/kv-store/README.md`](https://github.com/calimero-network/core/blob/master/apps/kv-store/README.md)
-- **collaborative-editor**: [`core/apps/collaborative-editor/README.md`](https://github.com/calimero-network/core/blob/master/apps/collaborative-editor/README.md)
-- **blobs**: [`core/apps/blobs/README.md`](https://github.com/calimero-network/core/blob/master/apps/blobs/README.md)
-- **xcall-example**: [`core/apps/xcall-example/README.md`](https://github.com/calimero-network/core/blob/master/apps/xcall-example/README.md)
+- **kv-store**: [`core/apps/kv-store/README.md`](https://github.com/calimero-network/core/blob/master/apps/kv-store/README.md){:target="_blank"}
+- **collaborative-editor**: [`core/apps/collaborative-editor/README.md`](https://github.com/calimero-network/core/blob/master/apps/collaborative-editor/README.md){:target="_blank"}
+- **blobs**: [`core/apps/blobs/README.md`](https://github.com/calimero-network/core/blob/master/apps/blobs/README.md){:target="_blank"}
+- **xcall-example**: [`core/apps/xcall-example/README.md`](https://github.com/calimero-network/core/blob/master/apps/xcall-example/README.md){:target="_blank"}
 

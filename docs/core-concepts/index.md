@@ -29,7 +29,7 @@ Understanding Calimero's core concepts is essential for building and operating a
 
 - **Root Keys**: Master identities (typically from blockchain wallets)
 - **Client Keys**: Derived keys for specific contexts
-- **Authentication**: Wallet-based authentication (NEAR, Ethereum, ICP, etc.)
+- **Authentication**: Wallet-based authentication (NEAR)
 
 **Key concepts:**
 - Hierarchical key management
