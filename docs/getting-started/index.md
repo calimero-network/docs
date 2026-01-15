@@ -1,6 +1,7 @@
 # Getting Started
 
-Welcome to Calimero! This guide will help you get up and running quickly, whether you're building applications, running nodes, or just exploring the platform.
+Welcome to Calimero!
+This short guide shows you how to install and run a Calimero node (Merod), build an example application, and deploy and test it on your node.
 
 ## Quick Start Paths
 
@@ -36,6 +37,32 @@ This guide walks you through setting up and running a local network with [merobo
 
 **Optional:**
 - `merod` and `meroctl` (if building from source)
+### Install merod and meroctl
+```bash
+$: brew install merod
+> ==> Fetching downloads for: merod
+> ✔︎ Formula merod (0.10.0-rc.32)                                                                                                     > Verified     11.2MB/ 11.2MB
+> ==> Installing merod from calimero-network/tap
+> 🍺  /opt/homebrew/Cellar/merod/0.10.0-rc.32: 4 files, 8.0MB, built in 1 second
+> ==> Running `brew cleanup merod`...
+> Disable this behaviour by setting `HOMEBREW_NO_INSTALL_CLEANUP=1`.
+> Hide these hints with `HOMEBREW_NO_ENV_HINTS=1` (see `man brew`).
+
+$: merod --version
+> merod (release 0.10.0-rc.32) (build f69f6b6) (commit f69f6b6) (rustc 1.88.0)
+
+$: brew install meroctl
+> ==> Fetching downloads for: meroctl
+> ✔︎ Formula meroctl (0.10.0-rc.32)                                                                                                   Verified      > 4.1MB/  4.1MB
+> ==> Installing meroctl from calimero-network/tap
+> 🍺  /opt/homebrew/Cellar/meroctl/0.10.0-rc.32: 4 files, 8.0MB, built in 1 second
+> ==> Running `brew cleanup meroctl`...
+> Disable this behaviour by setting `HOMEBREW_NO_INSTALL_CLEANUP=1`.
+> Hide these hints with `HOMEBREW_NO_ENV_HINTS=1` (see `man brew`).
+
+$: meroctl --version
+> meroctl (release 0.10.0-rc.32) (build f69f6b6) (commit f69f6b6) (rustc 1.88.0)
+```
 
 ### Install Merobox
 
@@ -44,23 +71,23 @@ Merobox is the easiest way to run local Calimero networks:
 ```bash
 # Using pipx (recommended)
 $: pipx --version
-1.7.1
+> 1.7.1
 
 $: pipx install merobox
-Installing to existing venv 'merobox'
-  installed package merobox 0.2.13, installed using Python 3.13.3
-  These apps are now globally available:  merobox
-done! ✨ 🌟 ✨
+> Installing to existing venv 'merobox'
+>  installed package merobox 0.2.13, installed using Python 3.13.3
+>  These apps are now globally available:  merobox
+> done! ✨ 🌟 ✨
 
 # Or on macOS with Homebrew
 $: brew install calimero-network/tap/merobox
-...
-🍺  /opt/homebrew/Cellar/merobox/0.1.23: 4 files, 15.6MB, built in 0 seconds
-==> Running `brew cleanup merobox`...
+> ...
+> 🍺  /opt/homebrew/Cellar/merobox/0.1.23: 4 files, 15.6MB, built in 0 seconds
+> ==> Running `brew cleanup merobox`...
 
 # Verify installation
 $: merobox --version
-merobox, version 0.2.16
+> merobox, version 0.2.16
 ```
 
 ### Install Rust Toolchain (for building applications)
@@ -68,21 +95,20 @@ merobox, version 0.2.16
 ```bash
 # Install Rust
 $: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-info: downloading installer
-...
-Rust is installed now. Great!
-...
+> info: downloading installer
+> ...
+> Rust is installed now. Great!
 
 # Add WASM target
 $: rustup target add wasm32-unknown-unknown
-...
-info: component 'rust-std' for target 'wasm32-unknown-unknown' is up to date
+> ...
+> info: component 'rust-std' for target 'wasm32-unknown-unknown' is up to date
 
 # Verify installation
 $: cargo --version
-cargo 1.92.0 (344c4567c 2025-10-21)
+> cargo 1.92.0 (344c4567c 2025-10-21)
 $: rustc --version
-rustc 1.92.0 (ded5c06cf 2025-12-08)
+> rustc 1.92.0 (ded5c06cf 2025-12-08)
 ```
 
 ### Install Node.js SDKs (for client development)
@@ -90,19 +116,19 @@ rustc 1.92.0 (ded5c06cf 2025-12-08)
 ```bash
 # Install Calimero JavaScript SDK
 $: npm install @calimero-network/calimero-cli-js @calimero-network/calimero-sdk-js
-...
-added 213 packages in 2m
-12 packages are looking for funding
-  run `npm fund` for details
+> ...
+> added 213 packages in 2m
+> 12 packages are looking for funding
+>  run `npm fund` for details
 
 # Or with pnpm
 $: pnpm add @calimero-network/calimero-cli-js @calimero-network/calimero-sdk-js
-...
-dependencies:
-+ @calimero-network/calimero-cli-js 0.2.0
-+ @calimero-network/calimero-sdk-js 0.2.1
+> ...
+> dependencies:
+> + @calimero-network/calimero-cli-js 0.2.0
+> + @calimero-network/calimero-sdk-js 0.2.1
 
-Done in 2m 29.8s
+> Done in 2m 29.8s
 ```
 
 NPM resources:
@@ -128,79 +154,105 @@ See [`merobox/README.md`](https://github.com/calimero-network/merobox#readme){:t
 ```bash
 # Start a 2-node network
 $: merobox run --count 2
-...
-Deployment Summary: 2/2 nodes started successfully
+> ...
+> Deployment Summary: 2/2 nodes started successfully
 
 # Check status
 $: merobox list
-                             Running Calimero Nodes                             
-┏━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━┓
-┃           ┃         ┃           ┃          ┃ RPC/Adm… ┃           ┃          ┃
-┃ Name      ┃ Status  ┃ Image     ┃ P2P Port ┃ Port     ┃ Chain ID  ┃ Created  ┃
-┡━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━┩
-│ calimero… │ running │ ghcr.io/… │ 2429     │ 2529     │ testnet-1 │ 2026-01… │
-│           │         │           │          │          │           │ 15:04:32 │
-│ calimero… │ running │ ghcr.io/… │ 2428     │ 2528     │ testnet-1 │ 2026-01… │
-│           │         │           │          │          │           │ 15:04:28 │
-└───────────┴─────────┴───────────┴──────────┴──────────┴───────────┴──────────┘
+>                              Running Calimero Nodes                             
+> ┏━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━┓
+> ┃           ┃         ┃           ┃          ┃ RPC/Adm… ┃           ┃          ┃
+> ┃ Name      ┃ Status  ┃ Image     ┃ P2P Port ┃ Port     ┃ Chain ID  ┃ Created  ┃
+> ┡━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━┩
+> │ calimero… │ running │ ghcr.io/… │ 2429     │ 2529     │ testnet-1 │ 2026-01… │
+> │           │         │           │          │          │           │ 15:04:32 │
+> │ calimero… │ running │ ghcr.io/… │ 2428     │ 2528     │ testnet-1 │ 2026-01… │
+> │           │         │           │          │          │           │ 15:04:28 │
+> └───────────┴─────────┴───────────┴──────────┴──────────┴───────────┴──────────┘
 
-                          Running Auth Infrastructure                           
-┏━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
-┃ Service     ┃ Status  ┃ Image       ┃ Ports       ┃ Networks    ┃ Created    ┃
-┡━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
-│ Auth        │ running │ ghcr.io/ca… │ 3001/tcp    │ calimero_i… │ 2026-01-07 │
-│ Service     │         │             │             │ calimero_w… │ 17:33:33   │
-│ Traefik     │ running │ traefik:v2… │ 80:80/tcp,  │ calimero_w… │ 2026-01-07 │
-│ Proxy       │         │             │ 8080:8080/… │             │ 17:33:16   │
-└─────────────┴─────────┴─────────────┴─────────────┴─────────────┴────────────┘
-Auth Data Volume: calimero_auth_data (created: 2025-12-05T12:10:52)
+>                           Running Auth Infrastructure                           
+> ┏━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+> ┃ Service     ┃ Status  ┃ Image       ┃ Ports       ┃ Networks    ┃ Created    ┃
+> ┡━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
+> │ Auth        │ running │ ghcr.io/ca… │ 3001/tcp    │ calimero_i… │ 2026-01-07 │
+> │ Service     │         │             │             │ calimero_w… │ 17:33:33   │
+> │ Traefik     │ running │ traefik:v2… │ 80:80/tcp,  │ calimero_w… │ 2026-01-07 │
+> │ Proxy       │         │             │ 8080:8080/… │             │ 17:33:16   │
+> └─────────────┴─────────┴─────────────┴─────────────┴─────────────┴────────────┘
+> Auth Data Volume: calimero_auth_data (created: 2025-12-05T12:10:52)
 
 # View logs
 $: merobox logs calimero-node-1 --follow
-...
-[2mlibp2p_ping::handler[0m[2m:[0m ping succeeded [3mrtt[0m[2m=[0m41.628459ms
-2026-01-12T15:05:40.468844633Z [2m2026-01-12T15:05:40.468600Z[0m [34mDEBUG[0m [2mcalimero_network::handlers::stream::swarm::ping[0m[2m:[0m
-\x1b[33mping\x1b[39m: Event { peer: PeerId("12D3KooWDm8a27m5HA8jJYGNKA2iZt8YSYHyM6s3aNHhuXLPspiR"), connection: ConnectionId(86), result: 
-Ok(41.628459ms) }
+> ...
+> [2mlibp2p_ping::handler[0m[2m:[0m ping succeeded [3mrtt[0m[2m=[0m41.628459ms
+> 2026-01-12T15:05:40.468844633Z [2m2026-01-12T15:05:40.468600Z[0m [34mDEBUG[0m  [2mcalimero_network::handlers::stream::swarm::ping[0m[2m:[0m
+> \x1b[33mping\x1b[39m: Event { peer: PeerId("12D3KooWDm8a27m5HA8jJYGNKA2iZt8YSYHyM6s3aNHhuXLPspiR"), connection: ConnectionId(86), result: 
+> Ok(41.628459ms) }
 ```
 
 See [Running Nodes](../operator-track/run-a-local-network.md) for detailed node management.
 
 ## Step 3: Build Your First Application
 
+Calimero applications consist of two parts: `frontend logic` and `backend logic`.
+
+The frontend logic can be written in any frontend language and must include the `calimero-client` dependency, which handles user authentication and JSON-RPC requests to the node.
+
+The backend logic is the core of a Calimero application. It can be written in Rust or JavaScript and is compiled into WebAssembly (WASM) using `calimero-sdk-rs` or `calimero-sdk-js`. This WASM module is then installed on a node, where its logic (mutate and query methods) is executed. Data storage is handled by RocksDB, while CRDTs are responsible for keeping data persistent and synchronized across nodes.
+
 ### Option A: Create from Template
 
 ```bash
 # Create a new application
 $: npx create-mero-app my-first-app
+> Cloning into /var/folders/p2/_b7fvy792s3458_0jlf6r0jm0000gn/T/mero-create-Gi2ZvC/> repo...
+> Done.
+
+> Next steps:
+>  cd my-app
+>  pnpm install
+>  pnpm dev
 
 # Navigate to project
 $: cd my-first-app
 
 # Install dependencies
 $: pnpm install
+> ...
+> Progress: resolved 152, reused 152, downloaded 0, added 152, done
+
+> dependencies:
+> ...
+
+> devDependencies:
+> ...
 
 # Build Rust backend
 $: pnpm run logic:build
+> ...
+> Finished `app-release` profile [optimized] target(s) in 14.04s
 
 # This creates:
-# - logic/build/my_first_app.wasm (WASM binary)
-# - logic/build/my_first_app.abi.json (API definition)
+# - logic/build/my_first_app.wasm: The compiled WebAssembly binary that contains your application's business logic. This is installed on Calimero nodes (merod) where the WASM code is executed.
+# - logic/build/my_first_app.abi.json: The Application Binary Interface (ABI) file that defines your application's API structure, including available functions, parameters, and return types. Used by client SDKs to generate type-safe interfaces for frontend integration.
 ```
 
 ### Option B: Build from Core Examples
 
+For this, we will use the same key-value (KV) store example, but you can explore other available applications in the core repository.
+
 ```bash
 # Clone core repository
 $: git clone https://github.com/calimero-network/core
+> Cloning into 'core'...
+> ...
+> Resolving deltas: 100% (16148/16148), done.
 $: cd core/apps/kv-store
 
 # Build WASM
 $: ./build.sh
-
-# Install on node
-$: meroctl --node node1 app install \
-  --path build/kv_store.wasm
+> ...
+> Finished `app-release` profile [optimized] target(s) in 14.04s
 ```
 
 ### Option C: Build from Scratch
@@ -208,70 +260,186 @@ $: meroctl --node node1 app install \
 **1. Create Rust project:**
 ```bash
 $: cargo new --lib my-app
+>     Creating library `my-app` package
+> note: see more `Cargo.toml` keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 $: cd my-app
 ```
 
-**2. Add dependencies to `Cargo.toml`:**
+**2. Add dependencies and update `Cargo.toml`:**
 ```toml
+[package]
+name = "my-app"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
 [dependencies]
-calimero-sdk = { path = "../../crates/sdk" }
-calimero-storage = { path = "../../crates/storage" }
+calimero-sdk = { git = "https://github.com/calimero-network/core", branch = "master" }
+calimero-storage = { git = "https://github.com/calimero-network/core", branch = "master" }
+
+[build-dependencies]
+calimero-wasm-abi = { git = "https://github.com/calimero-network/core", branch = "master" }
+serde_json = "1.0.113"
+
+[profile.app-release]
+inherits = "release"
+opt-level = "z"
+lto = true
+codegen-units = 1
+strip = true
+
+[profile.app-profiling]
+inherits = "release"
+debug = true
 ```
 
 **3. Write your application in `src/lib.rs`:**
 ```rust
 use calimero_sdk::app;
-use calimero_storage::collections::UnorderedMap;
+use calimero_sdk::borsh::{BorshDeserialize, BorshSerialize};
+use calimero_storage::collections::{LwwRegister, UnorderedMap};
 
 #[app::state]
+#[derive(Debug, BorshSerialize, BorshDeserialize)]
+#[borsh(crate = "calimero_sdk::borsh")]
 pub struct MyApp {
-    items: UnorderedMap<String, String>,
+    items: UnorderedMap<String, LwwRegister<String>>,
 }
 
 #[app::logic]
 impl MyApp {
-    pub fn add_item(&mut self, key: String, value: String) {
-        self.items.insert(key, value);
+    #[app::init]
+    pub fn init() -> MyApp {
+        MyApp {
+            items: UnorderedMap::new(),
+        }
     }
-    
+
+    pub fn add_item(&mut self, key: String, value: String) -> app::Result<()> {
+        self.items.insert(key, value.into())?;
+
+        Ok(())
+    }
+
     pub fn get_item(&self, key: &str) -> app::Result<Option<String>> {
-        self.items.get(key)?.map(|v| v.get().clone())
+        Ok(self.items.get(key)?.map(|v| v.get().clone()))
+    }
+}
+```
+**4. Add custom build.rs file and build.sh script**
+```rust
+// build.rs
+use std::fs;
+use std::path::Path;
+
+use calimero_wasm_abi::emitter::emit_manifest;
+
+fn main() {
+    println!("cargo:rerun-if-changed=src/lib.rs");
+
+    // Parse the source code
+    let src_path = Path::new("src/lib.rs");
+    let src_content = fs::read_to_string(src_path).expect("Failed to read src/lib.rs");
+
+    // Generate ABI manifest using the emitter
+    let manifest = emit_manifest(&src_content).expect("Failed to emit ABI manifest");
+
+    // Serialize the manifest to JSON
+    let json = serde_json::to_string_pretty(&manifest).expect("Failed to serialize manifest");
+
+    // Write the ABI JSON to the res directory
+    let res_dir = Path::new("res");
+    if !res_dir.exists() {
+        fs::create_dir_all(res_dir).expect("Failed to create res directory");
+    }
+
+    let abi_path = res_dir.join("abi.json");
+    fs::write(&abi_path, json).expect("Failed to write ABI JSON");
+
+    // Extract and write the state schema
+    if let Ok(mut state_schema) = manifest.extract_state_schema() {
+        state_schema.schema_version = "wasm-abi/1".to_owned();
+
+        let state_schema_json =
+            serde_json::to_string_pretty(&state_schema).expect("Failed to serialize state schema");
+        let state_schema_path = res_dir.join("state-schema.json");
+        fs::write(&state_schema_path, state_schema_json)
+            .expect("Failed to write state schema JSON");
     }
 }
 ```
 
-**4. Build WASM:**
 ```bash
-$: cargo build --target wasm32-unknown-unknown --release
+# build.sh
+#!/bin/bash
+set -e
+
+cd "$(dirname $0)"
+
+TARGET="${CARGO_TARGET_DIR:-target}"
+
+rustup target add wasm32-unknown-unknown
+
+mkdir -p res
+
+# Use app-profiling profile when WASM_PROFILING is set to preserve function names
+if [ "${WASM_PROFILING:-false}" = "true" ]; then
+    echo "Building with profiling profile "
+    PROFILE="app-profiling"
+else
+    PROFILE="app-release"
+fi
+
+RUSTFLAGS="--remap-path-prefix $HOME=~" cargo build --target wasm32-unknown-unknown --profile "$PROFILE"
+
+cp $TARGET/wasm32-unknown-unknown/$PROFILE/my_app.wasm ./res/
+
+# Skip wasm-opt for profiling builds to preserve debug info
+if [ "$PROFILE" = "app-release" ] && command -v wasm-opt > /dev/null; then
+  wasm-opt -Oz ./res/my_app.wasm -o ./res/my_app.wasm
+fi
+
 ```
 
-**5. Install on node:**
+**5. Build WASM by using custom script:**
 ```bash
-$: meroctl --node-name node1 app install \
-  --path target/wasm32-unknown-unknown/release/my_app.wasm
+$: chmod +x build.sh && ./build.sh
+```
+
+**6. Install on node:**
+> **NOTE**: To use merooct, a CLI tool used for executing commands on the node, you first need to have the node running. Previously with merobox we used command: "merobox run --count 1" which initializes and starts the node
+on default url: http://localhost:2528
+
+```bash
+# Install my_app or kv_store; configure path accordingly
+$: meroctl --node-name calimero-node-1 app install --path res/my_app.wasm
+#or 
+$: meroctl --node calimero-node-1 app install --path res/kv_store.wasm
 ```
 
 See [SDK Guide](../builder-directory/sdk-guide.md) or [JavaScript SDK Guide](../builder-directory/js-sdk-guide.md) for detailed development guides.
 
-## Step 4: Create and Use a Context
+## Step 7: Create and Use a Context
 
 **Create a context:**
 ```bash
-$: meroctl --node node1 context create \
+$: meroctl --node calimero-node-1 context create \
   --application-id <APP_ID>
 ```
 
 **Call methods:**
 ```bash
 # Call a mutation
-$: meroctl --node node1 call \
+$: meroctl --node calimero-node-1 call \
   --context-id <CONTEXT_ID> \
   --method add_item \
   --args '{"key": "hello", "value": "world"}' \
   --executor-public-key <YOUR_KEY>
 
 # Call a view
-$: meroctl --node node1 call \
+$: meroctl --node calimero-node-1 call \
   --context-id <CONTEXT_ID> \
   --method get_item \
   --args '{"key": "hello"}'
@@ -299,7 +467,7 @@ $: ./build.sh
 ...
  calimero-storage` to apply 1 suggestion)
     Finished `app-release` profile [optimized] target(s) in 18.11s
-$: meroctl --node-name node1 app install --path build/kv_store.wasm
+$: meroctl --node-name calimero-node-1 app install --path build/kv_store.wasm
 
 ```
 
