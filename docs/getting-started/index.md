@@ -37,7 +37,7 @@ This guide walks you through setting up and running a local network with [merobo
 
 **Optional:**
 - `merod` and `meroctl` (if building from source)
-### Install merod and meroctl
+### Install merod and meroctl *(Optional)*
 ```bash
 $: brew install merod
 > ==> Fetching downloads for: merod
@@ -66,7 +66,7 @@ $: meroctl --version
 
 ### Install Merobox
 
-Merobox is the easiest way to run local Calimero networks:
+Merobox is the easiest way to run Calimero nodes for local development:
 
 ```bash
 # Using pipx (recommended)
@@ -188,6 +188,18 @@ $: merobox logs calimero-node-1 --follow
 > 2026-01-12T15:05:40.468844633Z [2m2026-01-12T15:05:40.468600Z[0m [34mDEBUG[0m  [2mcalimero_network::handlers::stream::swarm::ping[0m[2m:[0m
 > \x1b[33mping\x1b[39m: Event { peer: PeerId("12D3KooWDm8a27m5HA8jJYGNKA2iZt8YSYHyM6s3aNHhuXLPspiR"), connection: ConnectionId(86), result: 
 > Ok(41.628459ms) }
+```
+
+
+### Using merod
+```bash
+$: merod --node-name node1 init
+> 2025-12-16T11:47:34.861762Z  INFO merod::cli::init: Generated identity: PeerId("12D3KooW9xPd2gxAouQ29vMfG1B3fpYPPS87VEZyrqzhuVQWc2VL")
+> 2025-12-16T11:47:34.870745Z  INFO merod::cli::init: Initialized a node in "/Users/X/.calimero/node1"
+
+$: merod --node-name node1 run
+...
+2025-12-16T11:49:59.649884Z  INFO calimero_server::admin::service: Admin Dashboard UI available on /ip6/::1/tcp/2528/http{/admin-dashboard}
 ```
 
 See [Running Nodes](../operator-track/run-a-local-network.md) for detailed node management.
@@ -408,46 +420,131 @@ fi
 $: chmod +x build.sh && ./build.sh
 ```
 
-**6. Install on node:**
-> **NOTE**: To use merooct, a CLI tool used for executing commands on the node, you first need to have the node running. Previously with merobox we used command: "merobox run --count 1" which initializes and starts the node
-on default url: http://localhost:2528
+## Step 4: Install application on the node
+> **NOTE**: If you followed the setup with merobox continue with the merobox commands. By using merobox start command you will have a node with id `calimero-node-1` running.
+> If you used merod to initialize and run the node it will have the node id you selected while running the command.
+> If you used default commands from this tutorial you will have node with id `node1` running.
 
 ```bash
 # Install my_app or kv_store; configure path accordingly
-$: meroctl --node-name calimero-node-1 app install --path res/my_app.wasm
-#or 
-$: meroctl --node calimero-node-1 app install --path res/kv_store.wasm
+# Using Merobox
+$:  merobox install --node calimero-node-1 --dev --path res/my_app.wasm
+> ✓ Application installed successfully!
+
+# Using meroctl (for nodes started with merod tool)
+$: meroctl --node node1 app install --path res/my_store.wasm
+> ╭───────────────────────────────────────────────────────────────────────────────────╮
+> │ Application Installed                                                             │
+> ╞═══════════════════════════════════════════════════════════════════════════════════╡
+> │ Successfully installed application 'A1fKrY7kkbqiJJU9oaG65NPRw2MCvrNESs31ERqg7gLo' │
+> ╰───────────────────────────────────────────────────────────────────────────────────╯
 ```
 
 See [SDK Guide](../builder-directory/sdk-guide.md) or [JavaScript SDK Guide](../builder-directory/js-sdk-guide.md) for detailed development guides.
 
-## Step 7: Create and Use a Context
+## Step 5: Create Context and call mutate and view methods
+
+To understand what contexts are and how they work read [here](../core-concepts/contexts.md) for more.
 
 **Create a context:**
 ```bash
-$: meroctl --node calimero-node-1 context create \
-  --application-id <APP_ID>
+# Meroctl command for creating contexts
+$: meroctl --node <NODE_ID> context create \
+ --protocol <PROTOCOL> --application-id <APP_ID>
+
+# Creating context with application ID from previous steps using NEAR protocol
+$: meroctl --node node1 context create \
+  --protocol near --application-id A1fKrY7kkbqiJJU9oaG65NPRw2MCvrNESs31ERqg7gLo
+> +------------------------------+
+> | Context Created              |
+> +==============================+
+> | Successfully created context |
+> +------------------------------+
+
+# Meroctl command to view created context data
+$: meroctl --node node1 context ls
+> +----------------------------------------------+----------------------------------------------+------------------------------------------------------+
+> | Context ID                                   | Application ID                               | Root Hash                                            |
+> +====================================================================================================================================================+
+> | H6Q7qGQY3h4P8HiX2eHtRiR2jZrauovvDhGnymt9nxak | A1fKrY7kkbqiJJU9oaG65NPRw2MCvrNESs31ERqg7gLo | Hash("2NxXdVKqeMU7S957bitBfeTzWPZXPvyUN2VhgjwNn4Yn") |
+> +----------------------------------------------+----------------------------------------------+------------------------------------------------------+
+
+# Meroctl command for viewing context identity
+$: meroctl --node <NODE_ID> context identity list --context <CONTEXT_ID>
+
+$: meroctl --node node1 context identity list --context H6Q7qGQY3h4P8HiX2eHtRiR2jZrauovvDhGnymt9nxak
+> +----------------------------------------------+------------------+
+> | Identity                                     | Type             |
+> +=================================================================+
+> | FvjDfnCbQdgAT88K1VMQjQ7APpNMJspWC7RqqZHtdqoS | Context Identity |
+> +----------------------------------------------+------------------+
 ```
 
 **Call methods:**
 ```bash
-# Call a mutation
-$: meroctl --node calimero-node-1 call \
-  --context-id <CONTEXT_ID> \
-  --method add_item \
-  --args '{"key": "hello", "value": "world"}' \
-  --executor-public-key <YOUR_KEY>
+# Meroctl - call a mutation command
+$: meroctl --node <NODE_ID> call <METHOD_NAME> \
+  --context <CONTEXT_ID> \
+  --args <ARGS_IN_JSON> \
+  --as <IDENTITY_PUBLIC_KEY>
 
-# Call a view
-$: meroctl --node calimero-node-1 call \
-  --context-id <CONTEXT_ID> \
-  --method get_item \
-  --args '{"key": "hello"}'
+# Command with values from previous steps
+$: meroctl --node node1 call add_item \
+ --context H6Q7qGQY3h4P8HiX2eHtRiR2jZrauovvDhGnymt9nxak \
+ --args '{"key": "hello", "value": "world"}' \
+ --as FvjDfnCbQdgAT88K1VMQjQ7APpNMJspWC7RqqZHtdqoS
+> 🔍 JSON-RPC Request to http://127.0.0.1:2528/jsonrpc: {
+> ...
+> +-------------------+---------+
+> | Response          | Status  |
+> +=============================+
+> | JSON-RPC Response | Success |
+> +-------------------+---------+
+
+# Meroctl - call a view command
+$: meroctl --node <NODE_ID> call <METHOD_NAME> \
+  --context <CONTEXT_ID> \
+  --args <ARGS_IN_JSON> \
+  --as <IDENTITY_PUBLIC_KEY>
+
+# Command with values from previous steps
+$: meroctl --node node1 call get_item \
+  --context H6Q7qGQY3h4P8HiX2eHtRiR2jZrauovvDhGnymt9nxak \
+  --args '{"key": "hello"}' \
+  --as FvjDfnCbQdgAT88K1VMQjQ7APpNMJspWC7RqqZHtdqoS
+> 🔍 meroctl call output: {
+>   jsonrpc: 2.0,
+>   id: null,
+>   result: {
+>     output: world
+>   }
+> }
+> +-------------------+---------+
+> | Response          | Status  |
+> +=============================+
+> | JSON-RPC Response | Success |
+> +-------------------+---------+
+  
 ```
+
+As this is the final step of this guide, let’s recap what we accomplished:
+ 
+ 1. Installed the Calimero tooling: Merobox or merod and meroctl.
+ 
+ 2. Initialized and started nodes using Merobox (recommended for local development) or merod.
+ 
+ 3. Walked through writing and building a Rust application for Calimero—either by compiling an existing example or recreating one from scratch.
+ 
+ 4. Installed the application WASM on the node using Merobox or meroctl.
+ 
+ 5. Created a context for the installed application on the NEAR Protocol to store its configuration using Merobox or meroctl.
+ 
+ 6. Invoked a change method using Merobox or meroctl to save a key–value pair, then used a view method to verify that the data was saved >correctly.
+
 
 See [Contexts](../core-concepts/contexts.md) for context management details.
 
-## Step 5: Explore Examples
+## Step 6: Explore Examples
 
 ### Core Examples
 
@@ -459,6 +556,7 @@ Examples in [`core/apps`](https://github.com/calimero-network/core/tree/master/a
 - **private-data** - Private storage patterns
 - **team-metrics** - Nested CRDT structures
 - **xcall-example** - Cross-context communication
+... and many more
 
 **Run an example:**
 ```bash
@@ -467,12 +565,19 @@ $: ./build.sh
 ...
  calimero-storage` to apply 1 suggestion)
     Finished `app-release` profile [optimized] target(s) in 18.11s
-$: meroctl --node-name calimero-node-1 app install --path build/kv_store.wasm
+$: meroctl --node node1 app install --path res/kv_store.wasm
+> ╭───────────────────────────────────────────────────────────────────────────────────╮
+> │ Application Installed                                                             │
+> ╞═══════════════════════════════════════════════════════════════════════════════════╡
+> │ Successfully installed application 'A1fKrY7kkbqiJJU9oaG65NPRw2MCvrNESs31ERqg7gLo' │
+> ╰───────────────────────────────────────────────────────────────────────────────────╯
+> ...
 
 ```
 
 ### Application Examples
 
+- **Curb** - Modern multi channel chat application
 - **Battleships** - Multiplayer game with real-time sync
 - **Shared Todo** - Collaborative task list
 - **KV Store** - Boilerplate template application
@@ -502,13 +607,13 @@ See [Examples](../examples/index.md) for complete list.
 ## Common Questions
 
 **Q: Do I need to run my own node?**  
-A: For local development, yes. Use `merobox` to run nodes locally. For production, you can use hosted nodes or run your own.
+A: For local development, yes. Use `merobox` to run nodes locally. For production, you can use hosted nodes or run your own by using merod and meroctl setup.
 
 **Q: Which language should I use?**  
 A: Applications can be written in Rust (compiled to WASM) or JavaScript/TypeScript (using `@calimero-network/calimero-sdk-js`). Clients can use JavaScript/TypeScript or Python.
 
 **Q: How do I handle authentication?**  
-A: Calimero supports NEAR wallet-based authentication. See [Identity](../core-concepts/identity.md) and [Client SDKs](../tools-apis/client-sdks.md).
+A: Calimero supports User/Password and NEAR wallet-based authentication. See [Identity](../core-concepts/identity.md) and [Client SDKs](../tools-apis/client-sdks.md).
 
 **Q: Can I use this offline?**  
 A: Yes! Calimero is offline-first. Apps work offline and sync when online.
