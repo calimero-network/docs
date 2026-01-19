@@ -1,7 +1,8 @@
 # Getting Started
 
 Welcome to Calimero!
-This short guide shows you how to install and run a Calimero node (Merod), build an example application, and deploy and test it on your node.
+
+This short guide shows you how to install and run a Calimero node (Merod), build and test out an application for Calimero.
 
 ## Quick Start Paths
 
@@ -37,58 +38,58 @@ This guide walks you through setting up and running a local network with [merobo
 
 **Optional:**
 - `merod` and `meroctl` (if building from source)
-### Install merod and meroctl *(Optional)*
-```bash
-$: brew install merod
-> ==> Fetching downloads for: merod
-> ✔︎ Formula merod (0.10.0-rc.32)                                                                                                     > Verified     11.2MB/ 11.2MB
-> ==> Installing merod from calimero-network/tap
-> 🍺  /opt/homebrew/Cellar/merod/0.10.0-rc.32: 4 files, 8.0MB, built in 1 second
-> ==> Running `brew cleanup merod`...
-> Disable this behaviour by setting `HOMEBREW_NO_INSTALL_CLEANUP=1`.
-> Hide these hints with `HOMEBREW_NO_ENV_HINTS=1` (see `man brew`).
 
-$: merod --version
-> merod (release 0.10.0-rc.32) (build f69f6b6) (commit f69f6b6) (rustc 1.88.0)
+=== "Merobox"
+    Merobox is the easiest way to run Calimero nodes for local development:
 
-$: brew install meroctl
-> ==> Fetching downloads for: meroctl
-> ✔︎ Formula meroctl (0.10.0-rc.32)                                                                                                   Verified      > 4.1MB/  4.1MB
-> ==> Installing meroctl from calimero-network/tap
-> 🍺  /opt/homebrew/Cellar/meroctl/0.10.0-rc.32: 4 files, 8.0MB, built in 1 second
-> ==> Running `brew cleanup meroctl`...
-> Disable this behaviour by setting `HOMEBREW_NO_INSTALL_CLEANUP=1`.
-> Hide these hints with `HOMEBREW_NO_ENV_HINTS=1` (see `man brew`).
+    ```bash
+    # Using pipx (recommended)
+    $: pipx --version
+    > 1.7.1
 
-$: meroctl --version
-> meroctl (release 0.10.0-rc.32) (build f69f6b6) (commit f69f6b6) (rustc 1.88.0)
-```
+    $: pipx install merobox
+    > Installing to existing venv 'merobox'
+    >  installed package merobox 0.2.13, installed using Python 3.13.3
+    >  These apps are now globally available:  merobox
+    > done! ✨ 🌟 ✨
 
-### Install Merobox
+    # Or on macOS with Homebrew
+    $: brew install calimero-network/tap/merobox
+    > ...
+    > 🍺  /opt/homebrew/Cellar/merobox/0.1.23: 4 files, 15.6MB, built in 0 seconds
+    > ==> Running `brew cleanup merobox`...
 
-Merobox is the easiest way to run Calimero nodes for local development:
+    # Verify installation
+    $: merobox --version
+    > merobox, version 0.2.16
+    ```
 
-```bash
-# Using pipx (recommended)
-$: pipx --version
-> 1.7.1
+=== "merod & meroctl *(Optional)*"
+    ```bash
+    $: brew install merod
+    > ==> Fetching downloads for: merod
+    > ✔︎ Formula merod (0.10.0-rc.32)                                                                                                     > Verified     11.2MB/ 11.2MB
+    > ==> Installing merod from calimero-network/tap
+    > 🍺  /opt/homebrew/Cellar/merod/0.10.0-rc.32: 4 files, 8.0MB, built in 1 second
+    > ==> Running `brew cleanup merod`...
+    > Disable this behaviour by setting `HOMEBREW_NO_INSTALL_CLEANUP=1`.
+    > Hide these hints with `HOMEBREW_NO_ENV_HINTS=1` (see `man brew`).
 
-$: pipx install merobox
-> Installing to existing venv 'merobox'
->  installed package merobox 0.2.13, installed using Python 3.13.3
->  These apps are now globally available:  merobox
-> done! ✨ 🌟 ✨
+    $: merod --version
+    > merod (release 0.10.0-rc.32) (build f69f6b6) (commit f69f6b6) (rustc 1.88.0)
 
-# Or on macOS with Homebrew
-$: brew install calimero-network/tap/merobox
-> ...
-> 🍺  /opt/homebrew/Cellar/merobox/0.1.23: 4 files, 15.6MB, built in 0 seconds
-> ==> Running `brew cleanup merobox`...
+    $: brew install meroctl
+    > ==> Fetching downloads for: meroctl
+    > ✔︎ Formula meroctl (0.10.0-rc.32)                                                                                                   Verified      > 4.1MB/  4.1MB
+    > ==> Installing meroctl from calimero-network/tap
+    > 🍺  /opt/homebrew/Cellar/meroctl/0.10.0-rc.32: 4 files, 8.0MB, built in 1 second
+    > ==> Running `brew cleanup meroctl`...
+    > Disable this behaviour by setting `HOMEBREW_NO_INSTALL_CLEANUP=1`.
+    > Hide these hints with `HOMEBREW_NO_ENV_HINTS=1` (see `man brew`).
 
-# Verify installation
-$: merobox --version
-> merobox, version 0.2.16
-```
+    $: meroctl --version
+    > meroctl (release 0.10.0-rc.32) (build f69f6b6) (commit f69f6b6) (rustc 1.88.0)
+    ```
 
 ### Install Rust Toolchain (for building applications)
 
@@ -141,66 +142,61 @@ See [`merobox/README.md`](https://github.com/calimero-network/merobox#readme){:t
 
 ## Step 2: Run a Local Network
 
-### Using Merobox (Recommended)
+=== "Merobox (Recommended)"
+    > **Note**: If Docker app is not running you will get the following error:
+    >
+    > Failed to connect to Docker: Error while fetching server API version: 
+    > ('Connection aborted.', FileNotFoundError(2, 'No such file or directory'))
+    > Make sure Docker is running and you have permission to access it.
+    >
+    > To fix it you just need to run the Docker app and continue.
 
-> **Note**: If Docker app is not running you will get the following error:
->
-> Failed to connect to Docker: Error while fetching server API version: 
-> ('Connection aborted.', FileNotFoundError(2, 'No such file or directory'))
-> Make sure Docker is running and you have permission to access it.
->
-> To fix it you just need to run the Docker app and continue.
+    ```bash
+    # Run one node with Merobox
+    $: merobox run --count 1
+    > ...
+    > Deployment Summary: 1/1 nodes started successfully
 
-```bash
-# Start a 2-node network
-$: merobox run --count 2
-> ...
-> Deployment Summary: 2/2 nodes started successfully
+    # Check status
+    $: merobox list
+    >                              Running Calimero Nodes                             
+    > ┏━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━┓
+    > ┃           ┃         ┃           ┃          ┃ RPC/Adm… ┃           ┃          ┃
+    > ┃ Name      ┃ Status  ┃ Image     ┃ P2P Port ┃ Port     ┃ Chain ID  ┃ Created  ┃
+    > ┡━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━┩
+    > │ calimero… │ running │ ghcr.io/… │ 2429     │ 2529     │ testnet-1 │ 2026-01… │
+    > └───────────┴─────────┴───────────┴──────────┴──────────┴───────────┴──────────┘
 
-# Check status
-$: merobox list
->                              Running Calimero Nodes                             
-> ┏━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━┓
-> ┃           ┃         ┃           ┃          ┃ RPC/Adm… ┃           ┃          ┃
-> ┃ Name      ┃ Status  ┃ Image     ┃ P2P Port ┃ Port     ┃ Chain ID  ┃ Created  ┃
-> ┡━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━┩
-> │ calimero… │ running │ ghcr.io/… │ 2429     │ 2529     │ testnet-1 │ 2026-01… │
-> │           │         │           │          │          │           │ 15:04:32 │
-> │ calimero… │ running │ ghcr.io/… │ 2428     │ 2528     │ testnet-1 │ 2026-01… │
-> │           │         │           │          │          │           │ 15:04:28 │
-> └───────────┴─────────┴───────────┴──────────┴──────────┴───────────┴──────────┘
+    >                           Running Auth Infrastructure                           
+    > ┏━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+    > ┃ Service     ┃ Status  ┃ Image       ┃ Ports       ┃ Networks    ┃ Created    ┃
+    > ┡━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
+    > │ Auth        │ running │ ghcr.io/ca… │ 3001/tcp    │ calimero_i… │ 2026-01-07 │
+    > │ Service     │         │             │             │ calimero_w… │ 17:33:33   │
+    > │ Traefik     │ running │ traefik:v2… │ 80:80/tcp,  │ calimero_w… │ 2026-01-07 │
+    > │ Proxy       │         │             │ 8080:8080/… │             │ 17:33:16   │
+    > └─────────────┴─────────┴─────────────┴─────────────┴─────────────┴────────────┘
+    > Auth Data Volume: calimero_auth_data (created: 2025-12-05T12:10:52)
 
->                           Running Auth Infrastructure                           
-> ┏━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
-> ┃ Service     ┃ Status  ┃ Image       ┃ Ports       ┃ Networks    ┃ Created    ┃
-> ┡━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
-> │ Auth        │ running │ ghcr.io/ca… │ 3001/tcp    │ calimero_i… │ 2026-01-07 │
-> │ Service     │         │             │             │ calimero_w… │ 17:33:33   │
-> │ Traefik     │ running │ traefik:v2… │ 80:80/tcp,  │ calimero_w… │ 2026-01-07 │
-> │ Proxy       │         │             │ 8080:8080/… │             │ 17:33:16   │
-> └─────────────┴─────────┴─────────────┴─────────────┴─────────────┴────────────┘
-> Auth Data Volume: calimero_auth_data (created: 2025-12-05T12:10:52)
+    # View logs
+    $: merobox logs calimero-node-1 --follow
+    > ...
+    > [2mlibp2p_ping::handler[0m[2m:[0m ping succeeded [3mrtt[0m[2m=[0m41.628459ms
+    > 2026-01-12T15:05:40.468844633Z [2m2026-01-12T15:05:40.468600Z[0m [34mDEBUG[0m  [2mcalimero_network::handlers::stream::swarm::ping[0m[2m:[0m
+    > \x1b[33mping\x1b[39m: Event { peer: PeerId("12D3KooWDm8a27m5HA8jJYGNKA2iZt8YSYHyM6s3aNHhuXLPspiR"), connection: ConnectionId(86), result: 
+    > Ok(41.628459ms) }
+    ```
 
-# View logs
-$: merobox logs calimero-node-1 --follow
-> ...
-> [2mlibp2p_ping::handler[0m[2m:[0m ping succeeded [3mrtt[0m[2m=[0m41.628459ms
-> 2026-01-12T15:05:40.468844633Z [2m2026-01-12T15:05:40.468600Z[0m [34mDEBUG[0m  [2mcalimero_network::handlers::stream::swarm::ping[0m[2m:[0m
-> \x1b[33mping\x1b[39m: Event { peer: PeerId("12D3KooWDm8a27m5HA8jJYGNKA2iZt8YSYHyM6s3aNHhuXLPspiR"), connection: ConnectionId(86), result: 
-> Ok(41.628459ms) }
-```
+=== "merod"
+    ```bash
+    $: merod --node-name node1 init
+    > 2025-12-16T11:47:34.861762Z  INFO merod::cli::init: Generated identity: PeerId("12D3KooW9xPd2gxAouQ29vMfG1B3fpYPPS87VEZyrqzhuVQWc2VL")
+    > 2025-12-16T11:47:34.870745Z  INFO merod::cli::init: Initialized a node in "/Users/X/.calimero/node1"
 
-
-### Using merod
-```bash
-$: merod --node-name node1 init
-> 2025-12-16T11:47:34.861762Z  INFO merod::cli::init: Generated identity: PeerId("12D3KooW9xPd2gxAouQ29vMfG1B3fpYPPS87VEZyrqzhuVQWc2VL")
-> 2025-12-16T11:47:34.870745Z  INFO merod::cli::init: Initialized a node in "/Users/X/.calimero/node1"
-
-$: merod --node-name node1 run
-...
-2025-12-16T11:49:59.649884Z  INFO calimero_server::admin::service: Admin Dashboard UI available on /ip6/::1/tcp/2528/http{/admin-dashboard}
-```
+    $: merod --node-name node1 run
+    ...
+    2025-12-16T11:49:59.649884Z  INFO calimero_server::admin::service: Admin Dashboard UI available on /ip6/::1/tcp/2528/http{/admin-dashboard}
+    ```
 
 See [Running Nodes](../operator-track/run-a-local-network.md) for detailed node management.
 
@@ -212,234 +208,235 @@ The frontend logic can be written in any frontend language and must include the 
 
 The backend logic is the core of a Calimero application. It can be written in Rust or JavaScript and is compiled into WebAssembly (WASM) using `calimero-sdk-rs` or `calimero-sdk-js`. This WASM module is then installed on a node, where its logic (mutate and query methods) is executed. Data storage is handled by RocksDB, while CRDTs are responsible for keeping data persistent and synchronized across nodes.
 
-### Option A: Create from Template
+=== "Option A: Create from Template"
+    ```bash
+    # Create a new application
+    $: npx create-mero-app my-first-app
+    > Cloning into /var/folders/p2/_b7fvy792s3458_0jlf6r0jm0000gn/T/mero-create-Gi2ZvC/> repo...
+    > Done.
 
-```bash
-# Create a new application
-$: npx create-mero-app my-first-app
-> Cloning into /var/folders/p2/_b7fvy792s3458_0jlf6r0jm0000gn/T/mero-create-Gi2ZvC/> repo...
-> Done.
+    > Next steps:
+    >  cd my-first-app
+    >  pnpm install
+    >  pnpm dev
 
-> Next steps:
->  cd my-first-app
->  pnpm install
->  pnpm dev
+    # Navigate to project
+    $: cd my-first-app
 
-# Navigate to project
-$: cd my-first-app
+    # Install dependencies
+    $: pnpm install
+    > ...
+    > Progress: resolved 152, reused 152, downloaded 0, added 152, done
 
-# Install dependencies
-$: pnpm install
-> ...
-> Progress: resolved 152, reused 152, downloaded 0, added 152, done
+    > dependencies:
+    > ...
 
-> dependencies:
-> ...
+    > devDependencies:
+    > ...
 
-> devDependencies:
-> ...
+    # Build Rust backend
+    $: pnpm run logic:build
+    > ...
+    > Finished `app-release` profile [optimized] target(s) in 14.04s
 
-# Build Rust backend
-$: pnpm run logic:build
-> ...
-> Finished `app-release` profile [optimized] target(s) in 14.04s
+    # This creates:
+    # - logic/build/my_first_app.wasm: The compiled WebAssembly binary that contains your application's business logic. This is installed on Calimero nodes (merod) where the WASM code is executed.
+    # - logic/build/my_first_app.abi.json: The Application Binary Interface (ABI) file that defines your application's API structure, including available functions, parameters, and return types. Used by client SDKs to generate type-safe interfaces for frontend integration.
+    ```
 
-# This creates:
-# - logic/build/my_first_app.wasm: The compiled WebAssembly binary that contains your application's business logic. This is installed on Calimero nodes (merod) where the WASM code is executed.
-# - logic/build/my_first_app.abi.json: The Application Binary Interface (ABI) file that defines your application's API structure, including available functions, parameters, and return types. Used by client SDKs to generate type-safe interfaces for frontend integration.
-```
+=== "Option B: Build from Core Examples"
+    For this, we will use the same key-value (KV) store example, but you can explore other available applications in the core repository.
 
-### Option B: Build from Core Examples
+    ```bash
+    # Clone core repository
+    $: git clone https://github.com/calimero-network/core
+    > Cloning into 'core'...
+    > ...
+    > Resolving deltas: 100% (16148/16148), done.
+    $: cd core/apps/kv-store
 
-For this, we will use the same key-value (KV) store example, but you can explore other available applications in the core repository.
+    # Build WASM
+    $: ./build.sh
+    > ...
+    > Finished `app-release` profile [optimized] target(s) in 14.04s
+    ```
 
-```bash
-# Clone core repository
-$: git clone https://github.com/calimero-network/core
-> Cloning into 'core'...
-> ...
-> Resolving deltas: 100% (16148/16148), done.
-$: cd core/apps/kv-store
+=== "Option C: Build from Scratch"
+    **1. Create Rust project:**
+    ```bash
+    $: cargo new --lib my-app
+    >     Creating library `my-app` package
+    > note: see more `Cargo.toml` keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+    $: cd my-app
+    ```
 
-# Build WASM
-$: ./build.sh
-> ...
-> Finished `app-release` profile [optimized] target(s) in 14.04s
-```
+    **2. Add dependencies and update `Cargo.toml`:**
+    ```toml
+    [package]
+    name = "my-app"
+    version = "0.1.0"
+    edition = "2021"
 
-### Option C: Build from Scratch
+    [lib]
+    crate-type = ["cdylib"]
 
-**1. Create Rust project:**
-```bash
-$: cargo new --lib my-app
->     Creating library `my-app` package
-> note: see more `Cargo.toml` keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-$: cd my-app
-```
+    [dependencies]
+    calimero-sdk = { git = "https://github.com/calimero-network/core", branch = "master" }
+    calimero-storage = { git = "https://github.com/calimero-network/core", branch = "master" }
 
-**2. Add dependencies and update `Cargo.toml`:**
-```toml
-[package]
-name = "my-app"
-version = "0.1.0"
-edition = "2021"
+    [build-dependencies]
+    calimero-wasm-abi = { git = "https://github.com/calimero-network/core", branch = "master" }
+    serde_json = "1.0.113"
 
-[lib]
-crate-type = ["cdylib"]
+    [profile.app-release]
+    inherits = "release"
+    opt-level = "z"
+    lto = true
+    codegen-units = 1
+    strip = true
 
-[dependencies]
-calimero-sdk = { git = "https://github.com/calimero-network/core", branch = "master" }
-calimero-storage = { git = "https://github.com/calimero-network/core", branch = "master" }
+    [profile.app-profiling]
+    inherits = "release"
+    debug = true
+    ```
 
-[build-dependencies]
-calimero-wasm-abi = { git = "https://github.com/calimero-network/core", branch = "master" }
-serde_json = "1.0.113"
+    **3. Write your application in `src/lib.rs`:**
+    ```rust
+    use calimero_sdk::app;
+    use calimero_sdk::borsh::{BorshDeserialize, BorshSerialize};
+    use calimero_storage::collections::{LwwRegister, UnorderedMap};
 
-[profile.app-release]
-inherits = "release"
-opt-level = "z"
-lto = true
-codegen-units = 1
-strip = true
+    #[app::state]
+    #[derive(Debug, BorshSerialize, BorshDeserialize)]
+    #[borsh(crate = "calimero_sdk::borsh")]
+    pub struct MyApp {
+        items: UnorderedMap<String, LwwRegister<String>>,
+    }
 
-[profile.app-profiling]
-inherits = "release"
-debug = true
-```
+    #[app::logic]
+    impl MyApp {
+        #[app::init]
+        pub fn init() -> MyApp {
+            MyApp {
+                items: UnorderedMap::new(),
+            }
+        }
 
-**3. Write your application in `src/lib.rs`:**
-```rust
-use calimero_sdk::app;
-use calimero_sdk::borsh::{BorshDeserialize, BorshSerialize};
-use calimero_storage::collections::{LwwRegister, UnorderedMap};
+        pub fn add_item(&mut self, key: String, value: String) -> app::Result<()> {
+            self.items.insert(key, value.into())?;
 
-#[app::state]
-#[derive(Debug, BorshSerialize, BorshDeserialize)]
-#[borsh(crate = "calimero_sdk::borsh")]
-pub struct MyApp {
-    items: UnorderedMap<String, LwwRegister<String>>,
-}
+            Ok(())
+        }
 
-#[app::logic]
-impl MyApp {
-    #[app::init]
-    pub fn init() -> MyApp {
-        MyApp {
-            items: UnorderedMap::new(),
+        pub fn get_item(&self, key: &str) -> app::Result<Option<String>> {
+            Ok(self.items.get(key)?.map(|v| v.get().clone()))
         }
     }
+    ```
+    **4. Add custom build.rs file and build.sh script**
+    ```rust
+    // build.rs
+    use std::fs;
+    use std::path::Path;
 
-    pub fn add_item(&mut self, key: String, value: String) -> app::Result<()> {
-        self.items.insert(key, value.into())?;
+    use calimero_wasm_abi::emitter::emit_manifest;
 
-        Ok(())
+    fn main() {
+        println!("cargo:rerun-if-changed=src/lib.rs");
+
+        // Parse the source code
+        let src_path = Path::new("src/lib.rs");
+        let src_content = fs::read_to_string(src_path).expect("Failed to read src/lib.rs");
+
+        // Generate ABI manifest using the emitter
+        let manifest = emit_manifest(&src_content).expect("Failed to emit ABI manifest");
+
+        // Serialize the manifest to JSON
+        let json = serde_json::to_string_pretty(&manifest).expect("Failed to serialize manifest");
+
+        // Write the ABI JSON to the res directory
+        let res_dir = Path::new("res");
+        if !res_dir.exists() {
+            fs::create_dir_all(res_dir).expect("Failed to create res directory");
+        }
+
+        let abi_path = res_dir.join("abi.json");
+        fs::write(&abi_path, json).expect("Failed to write ABI JSON");
+
+        // Extract and write the state schema
+        if let Ok(mut state_schema) = manifest.extract_state_schema() {
+            state_schema.schema_version = "wasm-abi/1".to_owned();
+
+            let state_schema_json =
+                serde_json::to_string_pretty(&state_schema).expect("Failed to serialize state schema");
+            let state_schema_path = res_dir.join("state-schema.json");
+            fs::write(&state_schema_path, state_schema_json)
+                .expect("Failed to write state schema JSON");
+        }
     }
+    ```
 
-    pub fn get_item(&self, key: &str) -> app::Result<Option<String>> {
-        Ok(self.items.get(key)?.map(|v| v.get().clone()))
-    }
-}
-```
-**4. Add custom build.rs file and build.sh script**
-```rust
-// build.rs
-use std::fs;
-use std::path::Path;
+    ```bash
+    # build.sh
+    #!/bin/bash
+    set -e
 
-use calimero_wasm_abi::emitter::emit_manifest;
+    cd "$(dirname $0)"
 
-fn main() {
-    println!("cargo:rerun-if-changed=src/lib.rs");
+    TARGET="${CARGO_TARGET_DIR:-target}"
 
-    // Parse the source code
-    let src_path = Path::new("src/lib.rs");
-    let src_content = fs::read_to_string(src_path).expect("Failed to read src/lib.rs");
+    rustup target add wasm32-unknown-unknown
 
-    // Generate ABI manifest using the emitter
-    let manifest = emit_manifest(&src_content).expect("Failed to emit ABI manifest");
+    mkdir -p res
 
-    // Serialize the manifest to JSON
-    let json = serde_json::to_string_pretty(&manifest).expect("Failed to serialize manifest");
+    # Use app-profiling profile when WASM_PROFILING is set to preserve function names
+    if [ "${WASM_PROFILING:-false}" = "true" ]; then
+        echo "Building with profiling profile "
+        PROFILE="app-profiling"
+    else
+        PROFILE="app-release"
+    fi
 
-    // Write the ABI JSON to the res directory
-    let res_dir = Path::new("res");
-    if !res_dir.exists() {
-        fs::create_dir_all(res_dir).expect("Failed to create res directory");
-    }
+    RUSTFLAGS="--remap-path-prefix $HOME=~" cargo build --target wasm32-unknown-unknown --profile "$PROFILE"
 
-    let abi_path = res_dir.join("abi.json");
-    fs::write(&abi_path, json).expect("Failed to write ABI JSON");
+    cp $TARGET/wasm32-unknown-unknown/$PROFILE/my_app.wasm ./res/
 
-    // Extract and write the state schema
-    if let Ok(mut state_schema) = manifest.extract_state_schema() {
-        state_schema.schema_version = "wasm-abi/1".to_owned();
+    # Skip wasm-opt for profiling builds to preserve debug info
+    if [ "$PROFILE" = "app-release" ] && command -v wasm-opt > /dev/null; then
+      wasm-opt -Oz ./res/my_app.wasm -o ./res/my_app.wasm
+    fi
 
-        let state_schema_json =
-            serde_json::to_string_pretty(&state_schema).expect("Failed to serialize state schema");
-        let state_schema_path = res_dir.join("state-schema.json");
-        fs::write(&state_schema_path, state_schema_json)
-            .expect("Failed to write state schema JSON");
-    }
-}
-```
+    ```
 
-```bash
-# build.sh
-#!/bin/bash
-set -e
-
-cd "$(dirname $0)"
-
-TARGET="${CARGO_TARGET_DIR:-target}"
-
-rustup target add wasm32-unknown-unknown
-
-mkdir -p res
-
-# Use app-profiling profile when WASM_PROFILING is set to preserve function names
-if [ "${WASM_PROFILING:-false}" = "true" ]; then
-    echo "Building with profiling profile "
-    PROFILE="app-profiling"
-else
-    PROFILE="app-release"
-fi
-
-RUSTFLAGS="--remap-path-prefix $HOME=~" cargo build --target wasm32-unknown-unknown --profile "$PROFILE"
-
-cp $TARGET/wasm32-unknown-unknown/$PROFILE/my_app.wasm ./res/
-
-# Skip wasm-opt for profiling builds to preserve debug info
-if [ "$PROFILE" = "app-release" ] && command -v wasm-opt > /dev/null; then
-  wasm-opt -Oz ./res/my_app.wasm -o ./res/my_app.wasm
-fi
-
-```
-
-**5. Build WASM by using custom script:**
-```bash
-$: chmod +x build.sh && ./build.sh
-```
+    **5. Build WASM by using custom script:**
+    ```bash
+    $: chmod +x build.sh && ./build.sh
+    ```
 
 ## Step 4: Install application on the node
 > **NOTE**: If you followed the setup with merobox continue with the merobox commands. By using merobox start command you will have a node with id `calimero-node-1` running.
 > If you used merod to initialize and run the node it will have the node id you selected while running the command.
 > If you used default commands from this tutorial you will have node with id `node1` running.
 
-```bash
-# Install my_app or kv_store; configure path accordingly
-# Using Merobox
-$:  merobox install --node calimero-node-1 --dev --path res/my_app.wasm
-> ✓ Application installed successfully!
-> Application ID: 7mHCKUsCeb84hDF8trn1eNzcqH8L1LNbdZiCcvFUWx7s
+=== "Merobox"
+    ```bash
+    # Install my_app or kv_store; configure path accordingly
+    $:  merobox install --node calimero-node-1 --dev --path res/my_app.wasm
+    > ✓ Application installed successfully!
+    > Application ID: 7mHCKUsCeb84hDF8trn1eNzcqH8L1LNbdZiCcvFUWx7s
+    ```
 
-# Using meroctl (for nodes started with merod tool)
-$: meroctl --node node1 app install --path res/my_app.wasm
-> ╭───────────────────────────────────────────────────────────────────────────────────╮
-> │ Application Installed                                                             │
-> ╞═══════════════════════════════════════════════════════════════════════════════════╡
-> │ Successfully installed application 'A1fKrY7kkbqiJJU9oaG65NPRw2MCvrNESs31ERqg7gLo' │
-> ╰───────────────────────────────────────────────────────────────────────────────────╯
-```
+=== "meroctl"
+    ```bash
+    # Install my_app or kv_store; configure path accordingly
+    # Using meroctl (for nodes started with merod tool)
+    $: meroctl --node node1 app install --path res/my_app.wasm
+    > ╭───────────────────────────────────────────────────────────────────────────────────╮
+    > │ Application Installed                                                             │
+    > ╞═══════════════════════════════════════════════════════════════════════════════════╡
+    > │ Successfully installed application 'A1fKrY7kkbqiJJU9oaG65NPRw2MCvrNESs31ERqg7gLo' │
+    > ╰───────────────────────────────────────────────────────────────────────────────────╯
+    ```
 
 See [SDK Guide](../builder-directory/sdk-guide.md) or [JavaScript SDK Guide](../builder-directory/js-sdk-guide.md) for detailed development guides.
 
@@ -447,172 +444,169 @@ See [SDK Guide](../builder-directory/sdk-guide.md) or [JavaScript SDK Guide](../
 
 To understand what contexts are and how they work read [here](../core-concepts/contexts.md) for more.
 
-### Using Merobox
+=== "Merobox"
+    **Create a context:**
+    ```bash
+    # Merobox command for creating contexts
+    $: merobox context create --node <NODE_ID> --protocol <PROTOCOL> --application-id <APP_ID>
 
-**Create a context:**
-```bash
-# Merobox command for creating contexts
-$: merobox context create --node <NODE_ID> --protocol <PROTOCOL> --application-id <APP_ID>
+    # Creating context with application ID from previous steps using NEAR protocol
+    $: merobox context create --node calimero-node-1 --protocol near  --application-id 7mHCKUsCeb84hDF8trn1eNzcqH8L1LNbdZiCcvFUWx7s
+    > Creating context for application 7mHCKUsCeb84hDF8trn1eNzcqH8L1LNbdZiCcvFUWx7s on node calimero-node-1
 
-# Creating context with application ID from previous steps using NEAR protocol
-$: merobox context create --node calimero-node-1 --protocol near  --application-id 7mHCKUsCeb84hDF8trn1eNzcqH8L1LNbdZiCcvFUWx7s
-> Creating context for application 7mHCKUsCeb84hDF8trn1eNzcqH8L1LNbdZiCcvFUWx7s on node calimero-node-1
+    > ✓ Context created successfully!
+    > Context ID: FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS
+    > Member Public Key: CgZxoj9mMECAGFVrGQ3mA8X57bWt38jvTPuAo3RAPhos
 
-> ✓ Context created successfully!
-> Context ID: FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS
-> Member Public Key: CgZxoj9mMECAGFVrGQ3mA8X57bWt38jvTPuAo3RAPhos
+    # Merobox command to view created context data
+    $: merobox context list --node calimero-node-1
+    > Listing contexts on node calimero-node-1
 
-# Merobox command to view created context data
-$: merobox context list --node calimero-node-1
-> Listing contexts on node calimero-node-1
+    > Found 1 context(s):
+    > Fetching member public keys...
+    >                                                     Contexts                                                     
+    > ╭─────────────────────────────────────────────┬─────────────────────────────────────────────┬─────────────────────────────────────────────╮
+    > │ Context ID                                  │ Application ID                               │ Member Public Key                           │
+    > ├─────────────────────────────────────────────┼─────────────────────────────────────────────┼─────────────────────────────────────────────┤
+    > │ FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS│ 7mHCKUsCeb84hDF8trn1eNzcqH8L1LNbdZiCcvFUWx… │ CgZxoj9mMECAGFVrGQ3mA8X57bWt38jvTPuAo3RAPhos │
+    > ╰─────────────────────────────────────────────┴─────────────────────────────────────────────┴─────────────────────────────────────────────╯
 
-> Found 1 context(s):
-> Fetching member public keys...
->                                                     Contexts                                                     
-> ╭─────────────────────────────────────────────┬─────────────────────────────────────────────┬─────────────────────────────────────────────╮
-> │ Context ID                                  │ Application ID                               │ Member Public Key                           │
-> ├─────────────────────────────────────────────┼─────────────────────────────────────────────┼─────────────────────────────────────────────┤
-> │ FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS│ 7mHCKUsCeb84hDF8trn1eNzcqH8L1LNbdZiCcvFUWx… │ CgZxoj9mMECAGFVrGQ3mA8X57bWt38jvTPuAo3RAPhos │
-> ╰─────────────────────────────────────────────┴─────────────────────────────────────────────┴─────────────────────────────────────────────╯
+    # Merobox command for viewing context data
+    $: Getting context FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS from node calimero-node-1
+    > ✓ Context details:
+    > Context ID: FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS
+    > Application ID: 7mHCKUsCeb84hDF8trn1eNzcqH8L1LNbdZiCcvFUWx7s
+    > Root Hash: 3qKcevhyARug9bwrfn4mWWHyVdTYGEokgvxJ5NpJiFU9
+    ```
 
-# Merobox command for viewing context data
-$: Getting context FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS from node calimero-node-1
-> ✓ Context details:
-> Context ID: FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS
-> Application ID: 7mHCKUsCeb84hDF8trn1eNzcqH8L1LNbdZiCcvFUWx7s
-> Root Hash: 3qKcevhyARug9bwrfn4mWWHyVdTYGEokgvxJ5NpJiFU9
-```
+    **Call methods:**
+    ```bash
+    # Merobox - call a mutation command
+    $: merobox call --node <NODE_ID> --context-id <CONTEXT_ID> --function <METHOD_NAME> --args <ARGS_IN_JSN> --executor-key <IDENTITY_PUBLIC_KEY>
 
-**Call methods:**
-```bash
-# Merobox - call a mutation command
-$: merobox call --node <NODE_ID> --context-id <CONTEXT_ID> --function <METHOD_NAME> --args <ARGS_IN_JSN> --executor-key <IDENTITY_PUBLIC_KEY>
+    # Commands from previous steps 
+    $: merobox call --node calimero-node-1 --context-id FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS --function add_item --args '{"key": "hello", "value": "world"}' --executor-key CgZxoj9mMECAGFVrGQ3mA8X57bWt38jvTPuAo3RAPhos
+    > Using RPC endpoint: http://localhost:59603
+    > ...
+    > 🔍 JSON-RPC Parsed Response: {
+    >  jsonrpc: 2.0,
+    >  id: 1,
+    >  result: {
+    >    output: null
+    >  }}
+    > ╭─────────────────────────────────────────────────────── Function Call Result ────────────────────────────────────────────────────────╮
+    > │ Function call successful!                                                                                                           │
+    > │                                                                                                                                     │
+    > │ Function: add_item                                                                                                                  │
+    > │ Context: FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS                                                                               │
+    > │ Node: calimero-node-1                                                                                                               │
+    > │ Result: {'id': '1', 'jsonrpc': '2.0', 'result': {'output': None}}                                                                   │
+    > ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
-# Commands from previous steps 
-$: merobox call --node calimero-node-1 --context-id FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS --function add_item --args '{"key": "hello", "value": "world"}' --executor-key CgZxoj9mMECAGFVrGQ3mA8X57bWt38jvTPuAo3RAPhos
-> Using RPC endpoint: http://localhost:59603
-> ...
-> 🔍 JSON-RPC Parsed Response: {
->  jsonrpc: 2.0,
->  id: 1,
->  result: {
->    output: null
->  }}
-> ╭─────────────────────────────────────────────────────── Function Call Result ────────────────────────────────────────────────────────╮
-> │ Function call successful!                                                                                                           │
-> │                                                                                                                                     │
-> │ Function: add_item                                                                                                                  │
-> │ Context: FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS                                                                               │
-> │ Node: calimero-node-1                                                                                                               │
-> │ Result: {'id': '1', 'jsonrpc': '2.0', 'result': {'output': None}}                                                                   │
-> ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+    # Merobox - call a view command
+    $: merobox call --node <NODE_ID> --context-id <CONTEXT_ID> --function <METHOD_NAME> --args <ARGS_IN_JSN> --executor-key <IDENTITY_PUBLIC_KEY>
 
-# Merobox - call a view command
-$: merobox call --node <NODE_ID> --context-id <CONTEXT_ID> --function <METHOD_NAME> --args <ARGS_IN_JSN> --executor-key <IDENTITY_PUBLIC_KEY>
+    # Commands from previous steps 
+    $: merobox call --node calimero-node-1 --context-id FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS --function get_item --args '{"key": "hello"}' --executor-key CgZxoj9mMECAGFVrGQ3mA8X57bWt38jvTPuAo3RAPhos
+    > Using RPC endpoint: http://localhost:59603
+    > ...
+    > 🔍 JSON-RPC Parsed Response: {
+    >  jsonrpc: 2.0,
+    >  id: 1,
+    >  result: {
+    >    output: world
+    >  }
+    > }
+    > ╭─────────────────────────────────────────────────────── Function Call Result ────────────────────────────────────────────────────────╮
+    > │ Function call successful!                                                                                                           │
+    > │                                                                                                                                     │
+    > │ Function: get_item                                                                                                                  │
+    > │ Context: FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS                                                                               │
+    > │ Node: calimero-node-1                                                                                                               │
+    > │ Result: {'id': '1', 'jsonrpc': '2.0', 'result': {'output': 'world'}}                                                                │
+    > ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+    ```
 
-# Commands from previous steps 
-$: merobox call --node calimero-node-1 --context-id FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS --function get_item --args '{"key": "hello"}' --executor-key CgZxoj9mMECAGFVrGQ3mA8X57bWt38jvTPuAo3RAPhos
-> Using RPC endpoint: http://localhost:59603
-> ...
-> 🔍 JSON-RPC Parsed Response: {
->  jsonrpc: 2.0,
->  id: 1,
->  result: {
->    output: world
->  }
-> }
-> ╭─────────────────────────────────────────────────────── Function Call Result ────────────────────────────────────────────────────────╮
-> │ Function call successful!                                                                                                           │
-> │                                                                                                                                     │
-> │ Function: get_item                                                                                                                  │
-> │ Context: FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS                                                                               │
-> │ Node: calimero-node-1                                                                                                               │
-> │ Result: {'id': '1', 'jsonrpc': '2.0', 'result': {'output': 'world'}}                                                                │
-> ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-```
+=== "meroctl"
+    **Create a context:**
+    ```bash
+    # Meroctl command for creating contexts
+    $: meroctl --node <NODE_ID> context create \
+     --protocol <PROTOCOL> --application-id <APP_ID>
 
-### Using merod and meroctl
+    # Creating context with application ID from previous steps using NEAR protocol
+    $: meroctl --node node1 context create \
+      --protocol near --application-id A1fKrY7kkbqiJJU9oaG65NPRw2MCvrNESs31ERqg7gLo
+    > +------------------------------+
+    > | Context Created              |
+    > +==============================+
+    > | Successfully created context |
+    > +------------------------------+
 
-**Create a context:**
-```bash
-# Meroctl command for creating contexts
-$: meroctl --node <NODE_ID> context create \
- --protocol <PROTOCOL> --application-id <APP_ID>
+    # Meroctl command to view created context data
+    $: meroctl --node node1 context ls
+    > +----------------------------------------------+----------------------------------------------+------------------------------------------------------+
+    > | Context ID                                   | Application ID                               | Root Hash                                            |
+    > +====================================================================================================================================================+
+    > | H6Q7qGQY3h4P8HiX2eHtRiR2jZrauovvDhGnymt9nxak | A1fKrY7kkbqiJJU9oaG65NPRw2MCvrNESs31ERqg7gLo | Hash("2NxXdVKqeMU7S957bitBfeTzWPZXPvyUN2VhgjwNn4Yn") |
+    > +----------------------------------------------+----------------------------------------------+------------------------------------------------------+
 
-# Creating context with application ID from previous steps using NEAR protocol
-$: meroctl --node node1 context create \
-  --protocol near --application-id A1fKrY7kkbqiJJU9oaG65NPRw2MCvrNESs31ERqg7gLo
-> +------------------------------+
-> | Context Created              |
-> +==============================+
-> | Successfully created context |
-> +------------------------------+
+    # Meroctl command for viewing context identity
+    $: meroctl --node <NODE_ID> context identity list --context <CONTEXT_ID>
 
-# Meroctl command to view created context data
-$: meroctl --node node1 context ls
-> +----------------------------------------------+----------------------------------------------+------------------------------------------------------+
-> | Context ID                                   | Application ID                               | Root Hash                                            |
-> +====================================================================================================================================================+
-> | H6Q7qGQY3h4P8HiX2eHtRiR2jZrauovvDhGnymt9nxak | A1fKrY7kkbqiJJU9oaG65NPRw2MCvrNESs31ERqg7gLo | Hash("2NxXdVKqeMU7S957bitBfeTzWPZXPvyUN2VhgjwNn4Yn") |
-> +----------------------------------------------+----------------------------------------------+------------------------------------------------------+
+    $: meroctl --node node1 context identity list --context H6Q7qGQY3h4P8HiX2eHtRiR2jZrauovvDhGnymt9nxak
+    > +----------------------------------------------+------------------+
+    > | Identity                                     | Type             |
+    > +=================================================================+
+    > | FvjDfnCbQdgAT88K1VMQjQ7APpNMJspWC7RqqZHtdqoS | Context Identity |
+    > +----------------------------------------------+------------------+
+    ```
 
-# Meroctl command for viewing context identity
-$: meroctl --node <NODE_ID> context identity list --context <CONTEXT_ID>
+    **Call methods:**
+    ```bash
+    # Meroctl - call a mutation command
+    $: meroctl --node <NODE_ID> call <METHOD_NAME> \
+      --context <CONTEXT_ID> \
+      --args <ARGS_IN_JSON> \
+      --as <IDENTITY_PUBLIC_KEY>
 
-$: meroctl --node node1 context identity list --context H6Q7qGQY3h4P8HiX2eHtRiR2jZrauovvDhGnymt9nxak
-> +----------------------------------------------+------------------+
-> | Identity                                     | Type             |
-> +=================================================================+
-> | FvjDfnCbQdgAT88K1VMQjQ7APpNMJspWC7RqqZHtdqoS | Context Identity |
-> +----------------------------------------------+------------------+
-```
+    # Command with values from previous steps
+    $: meroctl --node node1 call add_item \
+     --context H6Q7qGQY3h4P8HiX2eHtRiR2jZrauovvDhGnymt9nxak \
+     --args '{"key": "hello", "value": "world"}' \
+     --as FvjDfnCbQdgAT88K1VMQjQ7APpNMJspWC7RqqZHtdqoS
+    > 🔍 JSON-RPC Request to http://127.0.0.1:2528/jsonrpc: {
+    > ...
+    > +-------------------+---------+
+    > | Response          | Status  |
+    > +=============================+
+    > | JSON-RPC Response | Success |
+    > +-------------------+---------+
 
-**Call methods:**
-```bash
-# Meroctl - call a mutation command
-$: meroctl --node <NODE_ID> call <METHOD_NAME> \
-  --context <CONTEXT_ID> \
-  --args <ARGS_IN_JSON> \
-  --as <IDENTITY_PUBLIC_KEY>
+    # Meroctl - call a view command
+    $: meroctl --node <NODE_ID> call <METHOD_NAME> \
+      --context <CONTEXT_ID> \
+      --args <ARGS_IN_JSON> \
+      --as <IDENTITY_PUBLIC_KEY>
 
-# Command with values from previous steps
-$: meroctl --node node1 call add_item \
- --context H6Q7qGQY3h4P8HiX2eHtRiR2jZrauovvDhGnymt9nxak \
- --args '{"key": "hello", "value": "world"}' \
- --as FvjDfnCbQdgAT88K1VMQjQ7APpNMJspWC7RqqZHtdqoS
-> 🔍 JSON-RPC Request to http://127.0.0.1:2528/jsonrpc: {
-> ...
-> +-------------------+---------+
-> | Response          | Status  |
-> +=============================+
-> | JSON-RPC Response | Success |
-> +-------------------+---------+
-
-# Meroctl - call a view command
-$: meroctl --node <NODE_ID> call <METHOD_NAME> \
-  --context <CONTEXT_ID> \
-  --args <ARGS_IN_JSON> \
-  --as <IDENTITY_PUBLIC_KEY>
-
-# Command with values from previous steps
-$: meroctl --node node1 call get_item \
-  --context H6Q7qGQY3h4P8HiX2eHtRiR2jZrauovvDhGnymt9nxak \
-  --args '{"key": "hello"}' \
-  --as FvjDfnCbQdgAT88K1VMQjQ7APpNMJspWC7RqqZHtdqoS
-> 🔍 meroctl call output: {
->   jsonrpc: 2.0,
->   id: null,
->   result: {
->     output: world
->   }
-> }
-> +-------------------+---------+
-> | Response          | Status  |
-> +=============================+
-> | JSON-RPC Response | Success |
-> +-------------------+---------+
-  
-```
+    # Command with values from previous steps
+    $: meroctl --node node1 call get_item \
+      --context H6Q7qGQY3h4P8HiX2eHtRiR2jZrauovvDhGnymt9nxak \
+      --args '{"key": "hello"}' \
+      --as FvjDfnCbQdgAT88K1VMQjQ7APpNMJspWC7RqqZHtdqoS
+    > 🔍 meroctl call output: {
+    >   jsonrpc: 2.0,
+    >   id: null,
+    >   result: {
+    >     output: world
+    >   }
+    > }
+    > +-------------------+---------+
+    > | Response          | Status  |
+    > +=============================+
+    > | JSON-RPC Response | Success |
+    > +-------------------+---------+
+    ```
 
 As this is the final step of this guide, let’s recap what we accomplished:
  
@@ -637,12 +631,20 @@ See [Contexts](../core-concepts/contexts.md) for context management details.
 
 Examples in [`core/apps`](https://github.com/calimero-network/core/tree/master/apps){:target="_blank"}:
 
-- **kv-store** - Simple key-value store (great for learning basics)
-- **blobs** - File/blob sharing with content addressing
-- **collaborative-editor** - Text collaboration with RGA CRDT
-- **private-data** - Private storage patterns
-- **team-metrics** - Nested CRDT structures
-- **xcall-example** - Cross-context communication
+- **abi-conformance** - ABI compatibility and conformance testing example
+- **access-control** - Role-based and capability-based access control patterns
+- **blobs** - File and blob storage with content addressing
+- **collaborative-editor** - Real-time text collaboration using CRDTs
+- **kv-store** - Simple key-value store (great for learning the basics)
+- **kv-store-init** - Minimal key-value store initialization example
+- **kv-store-with-handlers** - Key-value store with request handlers and routing
+- **kv-store-with-user-and-frozen-storage** - User-scoped storage with immutable (frozen) data
+- **nested-crdt-test** - Experiments with nested CRDT data structures
+- **private-data** - Patterns for private and restricted data storage
+- **state-schema-conformance** - State validation and schema conformance checks
+- **team-metrics-custom** - Custom team metrics built with nested CRDTs
+- **team-metrics-macro** - Macro-based approach to team metrics and aggregation
+- **xcall-example** - Cross-context and cross-application communication example
 ... and many more
 
 **Run an example:**
@@ -664,10 +666,13 @@ $: meroctl --node node1 app install --path res/kv_store.wasm
 
 ### Application Examples
 
-- **Curb** - Modern multi channel chat application
-- **Battleships** - Multiplayer game with real-time sync
-- **Shared Todo** - Collaborative task list
-- **KV Store** - Boilerplate template application
+- **Curb** — A modern multi-channel chat application, similar to Slack or Microsoft Teams
+
+- **MeroSign** — A peer-to-peer application for exchanging and digitally signing documents
+
+- **Battleships** — A real-time, multiplayer Battleships game with synchronized gameplay
+
+- **Shared Todo** — A collaborative task management application for shared to-do lists
 
 See [Examples](../examples/index.md) for complete list.
 
