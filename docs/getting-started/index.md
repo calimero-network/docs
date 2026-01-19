@@ -221,7 +221,7 @@ $: npx create-mero-app my-first-app
 > Done.
 
 > Next steps:
->  cd my-app
+>  cd my-first-app
 >  pnpm install
 >  pnpm dev
 
@@ -430,9 +430,10 @@ $: chmod +x build.sh && ./build.sh
 # Using Merobox
 $:  merobox install --node calimero-node-1 --dev --path res/my_app.wasm
 > ✓ Application installed successfully!
+> Application ID: 7mHCKUsCeb84hDF8trn1eNzcqH8L1LNbdZiCcvFUWx7s
 
 # Using meroctl (for nodes started with merod tool)
-$: meroctl --node node1 app install --path res/my_store.wasm
+$: meroctl --node node1 app install --path res/my_app.wasm
 > ╭───────────────────────────────────────────────────────────────────────────────────╮
 > │ Application Installed                                                             │
 > ╞═══════════════════════════════════════════════════════════════════════════════════╡
@@ -445,6 +446,92 @@ See [SDK Guide](../builder-directory/sdk-guide.md) or [JavaScript SDK Guide](../
 ## Step 5: Create Context and call mutate and view methods
 
 To understand what contexts are and how they work read [here](../core-concepts/contexts.md) for more.
+
+### Using Merobox
+
+**Create a context:**
+```bash
+# Merobox command for creating contexts
+$: merobox context create --node <NODE_ID> --protocol <PROTOCOL> --application-id <APP_ID>
+
+# Creating context with application ID from previous steps using NEAR protocol
+$: merobox context create --node calimero-node-1 --protocol near  --application-id 7mHCKUsCeb84hDF8trn1eNzcqH8L1LNbdZiCcvFUWx7s
+> Creating context for application 7mHCKUsCeb84hDF8trn1eNzcqH8L1LNbdZiCcvFUWx7s on node calimero-node-1
+
+> ✓ Context created successfully!
+> Context ID: FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS
+> Member Public Key: CgZxoj9mMECAGFVrGQ3mA8X57bWt38jvTPuAo3RAPhos
+
+# Merobox command to view created context data
+$: merobox context list --node calimero-node-1
+> Listing contexts on node calimero-node-1
+
+> Found 1 context(s):
+> Fetching member public keys...
+>                                                     Contexts                                                     
+> ╭─────────────────────────────────────────────┬─────────────────────────────────────────────┬─────────────────────────────────────────────╮
+> │ Context ID                                  │ Application ID                               │ Member Public Key                           │
+> ├─────────────────────────────────────────────┼─────────────────────────────────────────────┼─────────────────────────────────────────────┤
+> │ FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS│ 7mHCKUsCeb84hDF8trn1eNzcqH8L1LNbdZiCcvFUWx… │ CgZxoj9mMECAGFVrGQ3mA8X57bWt38jvTPuAo3RAPhos │
+> ╰─────────────────────────────────────────────┴─────────────────────────────────────────────┴─────────────────────────────────────────────╯
+
+# Merobox command for viewing context data
+$: Getting context FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS from node calimero-node-1
+> ✓ Context details:
+> Context ID: FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS
+> Application ID: 7mHCKUsCeb84hDF8trn1eNzcqH8L1LNbdZiCcvFUWx7s
+> Root Hash: 3qKcevhyARug9bwrfn4mWWHyVdTYGEokgvxJ5NpJiFU9
+```
+
+**Call methods:**
+```bash
+# Merobox - call a mutation command
+$: merobox call --node <NODE_ID> --context-id <CONTEXT_ID> --function <METHOD_NAME> --args <ARGS_IN_JSN> --executor-key <IDENTITY_PUBLIC_KEY>
+
+# Commands from previous steps 
+$: merobox call --node calimero-node-1 --context-id FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS --function add_item --args '{"key": "hello", "value": "world"}' --executor-key CgZxoj9mMECAGFVrGQ3mA8X57bWt38jvTPuAo3RAPhos
+> Using RPC endpoint: http://localhost:59603
+> ...
+> 🔍 JSON-RPC Parsed Response: {
+>  jsonrpc: 2.0,
+>  id: 1,
+>  result: {
+>    output: null
+>  }}
+> ╭─────────────────────────────────────────────────────── Function Call Result ────────────────────────────────────────────────────────╮
+> │ Function call successful!                                                                                                           │
+> │                                                                                                                                     │
+> │ Function: add_item                                                                                                                  │
+> │ Context: FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS                                                                               │
+> │ Node: calimero-node-1                                                                                                               │
+> │ Result: {'id': '1', 'jsonrpc': '2.0', 'result': {'output': None}}                                                                   │
+> ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+# Merobox - call a view command
+$: merobox call --node <NODE_ID> --context-id <CONTEXT_ID> --function <METHOD_NAME> --args <ARGS_IN_JSN> --executor-key <IDENTITY_PUBLIC_KEY>
+
+# Commands from previous steps 
+$: merobox call --node calimero-node-1 --context-id FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS --function get_item --args '{"key": "hello"}' --executor-key CgZxoj9mMECAGFVrGQ3mA8X57bWt38jvTPuAo3RAPhos
+> Using RPC endpoint: http://localhost:59603
+> ...
+> 🔍 JSON-RPC Parsed Response: {
+>  jsonrpc: 2.0,
+>  id: 1,
+>  result: {
+>    output: world
+>  }
+> }
+> ╭─────────────────────────────────────────────────────── Function Call Result ────────────────────────────────────────────────────────╮
+> │ Function call successful!                                                                                                           │
+> │                                                                                                                                     │
+> │ Function: get_item                                                                                                                  │
+> │ Context: FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS                                                                               │
+> │ Node: calimero-node-1                                                                                                               │
+> │ Result: {'id': '1', 'jsonrpc': '2.0', 'result': {'output': 'world'}}                                                                │
+> ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+```
+
+### Using merod and meroctl
 
 **Create a context:**
 ```bash
@@ -539,7 +626,7 @@ As this is the final step of this guide, let’s recap what we accomplished:
  
  5. Created a context for the installed application on the NEAR Protocol to store its configuration using Merobox or meroctl.
  
- 6. Invoked a change method using Merobox or meroctl to save a key–value pair, then used a view method to verify that the data was saved >correctly.
+ 6. Invoked a change method using Merobox or meroctl to save a key–value pair, then used a view method to verify that the data was saved correctly.
 
 
 See [Contexts](../core-concepts/contexts.md) for context management details.
