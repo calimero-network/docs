@@ -26,14 +26,28 @@
 
 /* Light theme (default) */
 [data-md-color-scheme="default"] {
-  --md-default-bg-color: #F5F5F4; /* light neutral backdrop */
+  --md-default-bg-color: #FFFFFF; /* pure white background */
   --md-default-fg-color: #1F1F1F;
   --md-primary-fg-color: var(--calimero-green-800);
   --md-primary-bg-color: #FFFFFF;
   --md-accent-fg-color: var(--calimero-green-700);
   --md-accent-bg-color: rgba(115, 179, 12, 0.14);
-  --md-code-bg-color: #EFEFEF;
-  --md-code-fg-color: #222222;
+  --md-code-bg-color: #000000;
+  --md-code-fg-color: #FFFFFF;
+  /* Syntax highlighting colors - SAME on both themes, visible on black background */
+  --md-code-hl-color: #D4D4D4;
+  --md-code-hl-number-color: #B5CEA8;
+  --md-code-hl-special-color: #DCDCAA;
+  --md-code-hl-function-color: #DCDCAA;
+  --md-code-hl-constant-color: #569CD6;
+  --md-code-hl-keyword-color: #569CD6;
+  --md-code-hl-string-color: #CE9178;
+  --md-code-hl-name-color: #4EC9B0;
+  --md-code-hl-operator-color: #D4D4D4;
+  --md-code-hl-punctuation-color: #D4D4D4;
+  --md-code-hl-comment-color: #6A9955;
+  --md-code-hl-generic-color: #D4D4D4;
+  --md-code-hl-variable-color: #9CDCFE;
 }
 
 [data-md-color-scheme="default"] body,
@@ -62,6 +76,7 @@
 }
 
 [data-md-color-scheme="default"] .md-tabs__item--active .md-tabs__link,
+[data-md-color-scheme="default"] .md-tabs__link--active,
 [data-md-color-scheme="default"] .md-tabs__link:hover {
   color: var(--calimero-green-800);
   opacity: 1;
@@ -73,7 +88,11 @@
 }
 
 [data-md-color-scheme="default"] .md-nav__link--active {
-  color: #6B8611;
+  color: var(--calimero-green-800) !important;
+}
+
+[data-md-color-scheme="default"] .md-nav__link:hover {
+  color: var(--calimero-green-800);
 }
 
 [data-md-color-scheme="default"] .md-nav__title {
@@ -88,6 +107,23 @@
   color: #3E5207;
 }
 
+/* Links with inline code (backticks) - black background with white text on light theme */
+[data-md-color-scheme="default"] .md-typeset a code {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+  padding: 0.1em 0.3em;
+  border-radius: 0.2em;
+}
+[data-md-color-scheme="default"] .md-typeset a code:hover {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+}
+/* Ensure code text inside links is white, overriding any link color inheritance */
+[data-md-color-scheme="default"] .md-typeset a code,
+[data-md-color-scheme="default"] .md-typeset a code * {
+  color: #FFFFFF !important;
+}
+
 [data-md-color-scheme="default"] .md-typeset h1,
 [data-md-color-scheme="default"] .md-typeset h2,
 [data-md-color-scheme="default"] .md-typeset h3 {
@@ -96,7 +132,7 @@
 
 [data-md-color-scheme="default"] .md-typeset table:not([class]) th {
   background-color: rgba(138, 162, 0, 0.22);
-  color: #222222;
+  color: #FFF;
 }
 
 [data-md-color-scheme="default"] .md-typeset table:not([class]) tbody tr {
@@ -136,8 +172,22 @@
   --md-primary-bg-color: var(--calimero-neutral-900);
   --md-accent-fg-color: var(--calimero-green-600);
   --md-accent-bg-color: rgba(165, 255, 17, 0.1);
-  --md-code-bg-color: rgba(40, 40, 40, 0.85);
-  --md-code-fg-color: #E5E5E5;
+  --md-code-bg-color: #000000;
+  --md-code-fg-color: #FFFFFF;
+  /* Syntax highlighting colors - SAME on both themes, visible on black background */
+  --md-code-hl-color: #D4D4D4;
+  --md-code-hl-number-color: #B5CEA8;
+  --md-code-hl-special-color: #DCDCAA;
+  --md-code-hl-function-color: #DCDCAA;
+  --md-code-hl-constant-color: #569CD6;
+  --md-code-hl-keyword-color: #569CD6;
+  --md-code-hl-string-color: #CE9178;
+  --md-code-hl-name-color: #4EC9B0;
+  --md-code-hl-operator-color: #D4D4D4;
+  --md-code-hl-punctuation-color: #D4D4D4;
+  --md-code-hl-comment-color: #6A9955;
+  --md-code-hl-generic-color: #D4D4D4;
+  --md-code-hl-variable-color: #9CDCFE;
 }
 
 [data-md-color-scheme="slate"] .md-header {
@@ -187,6 +237,14 @@
   opacity: 1;
 }
 
+[data-md-color-scheme="slate"] .md-nav__link--active {
+  color: var(--calimero-green-600) !important;
+}
+
+[data-md-color-scheme="slate"] .md-nav__link:hover {
+  color: var(--calimero-green-600);
+}
+
 /* Content body link colors */
 .md-typeset a {
   color: var(--calimero-green-600);
@@ -233,8 +291,9 @@ blockquote {
   opacity: 0.75;
 }
 
-.md-tabs__link:hover,
-.md-tabs__link--active {
+.md-tabs__item--active .md-tabs__link,
+.md-tabs__link--active,
+.md-tabs__link:hover {
   color: var(--calimero-green-600);
   opacity: 1;
 }
@@ -357,6 +416,134 @@ blockquote {
 .md-copyright {
   opacity: 0;
   pointer-events: none;
+}
+
+/* Back to top button - black text on green hover for better contrast */
+.md-top {
+  color: var(--md-default-fg-color);
+}
+
+.md-top:hover {
+  background-color: var(--calimero-green-800);
+  color: #000000 !important;
+}
+
+[data-md-color-scheme="slate"] .md-top:hover {
+  background-color: var(--calimero-green-600);
+  color: #000000 !important;
+}
+
+/* Code block copy icon - white on both themes for consistency (black background) */
+.md-code__button {
+  color: #FFFFFF !important;
+  fill: #FFFFFF !important;
+}
+
+.md-code__button:hover {
+  color: #FFFFFF !important;
+  fill: #FFFFFF !important;
+  opacity: 0.8;
+}
+
+
+/* Mermaid diagrams - EXACTLY THE SAME on both themes */
+/* Black background on both themes */
+.mermaid {
+  background-color: #000000 !important;
+}
+.mermaid svg {
+  background-color: #000000 !important;
+}
+
+/* Node text - white on both themes */
+.mermaid svg .node text,
+.mermaid svg .nodeLabel text {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+}
+
+/* foreignObject text (used for HTML labels) - white on both themes */
+.mermaid svg .node foreignObject,
+.mermaid svg .nodeLabel foreignObject {
+  color: #ffffff !important;
+}
+
+.mermaid svg .node foreignObject *,
+.mermaid svg .nodeLabel foreignObject * {
+  color: #ffffff !important;
+}
+
+/* Edge-related text - white on both themes */
+.mermaid svg g[class*="edge"] text,
+.mermaid svg g[class*="edge"] tspan,
+.mermaid svg g[class*="Edge"] text,
+.mermaid svg g[class*="Edge"] tspan {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+  stroke: none !important;
+}
+
+.mermaid .edgeLabel text {
+  fill: red !important;
+}
+
+/* Any text in Mermaid that's not in a node - white on both themes */
+.mermaid svg text:not(.node text):not(.nodeLabel text) {
+  fill: #ffffff !important;
+  stroke: none !important;
+}
+
+/* Edge-related rects - transparent on both themes */
+.mermaid svg g[class*="edge"] rect,
+.mermaid svg g[class*="Edge"] rect {
+  fill: transparent !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Ensure ALL Mermaid elements are EXACTLY THE SAME on both themes */
+/* Force consistent node styling */
+.mermaid svg .node rect,
+.mermaid svg .node circle,
+.mermaid svg .node ellipse,
+.mermaid svg .node polygon,
+.mermaid svg .node path {
+  fill: #1a1a1a !important;
+  stroke: #00ff00 !important;
+}
+
+/* Force consistent edge/path styling */
+.mermaid svg .edgePath path,
+.mermaid svg path[class*="edge"],
+.mermaid svg .flowchart-link {
+  stroke: #00ff00 !important;
+  fill: none !important;
+}
+
+/* Force consistent arrowhead styling */
+.mermaid svg marker path,
+.mermaid svg .arrowheadPath {
+  fill: #00ff00 !important;
+  stroke: #00ff00 !important;
+}
+
+/* Force consistent label text (all labels white) */
+.mermaid svg .label text,
+.mermaid svg .cluster-label text,
+.mermaid svg text.label {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+}
+
+/* Force consistent title text */
+.mermaid svg .title text {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+}
+
+/* Ensure diagram container is consistent */
+.mermaid svg {
+  color: #ffffff !important;
 }
 
 

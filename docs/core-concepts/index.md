@@ -27,11 +27,12 @@ Understanding Calimero's core concepts is essential for building and operating a
 
 **Identity** in Calimero uses cryptographic keys for access control:
 
-- **Root Keys**: Master identities (typically from blockchain wallets)
+- **Root Keys**: Master identities (from blockchain wallets or username / password combination)
 - **Client Keys**: Derived keys for specific contexts
 - **Authentication**: Wallet-based authentication (NEAR)
 
 **Key concepts:**
+
 - Hierarchical key management
 - Wallet adapters and integration
 - JWT tokens for API authentication
@@ -48,6 +49,7 @@ Understanding Calimero's core concepts is essential for building and operating a
 - **Private Storage**: Node-local data that never leaves the node
 
 **Key concepts:**
+
 - SDK macros (`#[app::state]`, `#[app::logic]`)
 - CRDT collections (UnorderedMap, Vector, Counter, etc.)
 - Views vs mutations

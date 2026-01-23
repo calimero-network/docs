@@ -19,17 +19,33 @@ See [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/
 
 ```rust
 use calimero_sdk::app;
-use calimero_storage::collections::UnorderedMap;
+use calimero_sdk::borsh::{BorshDeserialize, BorshSerialize};
+use calimero_storage::collections::{LwwRegister, UnorderedMap};
 
 #[app::state]
+#[derive(Debug, BorshSerialize, BorshDeserialize)]
+#[borsh(crate = "calimero_sdk::borsh")]
 pub struct MyApp {
-    items: UnorderedMap<String, String>,
+    items: UnorderedMap<String, LwwRegister<String>>,
 }
 
 #[app::logic]
 impl MyApp {
-    pub fn add_item(&mut self, key: String, value: String) {
-        self.items.insert(key, value);
+    #[app::init]
+    pub fn init() -> MyApp {
+        MyApp {
+            items: UnorderedMap::new(),
+        }
+    }
+
+    pub fn add_item(&mut self, key: String, value: String) -> app::Result<()> {
+        self.items.insert(key, value.into())?;
+
+        Ok(())
+    }
+
+    pub fn get_item(&self, key: &str) -> app::Result<Option<String>> {
+        Ok(self.items.get(key)?.map(|v| v.get().clone()))
     }
 }
 ```
@@ -94,10 +110,24 @@ See [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/
 For node-local data (secrets, caches) that never syncs across nodes:
 
 ```rust
-use calimero_sdk::private_storage;
+...
+#[derive(BorshSerialize, BorshDeserialize, Debug)]
+#[borsh(crate = "calimero_sdk::borsh")]
+#[app::private]
+pub struct Secrets {
+    secrets: UnorderedMap<String, String>,
+}
 
-let secrets = private_storage::entry::<Secrets>("my-secrets");
-secrets.write(|s| { s.token = "rotated".to_string(); });
+...
+pub fn add_secret(&mut self, id: String, secret: String) -> app::Result<()> {
+        let mut secrets = Secrets::private_load_or_default()?;
+        let mut secrets_mut = secrets.as_mut();
+        secrets_mut
+            .secrets
+            .insert(id.clone(), secret.clone())?;
+        Ok(())
+    }
+...
 ```
 
 See [`core/crates/sdk/README.md`](https://github.com/calimero-network/core/blob/master/crates/sdk/README.md){:target="_blank"} for private storage details.
@@ -120,6 +150,7 @@ pub fn set_item(&mut self, key: String, value: String) -> app::Result<()> {
 ```
 
 **Benefits**:
+
 - View methods (`&self`) don't generate storage deltas
 - Faster execution (no persistence overhead)
 - Clear intent in API (Rust's type system enforces immutability)
@@ -128,7 +159,7 @@ pub fn set_item(&mut self, key: String, value: String) -> app::Result<()> {
 
 WASM execution is bounded:
 
-- **Memory**: Configurable limits (default: ~128MB)
+- **Memory**: Configurable limits (default: ~64MB)
 - **Stack size**: Bounded to prevent stack overflow
 - **Execution time**: Metered with gas-like system
 - **Register limits**: Number and size of storage registers
@@ -145,6 +176,7 @@ Applications export an ABI (Application Binary Interface) that clients use:
 4. **Type safety**: Full type information for client calls
 
 Tools:
+
 - **`calimero-abi`**: Rust tool for ABI generation
 - **`@calimero-network/abi-codegen`**: TypeScript client generator
 

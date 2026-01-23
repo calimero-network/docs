@@ -27,9 +27,9 @@ flowchart LR
 
 ### Root Keys
 
-A **root key** is the master identity for a user or node. It's typically:
+A **root key** is an authentication credential that represents a user's master identity in the Calimero auth system. It's typically:
 
-- Generated from a NEAR wallet
+- Generated from a NEAR wallet or from username / password combination
 - Used for high-level operations (creating contexts, managing memberships)
 - Stored securely (hardware wallet, keychain, etc.)
 
@@ -42,6 +42,7 @@ A **root key** is the master identity for a user or node. It's typically:
 - Proving membership in contexts
 
 **Benefits:**
+
 - **Isolation**: Compromise of one client key doesn't affect others
 - **Revocation**: Can revoke access per-context without changing root key
 - **Privacy**: Different keys for different contexts
@@ -51,7 +52,12 @@ A **root key** is the master identity for a user or node. It's typically:
 Generate identities with `meroctl`:
 
 ```bash
-meroctl identity create --node node1
+$: meroctl --node node1 context identity generate
+> +-----------------------------------------+---------------------------------------------+
+> | Context Identity Generated              | Public Key                                  |
+> +=======================================================================================+
+> | Successfully generated context identity | 8XG254iKm6YGNJANbkKQpFknmE27TykArAvfJPqHBmw |
+> +-----------------------------------------+---------------------------------------------+
 ```
 
 See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/blob/master/crates/meroctl/README.md){:target="_blank"} for CLI details.

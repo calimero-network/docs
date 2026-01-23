@@ -31,9 +31,10 @@ flowchart LR
 
 ### 1. Creation
 
-A context is created when an application is installed. See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/blob/master/crates/meroctl/README.md){:target="_blank"} for CLI details.
+A context is created when an application is installed and initialized. See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/blob/master/crates/meroctl/README.md){:target="_blank"} for CLI details.
 
 **What happens:**
+
 - Application WASM is installed on the node
 - Initial context state is created (via `#[app::init]` method)
 - Context creator becomes the first member
@@ -44,14 +45,25 @@ A context is created when an application is installed. See [`core/crates/meroctl
 Context creators can invite other identities to join:
 
 ```bash
-# Generate identity for invitee
-meroctl identity create --node node2
+# Generate identity for invitee (node2)
+$: meroctl identity create --node node2
+> +-----------------------------------------+----------------------------------------------+
+> | Context Identity Generated              | Public Key                                   |
+> +========================================================================================+
+> | Successfully generated context identity | AjP3UxusUZQY8i79WVsfVdrURpNQdD1gAcXq1RZqU9qN |
+> +-----------------------------------------+----------------------------------------------+
 
-# Create invitation
-meroctl context invite \
-  --context-id <CONTEXT_ID> \
-  --grantee-id <PUBLIC_KEY>
+# Create invitation (node1)
+$: meroctl --node <NODE_ID> context invite <INVITE_IDENTITY> --context <CONTEXT_ID> --as <INVITER_IDENTITY>
+
+# With real values
+$: meroctl --node node1 context invite AjP3UxusUZQY8i79WVsfVdrURpNQdD1gAcXq1RZqU9qN --context FfHXVWRqbSc2wrU2tEeuLQxFcmcpcfZd8Qk9yQFkm7W7 --as AvHDmLVfAdU2z2n1NsaVxQFBSDZvywAwxhnmnYhZHzHR
+...
+
 ```
+
+meroctl --node node1 context invite AjP3UxusUZQY8i79WVsfVdrURpNQdD1gAcXq1RZqU9qN --context FfHXVWRqbSc2wrU2tEeuLQxFcmcpcfZd8Qk9yQFkm7W7 --as AvHDmLVfAdU2z2n1NsaVxQFBSDZvywAwxhnmnYhZHzHR
+
 
 **Invitation contains:**
 - Context ID
