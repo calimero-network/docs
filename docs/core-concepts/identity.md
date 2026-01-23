@@ -107,7 +107,7 @@ After authentication, Calimero issues JWT tokens containing:
 
 **Revoke access:**
 ```bash
-meroctl context revoke --context-id <CONTEXT_ID> --member-id <PUBLIC_KEY>
+$: meroctl --node <NODE_ID> context identity revoke <MEMBER_ALIAS> <CAPABILITY> --as <REVOKER_ALIAS> --context <CONTEXT_ALIAS>
 ```
 
 See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/blob/master/crates/meroctl/README.md){:target="_blank"} for key management commands.
@@ -117,6 +117,7 @@ See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/b
 - Key can no longer sign transactions for that context
 - Existing transactions remain valid (immutable history)
 - Root key remains unaffected
+- Removed member stops receiving updates
 
 ## Wallet Adapters
 
@@ -125,12 +126,12 @@ Calimero provides wallet adapters for easy integration:
 ### JavaScript Client
 
 ```typescript
-import { ClientLogin } from '@calimero-network/calimero-client';
+import {
+  CalimeroConnectButton,
+} from "@calimero-network/calimero-client";
 
-// Automatically handles wallet connection and authentication
-<ClientLogin 
-  successRedirect={() => navigate('/dashboard')}
-/>
+// Automatically handles node connection and authentication
+<CalimeroConnectButton />
 ```
 
 **Supported wallets:**
@@ -139,14 +140,17 @@ import { ClientLogin } from '@calimero-network/calimero-client';
 ### Python Client
 
 ```python
-from calimero_client_py import create_connection, AuthMode
+from calimero_client_py import create_connection, create_client
 
-# Connect with wallet authentication
+# Connect to Calimero network
 connection = create_connection(
-    base_url="https://node.calimero.network",
-    auth_mode=AuthMode.WALLET,
-    wallet_type="near"
+    api_url="https://node.calimero.network",
+    node_name="your-node-name"  # Optional but recommended for token caching
 )
+
+# Create a client from the connection
+client = create_client(connection)
+...
 ```
 
 ## Best Practices

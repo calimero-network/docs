@@ -18,18 +18,10 @@ A **node** (`merod`) is the core runtime that orchestrates synchronization, even
 - Handles initial context creation and bootstrap
 - Can serve as entry point for new peers
 
-```bash
-merod --node-type coordinator
-```
-
 ### Peer Node
 - Joins existing network
 - Connects to coordinator or other peers
 - Participates in P2P mesh
-
-```bash
-merod --node-type peer --swarm-addrs /ip4/127.0.0.1/tcp/2428
-```
 
 ## Node Architecture
 
@@ -57,6 +49,7 @@ See [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob
 ## Synchronization
 
 Nodes use dual-path sync:
+
 - **Gossipsub** (~100-200ms) - Fast real-time broadcast
 - **Periodic P2P** (every 10-30s) - Catch-up and recovery
 
@@ -65,6 +58,7 @@ See [Architecture Overview](architecture.md#synchronization-flow) for sync flow 
 ## Event Handling
 
 When deltas are applied:
+
 1. Author node skips handlers (local UI already updated)
 2. Peer nodes execute handlers automatically
 3. Events propagate via DAG causal ordering
@@ -72,6 +66,7 @@ When deltas are applied:
 ## Blob Distribution
 
 Content-addressed blob storage:
+
 - Blobs stored by hash (blob ID)
 - LRU cache with eviction (5 min or 100 blobs / 500 MB)
 - P2P distribution via streams
@@ -82,17 +77,21 @@ See [`core/crates/node/README.md`](https://github.com/calimero-network/core/blob
 ## Admin Surfaces
 
 **JSON-RPC** (port 2528):
+
 - `/jsonrpc` - RPC calls
 
 **WebSocket** (`/ws`):
+
 - Real-time subscriptions (deltas, events, state changes)
 - JSON-RPC over WebSocket
 
 **SSE** (`/sse`):
+
 - Alternative to WebSocket for event streaming
 - Browser-friendly real-time updates
 
 **Admin API** (`/admin-api/`):
+
 - Node administration, context management, identity operations
 - JWT token authentication
 
@@ -112,7 +111,8 @@ See [Monitor & Debug](../operator-track/monitor-and-debug.md) for detailed guida
 ## Configuration
 
 Nodes can be configured via:
-- **Command-line flags**: `--node-type`, `--swarm-addrs`, `--config`
+
+- **Command-line flags**: `--swarm-addrs`, `--config`
 - **Configuration file**: TOML file with network, storage, runtime settings
 - **Environment variables**: Override specific settings
 

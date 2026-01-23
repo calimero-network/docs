@@ -364,7 +364,7 @@ blockquote {
 
 /* Search button proper styling */
 .md-search__icon {
-  color: var(--md-default-fg-color);
+  color: white;
 }
 
 /* ============================================

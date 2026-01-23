@@ -59,7 +59,6 @@ $: meroctl --node <NODE_ID> context invite <INVITE_IDENTITY> --context <CONTEXT_
 # With real values
 $: meroctl --node node1 context invite AjP3UxusUZQY8i79WVsfVdrURpNQdD1gAcXq1RZqU9qN --context FfHXVWRqbSc2wrU2tEeuLQxFcmcpcfZd8Qk9yQFkm7W7 --as AvHDmLVfAdU2z2n1NsaVxQFBSDZvywAwxhnmnYhZHzHR
 ...
-
 ```
 
 meroctl --node node1 context invite AjP3UxusUZQY8i79WVsfVdrURpNQdD1gAcXq1RZqU9qN --context FfHXVWRqbSc2wrU2tEeuLQxFcmcpcfZd8Qk9yQFkm7W7 --as AvHDmLVfAdU2z2n1NsaVxQFBSDZvywAwxhnmnYhZHzHR
@@ -137,12 +136,18 @@ Each protocol provides:
 
 **Query state:**
 ```bash
-meroctl call --context-id <CONTEXT_ID> --method get_item --args '{"key": "hello"}'
+$: meroctl --node <NODE_ID> call <QUERY_METHOD_NAME> \
+  --context <CONTEXT_ID> \
+  --args <ARGS_IN_JSON> \
+  --as <IDENTITY_PUBLIC_KEY>
 ```
 
 **Mutate state:**
 ```bash
-meroctl call --context-id <CONTEXT_ID> --method add_item --args '{"key": "hello", "value": "world"}' --executor-public-key <KEY>
+$: meroctl --node <NODE_ID> call <MUTATE_METHOD_NAME> \
+  --context <CONTEXT_ID> \
+  --args <ARGS_IN_JSON> \
+  --as <IDENTITY_PUBLIC_KEY>
 ```
 
 **Subscribe to events:**
@@ -156,12 +161,12 @@ See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/b
 
 **List contexts:**
 ```bash
-meroctl context list
+$: meroctl --node <NODE_ID> context ls
 ```
 
 **Revoke access:**
 ```bash
-meroctl context revoke --context-id <CONTEXT_ID> --member-id <PUBLIC_KEY>
+meroctl --node <NODE_ID> context identity revoke <MEMBER_ALIAS> <CAPABILITY> --as <REVOKER_ALIAS> --context <CONTEXT_ALIAS>
 ```
 
 Revoking access removes the member but preserves state history.

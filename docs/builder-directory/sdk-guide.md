@@ -10,6 +10,7 @@ The SDK consists of two main components:
 - **Storage SDK** (`core/crates/storage`): CRDT collections with automatic merge semantics
 
 Together, they enable you to build applications with:
+
 - Automatic conflict resolution via CRDTs
 - Real-time event propagation
 - Private node-local storage
@@ -23,22 +24,19 @@ Applications define **state** using the `#[app::state]` macro:
 
 ```rust
 use calimero_sdk::app;
-use calimero_storage::collections::UnorderedMap;
-use calimero_sdk::borsh::{BorshSerialize, BorshDeserialize};
+use calimero_sdk::borsh::{BorshDeserialize, BorshSerialize};
+use calimero_storage::collections::{LwwRegister, UnorderedMap};
 
-#[app::state(emits = Event)]
-#[derive(BorshSerialize, BorshDeserialize)]
+#[app::state]
+#[derive(Debug, BorshSerialize, BorshDeserialize)]
 #[borsh(crate = "calimero_sdk::borsh")]
 pub struct MyApp {
-    // CRDT-backed state (automatically synchronized)
-    items: UnorderedMap<String, String>,
-    
-    // Can nest CRDTs arbitrarily
-    nested: UnorderedMap<String, UnorderedMap<String, u64>>,
+    items: UnorderedMap<String, LwwRegister<String>>,
 }
 ```
 
 **Key points:**
+
 - State is persisted and synchronized across nodes
 - Must derive `BorshSerialize` and `BorshDeserialize` for persistence
 - Use `#[app::state(emits = Event)]` to enable event emission
@@ -50,30 +48,27 @@ Implement **logic** using the `#[app::logic]` macro:
 ```rust
 #[app::logic]
 impl MyApp {
-    // Initialize state (called once on context creation)
     #[app::init]
     pub fn init() -> MyApp {
         MyApp {
             items: UnorderedMap::new(),
-            nested: UnorderedMap::new(),
         }
     }
-    
-    // Mutation method (changes state, generates delta)
+
     pub fn add_item(&mut self, key: String, value: String) -> app::Result<()> {
-        self.items.insert(key, value)?;
+        self.items.insert(key, value.into())?;
+
         Ok(())
     }
-    
-    // View method (read-only, no delta generated)
-    #[app::view]
+
     pub fn get_item(&self, key: &str) -> app::Result<Option<String>> {
-        self.items.get(key)?.map(|v| v.get().clone()).ok_or_else(|| app::Error::NotFound)
+        Ok(self.items.get(key)?.map(|v| v.get().clone()))
     }
 }
 ```
 
 **Key points:**
+
 - `#[app::init]` marks the initialization function
 - Mutation methods (`&mut self`) generate deltas and sync
 - View methods (`#[app::view]`) are read-only and faster
@@ -366,9 +361,9 @@ cd my-calimero-app
 
 # Add dependencies to Cargo.toml
 [dependencies]
-calimero-sdk = { path = "../../core/crates/sdk" }
-calimero-storage = { path = "../../core/crates/storage" }
-calimero-sdk-macros = { path = "../../core/crates/sdk/macros" }
+calimero-sdk =  { git = "https://github.com/calimero-network/core", branch = "master" }
+calimero-storage =  { git = "https://github.com/calimero-network/core", branch = "master" }
+calimero-sdk-macros =  { git = "https://github.com/calimero-network/core", branch = "master" }
 borsh = { version = "1.0", features = ["derive"] }
 
 [lib]
