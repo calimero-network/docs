@@ -31,9 +31,10 @@ flowchart LR
 
 ### 1. Creation
 
-A context is created when an application is installed. See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/blob/master/crates/meroctl/README.md){:target="_blank"} for CLI details.
+A context is created when an application is installed and initialized. See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/blob/master/crates/meroctl/README.md){:target="_blank"} for CLI details or visit [getting started](/getting-started/){:target="_blank"} page.
 
 **What happens:**
+
 - Application WASM is installed on the node
 - Initial context state is created (via `#[app::init]` method)
 - Context creator becomes the first member
@@ -44,14 +45,24 @@ A context is created when an application is installed. See [`core/crates/meroctl
 Context creators can invite other identities to join:
 
 ```bash
-# Generate identity for invitee
-meroctl identity create --node node2
+# Generate identity for invitee (node2)
+$: meroctl identity create --node node2
+> +-----------------------------------------+----------------------------------------------+
+> | Context Identity Generated              | Public Key                                   |
+> +========================================================================================+
+> | Successfully generated context identity | AjP3UxusUZQY8i79WVsfVdrURpNQdD1gAcXq1RZqU9qN |
+> +-----------------------------------------+----------------------------------------------+
 
-# Create invitation
-meroctl context invite \
-  --context-id <CONTEXT_ID> \
-  --grantee-id <PUBLIC_KEY>
+# Create invitation (node1)
+$: meroctl --node <NODE_ID> context invite <INVITE_IDENTITY> --context <CONTEXT_ID> --as <INVITER_IDENTITY>
+
+# With real values
+$: meroctl --node node1 context invite AjP3UxusUZQY8i79WVsfVdrURpNQdD1gAcXq1RZqU9qN --context FfHXVWRqbSc2wrU2tEeuLQxFcmcpcfZd8Qk9yQFkm7W7 --as AvHDmLVfAdU2z2n1NsaVxQFBSDZvywAwxhnmnYhZHzHR
+...
 ```
+
+meroctl --node node1 context invite AjP3UxusUZQY8i79WVsfVdrURpNQdD1gAcXq1RZqU9qN --context FfHXVWRqbSc2wrU2tEeuLQxFcmcpcfZd8Qk9yQFkm7W7 --as AvHDmLVfAdU2z2n1NsaVxQFBSDZvywAwxhnmnYhZHzHR
+
 
 **Invitation contains:**
 - Context ID
@@ -125,12 +136,18 @@ Each protocol provides:
 
 **Query state:**
 ```bash
-meroctl call --context-id <CONTEXT_ID> --method get_item --args '{"key": "hello"}'
+$: meroctl --node <NODE_ID> call <QUERY_METHOD_NAME> \
+  --context <CONTEXT_ID> \
+  --args <ARGS_IN_JSON> \
+  --as <IDENTITY_PUBLIC_KEY>
 ```
 
 **Mutate state:**
 ```bash
-meroctl call --context-id <CONTEXT_ID> --method add_item --args '{"key": "hello", "value": "world"}' --executor-public-key <KEY>
+$: meroctl --node <NODE_ID> call <MUTATE_METHOD_NAME> \
+  --context <CONTEXT_ID> \
+  --args <ARGS_IN_JSON> \
+  --as <IDENTITY_PUBLIC_KEY>
 ```
 
 **Subscribe to events:**
@@ -144,12 +161,12 @@ See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/b
 
 **List contexts:**
 ```bash
-meroctl context list
+$: meroctl --node <NODE_ID> context ls
 ```
 
 **Revoke access:**
 ```bash
-meroctl context revoke --context-id <CONTEXT_ID> --member-id <PUBLIC_KEY>
+meroctl --node <NODE_ID> context identity revoke <MEMBER_ALIAS> <CAPABILITY> --as <REVOKER_ALIAS> --context <CONTEXT_ALIAS>
 ```
 
 Revoking access removes the member but preserves state history.

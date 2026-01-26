@@ -17,9 +17,16 @@ These examples live in [`calimero-network/core/apps`](https://github.com/calimer
 
 **Quick start:**
 ```bash
-cd core/apps/kv-store
-./build.sh
-meroctl --node node1 app install --path build/kv_store.wasm
+$: cd core/apps/kv-store && chmod +x build.sh && ./build.sh
+> ...
+> Finished `app-release` profile [optimized] target(s) in 14.04s
+
+$: meroctl --node node1 app install --path res/kv_store.wasm
+> ╭───────────────────────────────────────────────────────────────────────────────────╮
+> │ Application Installed                                                             │
+> ╞═══════════════════════════════════════════════════════════════════════════════════╡
+> │ Successfully installed application 'A1fKrY7kkbqiJJU9oaG65NPRw2MCvrNESs31ERqg7gLo' │
+> ╰───────────────────────────────────────────────────────────────────────────────────╯
 ```
 
 ## Application Examples

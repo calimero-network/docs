@@ -97,8 +97,8 @@ plugins:
           clusterBorder: "#00ff00"
           defaultLinkColor: "#00ff00"
           titleColor: "#ffffff"
-          edgeLabelBackground: "#1a1a1a"
-          labelBackground: "#1a1a1a"
+          edgeLabelBackground: "#111111"
+          labelBackground: "#111111"
 
 # Custom CSS for branding and logo switching
 extra_css:

@@ -18,6 +18,7 @@ Calimero nodes expose a JSON-RPC API over HTTP with WebSocket support for real-t
 ### API Methods
 
 Common methods:
+
 - `context.create` - Create a new context
 - `context.list` - List all contexts
 - `context.call` - Call a method on a context
