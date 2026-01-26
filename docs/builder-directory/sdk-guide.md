@@ -122,11 +122,14 @@ vec.push("item".to_string())?;
 // Get element by index
 let item = vec.get(0)?;  // Returns Option<T>
 
-// Insert at position
-vec.insert(0, "first".to_string())?;
+// Insert element
+vec.push("first".to_string());
+
+// Update element at index
+vec.update(0, "second".to_string());
 
 // Remove element
-vec.remove(0)?;
+vec.pop();
 ```
 
 #### Counter
@@ -136,7 +139,8 @@ Distributed counter with automatic summation:
 ```rust
 use calimero_storage::collections::Counter;
 
-let mut counter = Counter::new();
+// bool flag true allows decrement on Counter
+let mut counter: Counter<true> = Counter::new();
 
 // Increment
 counter.increment()?;
@@ -145,7 +149,7 @@ counter.increment()?;
 counter.decrement()?;
 
 // Get value
-let value = counter.value();  // Returns i64
+let value = counter.value()?;  // Returns i64
 ```
 
 #### LwwRegister<T>
@@ -158,7 +162,7 @@ use calimero_storage::collections::LwwRegister;
 let mut register: LwwRegister<String> = LwwRegister::new("initial".to_string());
 
 // Set value (latest timestamp wins)
-register.set("updated".to_string())?;
+register.set("updated".to_string());
 
 // Get value
 let value = register.get().clone();
@@ -190,9 +194,11 @@ set.remove("item")?;
 Applications can emit events for real-time updates:
 
 ```rust
-#[app::state(emits = Event)]
+#[app::state(emits = for<'a> Event<'a>)]
+#[derive(Debug, BorshSerialize, BorshDeserialize)]
+#[borsh(crate = "calimero_sdk::borsh")]
 pub struct MyApp {
-    items: UnorderedMap<String, String>,
+    items: UnorderedMap<String, LwwRegister<String>>,
 }
 
 // Define event types
@@ -234,23 +240,36 @@ impl MyApp {
 For node-local data (secrets, caches, per-node counters):
 
 ```rust
-use calimero_sdk::private_storage;
+#[derive(BorshSerialize, BorshDeserialize, Debug)]
+#[borsh(crate = "calimero_sdk::borsh")]
+#[app::private]
+pub struct Secrets {
+    secrets: UnorderedMap<String, String>,
+}
+
+impl Default for Secrets {
+    fn default() -> Self {
+        Self {
+            secrets: UnorderedMap::new(),
+        }
+    }
+}
 
 pub fn use_private_storage() {
-    // Create private entry
-    let secrets = private_storage::entry::<Secrets>("my-secrets");
-    
-    // Read value
-    let current = secrets.get_or_init(|| Secrets::default());
-    
-    // Modify value (never synced, stays on node)
-    secrets.write(|s| {
-        s.token = "rotated-token".to_string();
-    });
+    // set secret values
+    let mut secrets = Secrets::private_load_or_default()?;
+        let mut secrets_mut = secrets.as_mut();
+        secrets_mut
+            .secrets
+            .insert("secret_ID".to_string(), "secret".to_string())?;
+    // get secret values
+    let secrets = Secrets::private_load_or_default()?;
+    let map: BTreeMap<_, _> = secrets.secrets.entries()?.collect();
 }
 ```
 
 **Key properties:**
+
 - Never replicated across nodes
 - Stored via `storage_read` / `storage_write` directly
 - Never included in CRDT deltas
@@ -261,7 +280,9 @@ pub fn use_private_storage() {
 ### Pattern 1: Simple Key-Value Store
 
 ```rust
-#[app::state(emits = Event)]
+#[app::state(emits = for<'a> Event<'a>)]
+#[derive(Debug, BorshSerialize, BorshDeserialize)]
+#[borsh(crate = "calimero_sdk::borsh")]
 pub struct KvStore {
     items: UnorderedMap<String, LwwRegister<String>>,
 }
@@ -289,7 +310,9 @@ impl KvStore {
 ### Pattern 2: Counter with Metrics
 
 ```rust
-#[app::state]
+#[app::state()]
+#[derive(Debug, BorshSerialize, BorshDeserialize)]
+#[borsh(crate = "calimero_sdk::borsh")]
 pub struct Metrics {
     page_views: UnorderedMap<String, Counter>,
 }
@@ -304,7 +327,7 @@ impl Metrics {
     }
     
     pub fn track_page_view(&mut self, page: String) -> app::Result<()> {
-        if let Some(counter) = self.page_views.get(&page)? {
+        if let Some(mut counter) = self.page_views.get_mut(&page)? {
             counter.increment()?;
         } else {
             let mut counter = Counter::new();
@@ -314,8 +337,11 @@ impl Metrics {
         Ok(())
     }
     
-    pub fn get_views(&self, page: &str) -> app::Result<i64> {
-        Ok(self.page_views.get(page)?.map(|c| c.value()).unwrap_or(0))
+    pub fn get_views(&self, page: &str) -> app::Result<u64> {
+        match self.page_views.get(page)? {
+            Some(counter) => Ok(counter.value()?),
+            None => Ok(0),
+        }
     }
 }
 ```
@@ -324,6 +350,8 @@ impl Metrics {
 
 ```rust
 #[app::state]
+#[derive(Debug, BorshSerialize, BorshDeserialize)]
+#[borsh(crate = "calimero_sdk::borsh")]
 pub struct TeamMetrics {
     // Map of team → Map of member → Counter
     teams: UnorderedMap<String, UnorderedMap<String, Counter>>,
@@ -331,18 +359,25 @@ pub struct TeamMetrics {
 
 #[app::logic]
 impl TeamMetrics {
+    #[app::init]
+    pub fn init() -> TeamMetrics {
+        TeamMetrics {
+            teams: UnorderedMap::new(),
+        }
+    }
+    
     pub fn increment_metric(
         &mut self,
         team: String,
         member: String,
     ) -> app::Result<()> {
-        let members = self.teams
+        let mut members = self.teams
             .entry(team)?
-            .or_insert_with(|| UnorderedMap::new());
+            .or_insert_with(|| UnorderedMap::new())?;
         
-        let counter = members
+        let mut counter = members
             .entry(member)?
-            .or_insert_with(|| Counter::new());
+            .or_insert_with(|| Counter::new())?;
         
         counter.increment()?;
         Ok(())
