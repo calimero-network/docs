@@ -1,3 +1,4 @@
+# cache-bust-1
 # MkDocs and Material Theme
 mkdocs>=1.5.0
 mkdocs-material>=9.5.0
