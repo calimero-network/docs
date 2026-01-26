@@ -31,7 +31,7 @@ flowchart LR
 
 ### 1. Creation
 
-A context is created when an application is installed and initialized. See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/blob/master/crates/meroctl/README.md){:target="_blank"} for CLI details.
+A context is created when an application is installed and initialized. See [`core/crates/meroctl/README.md`](https://github.com/calimero-network/core/blob/master/crates/meroctl/README.md){:target="_blank"} for CLI details or visit [getting started](/getting-started/){:target="_blank"} page.
 
 **What happens:**
 

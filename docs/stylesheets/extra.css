@@ -124,6 +124,10 @@
   color: #FFFFFF !important;
 }
 
+.md-typeset a code {
+  color: #A5FF11 !important;
+}
+
 [data-md-color-scheme="default"] .md-typeset h1,
 [data-md-color-scheme="default"] .md-typeset h2,
 [data-md-color-scheme="default"] .md-typeset h3 {
@@ -132,7 +136,7 @@
 
 [data-md-color-scheme="default"] .md-typeset table:not([class]) th {
   background-color: rgba(138, 162, 0, 0.22);
-  color: #FFF;
+  color: #111111 !important;
 }
 
 [data-md-color-scheme="default"] .md-typeset table:not([class]) tbody tr {
@@ -364,7 +368,8 @@ blockquote {
 
 /* Search button proper styling */
 .md-search__icon {
-  color: white;
+  color: white !important;
+  fill: white !important;
 }
 
 /* ============================================
@@ -449,10 +454,11 @@ blockquote {
 /* Mermaid diagrams - EXACTLY THE SAME on both themes */
 /* Black background on both themes */
 .mermaid {
-  background-color: #000000 !important;
+  background-color: rgb(19, 18, 21) !important;
 }
+
 .mermaid svg {
-  background-color: #000000 !important;
+  background-color: rgb(19, 18, 21) !important;
 }
 
 /* Node text - white on both themes */

@@ -5,6 +5,7 @@ A **node** (`merod`) is the core runtime that orchestrates synchronization, even
 ## What Nodes Do
 
 **Core Responsibilities**:
+
 1. **Delta Management**: Apply deltas to WASM state in correct causal order
 2. **Network Coordination**: Gossipsub broadcasts + P2P sync streams
 3. **Event Execution**: Trigger event handlers on receiving nodes
