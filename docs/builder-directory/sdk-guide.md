@@ -393,13 +393,20 @@ impl TeamMetrics {
 # Create new Rust project
 cargo new my-calimero-app
 cd my-calimero-app
+```
 
+```bash
 # Add dependencies to Cargo.toml
 [dependencies]
+# Use latest release or specified version
 calimero-sdk =  { git = "https://github.com/calimero-network/core", branch = "master" }
 calimero-storage =  { git = "https://github.com/calimero-network/core", branch = "master" }
 calimero-sdk-macros =  { git = "https://github.com/calimero-network/core", branch = "master" }
 borsh = { version = "1.0", features = ["derive"] }
+
+[build-dependencies]
+# Use latest release or specified version
+calimero-wasm-abi = { git = "https://github.com/calimero-network/core", branch = "master" }
 
 [lib]
 crate-type = ["cdylib"]
@@ -408,25 +415,76 @@ crate-type = ["cdylib"]
 features = ["macro"]
 ```
 
+Create build.rs 
+
+> This build script automatically generates res/abi.json and res/state-schema.json from your Rust source code during cargo build by parsing src/lib.rs and extracting the ABI manifest using the calimero_wasm_abi emitter.
+
+```rust
+use std::fs;
+use std::path::Path;
+
+use calimero_wasm_abi::emitter::emit_manifest;
+
+fn main() {
+    println!("cargo:rerun-if-changed=src/lib.rs");
+
+    // Parse the source code
+    let src_path = Path::new("src/lib.rs");
+    let src_content = fs::read_to_string(src_path).expect("Failed to read src/lib.rs");
+
+    // Generate ABI manifest using the emitter
+    let manifest = emit_manifest(&src_content).expect("Failed to emit ABI manifest");
+
+    // Serialize the manifest to JSON
+    let json = serde_json::to_string_pretty(&manifest).expect("Failed to serialize manifest");
+
+    // Write the ABI JSON to the res directory
+    let res_dir = Path::new("res");
+    if !res_dir.exists() {
+        fs::create_dir_all(res_dir).expect("Failed to create res directory");
+    }
+
+    let abi_path = res_dir.join("abi.json");
+    fs::write(&abi_path, json).expect("Failed to write ABI JSON");
+
+    // Extract and write the state schema
+    if let Ok(mut state_schema) = manifest.extract_state_schema() {
+        state_schema.schema_version = "wasm-abi/1".to_owned();
+
+        let state_schema_json =
+            serde_json::to_string_pretty(&state_schema).expect("Failed to serialize state schema");
+        let state_schema_path = res_dir.join("state-schema.json");
+        fs::write(&state_schema_path, state_schema_json)
+            .expect("Failed to write state schema JSON");
+    }
+}
+```
+
 ### Build to WASM
 
 ```bash
 # Add WASM target
-rustup target add wasm32-unknown-unknown
+$: rustup target add wasm32-unknown-unknown
+> ... adding target ...
+> or
+> info: component 'rust-std' for target 'wasm32-unknown-unknown' is up to date
 
 # Build WASM binary
-cargo build --target wasm32-unknown-unknown --release
-
+$: cargo build --target wasm32-unknown-unknown --release
+>    Updating git repository `https://github.com/calimero-network/core`
+>    Updating crates.io index
+> ...
+> Finished `release` profile [optimized] target(s) in 25.67s
 # Output: target/wasm32-unknown-unknown/release/my_calimero_app.wasm
 ```
 
 ### Extract ABI
 
+> Application ABI gets extracted automatically when building the project by using build.rs file created in previous steps. 
+
 ```bash
-# Extract ABI from WASM
-calimero-abi extract \
-  target/wasm32-unknown-unknown/release/my_calimero_app.wasm \
-  -o abi.json
+$: ls res
+> abi.json my-calimero-app.wasm state-schema.json
 ```
 
 ## Best Practices
