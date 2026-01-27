@@ -12,6 +12,7 @@ The JavaScript SDK (`calimero-sdk-js`) consists of two main packages:
 - **`@calimero-network/calimero-cli-js`** - Build toolchain (Rollup → QuickJS → WASM)
 
 **Key features:**
+
 - Write services in TypeScript/JavaScript instead of Rust
 - Same CRDT collections as Rust SDK
 - Automatic conflict resolution
@@ -52,7 +53,8 @@ flowchart LR
     style RUNTIME fill:#000000,stroke:#00ff00,stroke-width:4px,color:#ffffff
 ```
 
-**How it works:**
+**How the SDK works:**
+
 - Your TypeScript code runs inside QuickJS (a lightweight JavaScript engine)
 - CRDT operations call host functions that interact with Rust storage
 - State is serialized and synchronized across the network
@@ -66,21 +68,111 @@ flowchart LR
 - `pnpm` ≥ 8 (or npm/yarn)
 - Access to a Calimero node (`merod`) and CLI (`meroctl`)
 
+### TypeScript Project setup
+
+> **NOTE**: There is also an npx command `npx create-mero-app my-app` which generates a template for Rust or Tyepscript application including frontend, application logic, scripts and workflows, see [Getting started](../getting-started/index.md/#__tabbed_3_1){:target="_blank"} for more information.
+
+```bash
+$: mkdir my-calimero-js-app
+$: cd my-calimero-js-app
+$: pnpm init -y
+> Wrote to /Users/X/Desktop/my-calimero-js-app/package.json
+>
+> {
+>   "name": "my-calimero-js-app",
+>   "version": "1.0.0",
+>   "description": "",
+>   "main": "index.js",
+>   "scripts": {
+>    "test": "echo \"Error: no test specified\" && exit 1"
+>   },
+>   "keywords": [],
+>   "author": "",
+>   "license": "ISC"
+> }
+
+
+#Add following build script which will be used later to generate .WASM from the typescript application.
+# package.json
+{
+  ...,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "calimero-sdk build src/index.ts -o build/my-calimero-js-app.wasm"
+  },
+  ...
+}
+
+$:  pnpm add typescript && npx tsc --init
+> +
+> Progress: resolved 4, reused 4, downloaded 0, added 1, done
+> 
+> dependencies:
+> + typescript 5.9.3
+> 
+> Done in 3s
+> 
+> Created a new tsconfig.json
+```
+
+Update tsconfig.json with following settings
+```json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": ["ES2020"],
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "outDir": "./build",
+    "rootDir": "./src",
+    "composite": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": ["src/**/*"]
+}
+
+```
+
 ### Installation
 
 ```bash
-pnpm add @calimero-network/calimero-sdk-js
-pnpm add -D @calimero-network/calimero-cli-js typescript
+$: pnpm add @calimero-network/calimero-sdk-js
+> ...
+> Progress: resolved 213, reused 145, downloaded 44, added 189, done
+> node_modules/.pnpm/@calimero-network+calimero-sdk-js@0.2.3_typescript@5.9.3/node_modules/@calimero-network/calimero-sdk-js: Running postinstall script...
+> dependencies:
+> + @calimero-network/calimero-sdk-js 0.2.3
+
+$: pnpm add -D @calimero-network/calimero-cli-js tslib
+> ...
+> devDependencies:
+> + @calimero-network/calimero-cli-js ^0.3.0
+> + tslib 2.8.1
+
+# Use following command if post install doesn't trigger deps installation
+$: cd node_modules/@calimero-network/calimero-cli-js && pnpm install-deps
+> 🔧 Installing Calimero SDK build dependencies...
+> ...
+
+# Create index file
+$: mkdir src && touch src/index.ts
 ```
 
 **NPM Resources:**
 
-- [calimero-sdk-js](https://www.npmjs.com/package/@calimero-network/calimero-sdk-js){:target="_blank"}
-- [calimero-cli-js](https://www.npmjs.com/package/@calimero-network/calimero-cli-js){:target="_blank"}
+- Calimero SDK JS - [NPM package](https://www.npmjs.com/package/@calimero-network/calimero-sdk-js){:target="_blank"}
+- Calimero CLI JS - [NPM package](https://www.npmjs.com/package/@calimero-network/calimero-cli-js){:target="_blank"}
 
-### Minimal Service
+### Minimal Application Example
 
 ```typescript
+// index.ts
 import { State, Logic, Init, View } from '@calimero-network/calimero-sdk-js';
 import { Counter } from '@calimero-network/calimero-sdk-js/collections';
 import * as env from '@calimero-network/calimero-sdk-js/env';
@@ -114,21 +206,76 @@ export class CounterLogic extends CounterApp {
 
 ```bash
 # Build WASM from TypeScript
-npx calimero-sdk build src/index.ts -o build/service.wasm
+$: pnpm build
+> my-calimero-js-app@1.0.0 build /Users/X/Desktop/my-calimero-js-app
+> calimero-sdk build src/index.ts -o build/my-calimero-js-app.wasm
 
-# Install on node
-meroctl --node node1 app install \
-  --path build/service.wasm \
-  --context-id <CONTEXT_ID>
+> [build] › …  awaiting  Extracting service methods...
+> [build] › ✔  success   Contract built successfully: build/my-calimero-js-app.wasm (1456.35 KB)
+
+# Install application wasm on the node
+$: meroctl --node node1 app install \
+  --path build/my-calimero-js-app.wasm
+> ╭───────────────────────────────────────────────────────────────────────────────────╮
+> │ Application Installed                                                             │
+> ╞═══════════════════════════════════════════════════════════════════════════════════╡
+> │ Successfully installed application 'EdQAQGNLHBpM8atH18re56RmxL676WCJZEZvCPdXQbbw' │
+> ╰───────────────────────────────────────────────────────────────────────────────────╯
+
+# Create a context for installed application
+$: $: meroctl --node node1 context create \
+  --protocol near --application-id EdQAQGNLHBpM8atH18re56RmxL676WCJZEZvCPdXQbbw
+> +------------------------------+
+> | Context Created              |
+> +==============================+
+> | Successfully created context |
+> +------------------------------+
+
+# View context ID and context identity
+$: meroctl --node node1 context ls 
+> +----------------------------------------------+----------------------------------------------+------------------------------------------------------+
+> | Context ID                                   | Application ID                               | Root Hash                                            |
+> +====================================================================================================================================================+
+> | 9MYohRkkpT1QXtBGAcXYeB7yTtWNeFrVieK47tV4TSx9 | EdQAQGNLHBpM8atH18re56RmxL676WCJZEZvCPdXQbbw | Hash("J6XbiySdR1cdcBYkHfxpdP4hFQ9aLvLSe2knvPW7SJxG") |
+> +----------------------------------------------+----------------------------------------------+------------------------------------------------------+
+
+$: meroctl --node node1 context identity list --context 9MYohRkkpT1QXtBGAcXYeB7yTtWNeFrVieK47tV4TSx9
+> +----------------------------------------------+------------------+
+> | Identity                                     | Type             |
+> +=================================================================+
+> | E9X7upjmMoZB5FL79JSuxUY2i873DvZ5f7QkLcSat89e | Context Identity |
+> +----------------------------------------------+------------------+
 
 # Call methods
-meroctl --node node1 call \
-  --context-id <CONTEXT_ID> \
-  --method increment
+# Calling getCount to verify that the counter value is 0
+$: meroctl --node node1 call getCount \
+  --context 9MYohRkkpT1QXtBGAcXYeB7yTtWNeFrVieK47tV4TSx9 \
+  --as E9X7upjmMoZB5FL79JSuxUY2i873DvZ5f7QkLcSat89e
+> ...
+> "result": {
+>    "output": "0"
+>  }
+> ...
 
-meroctl --node node1 call \
-  --context-id <CONTEXT_ID> \
-  --method getCount
+# Calling increment which will increase the counter value to 1
+$: meroctl --node node1 call increment \
+ --context 9MYohRkkpT1QXtBGAcXYeB7yTtWNeFrVieK47tV4TSx9 \
+ --as E9X7upjmMoZB5FL79JSuxUY2i873DvZ5f7QkLcSat89e
+> +-------------------+---------+
+> | Response          | Status  |
+> +=============================+
+> | JSON-RPC Response | Success |
+> +-------------------+---------+
+
+# Callin getCount to verify that the counter value is 1
+$: meroctl --node node1 call getCount \
+  --context 9MYohRkkpT1QXtBGAcXYeB7yTtWNeFrVieK47tV4TSx9 \
+  --as E9X7upjmMoZB5FL79JSuxUY2i873DvZ5f7QkLcSat89e
+> ...
+> "result": {
+>     "output": "1"
+>   }
+> ...
 ```
 
 ## Core Concepts
@@ -151,6 +298,7 @@ export class MyApp {
 ```
 
 **Key points:**
+
 - State is persisted and synchronized across nodes
 - Initialize CRDT fields inline (runtime reuses persisted IDs)
 - Don't use regular JavaScript objects for synchronized state
@@ -160,7 +308,7 @@ export class MyApp {
 Marks a class as application logic (methods):
 
 ```typescript
-import { Logic, Init } from '@calimero-network/calimero-sdk-js';
+import { Logic, Init, Logic } from '@calimero-network/calimero-sdk-js';
 
 @Logic(MyApp)
 export class MyAppLogic extends MyApp {
@@ -176,13 +324,14 @@ export class MyAppLogic extends MyApp {
 
   // View method (read-only)
   @View()
-  getItem(key: string): string | undefined {
+  getItem(key: string): string | null {
     return this.items.get(key);
   }
 }
 ```
 
 **Key points:**
+
 - Logic class extends State class
 - `@Init` marks the initialization method (called once on context creation)
 - Methods without `@View()` are mutations (generate deltas)
@@ -195,11 +344,6 @@ Marks read-only methods:
 ```typescript
 @Logic(MyApp)
 export class MyAppLogic extends MyApp {
-  // Mutation - generates delta
-  setValue(value: string): void {
-    this.register.set(value);
-  }
-
   // View - read-only, no delta
   @View()
   getValue(): string {
@@ -225,9 +369,16 @@ export class ItemAdded {
   constructor(
     public key: string,
     public value: string,
-    public timestamp: number
   ) {}
 }
+
+// Emit an event inside a function
+...
+addItem(key: string, value: string): void {
+    emit(new ItemAdded(key, value));
+    this.items.set(key, value);
+}
+...
 ```
 
 #### @Init
@@ -245,6 +396,7 @@ export class MyAppLogic extends MyApp {
 ```
 
 **Requirements:**
+
 - Must be static
 - Must return an instance of State class
 - Called once when context is created
@@ -321,10 +473,6 @@ counter.incrementBy(5);
 
 // Get value
 const total = counter.value(); // bigint
-
-// Decrement
-counter.decrement();
-counter.decrementBy(2);
 ```
 
 #### LwwRegister<T>
@@ -379,7 +527,7 @@ CRDTs can be nested arbitrarily:
 @State
 export class TeamMetrics {
   // Map of member → Map of metric → Counter
-  memberMetrics: UnorderedMap<string, UnorderedMap<string, Counter>>;
+  memberMetrics: UnorderedMap<string, UnorderedMap<string, LwwRegister<Counter>>>;
   
   // Map of team → Set of members
   teams: UnorderedMap<string, UnorderedSet<string>>;
@@ -443,12 +591,14 @@ export class MyAppLogic extends MyApp {
 ```
 
 **Event lifecycle:**
+
 1. Emitted during method execution
 2. Included in delta broadcast to all peers
 3. Handlers execute on peer nodes (not author node)
 4. Handlers can update state or trigger side effects
 
 **Handler requirements:**
+
 - **Commutative**: Order-independent operations
 - **Independent**: No shared mutable state between handlers
 - **Idempotent**: Safe to retry
@@ -477,323 +627,11 @@ secrets.modify(
 ```
 
 **Key properties:**
+
 - Never replicated across nodes
 - Stored via `storage_read` / `storage_write` directly
 - Never included in CRDT deltas
 - Only accessible on the executing node
-
-## Build Pipeline
-
-### Development Setup
-
-```bash
-# Create project
-mkdir my-calimero-service
-cd my-calimero-service
-pnpm init
-
-# Install dependencies
-pnpm add @calimero-network/calimero-sdk-js
-pnpm add -D @calimero-network/calimero-cli-js typescript @types/node
-
-# Create TypeScript config
-cat > tsconfig.json << EOF
-{
-  "compilerOptions": {
-    "target": "ES2020",
-    "module": "ESNext",
-    "lib": ["ES2020"],
-    "moduleResolution": "node",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
-  },
-  "include": ["src/**/*"]
-}
-EOF
-
-# Create source directory
-mkdir src
-```
-
-### Build Process
-
-```bash
-# Build WASM from TypeScript
-npx calimero-sdk build src/index.ts -o build/service.wasm
-
-# With verbose output
-npx calimero-sdk build src/index.ts -o build/service.wasm --verbose
-
-# Validate only (no build)
-npx calimero-sdk validate src/index.ts
-```
-
-### Build Configuration
-
-The CLI automatically handles:
-- TypeScript compilation
-- Dependency bundling (Rollup)
-- QuickJS bytecode generation
-- WASM compilation (WASI-SDK)
-- Optimization (wasm-opt)
-
-**Output:**
-- `service.wasm` - Deployable WASM binary (~500KB with QuickJS overhead)
-
-## Common Patterns
-
-### Pattern 1: Simple Key-Value Store
-
-```typescript
-import { State, Logic, Init, View } from '@calimero-network/calimero-sdk-js';
-import { UnorderedMap, LwwRegister } from '@calimero-network/calimero-sdk-js/collections';
-
-@State
-export class KvStore {
-  items: UnorderedMap<string, LwwRegister<string>>;
-
-  constructor() {
-    this.items = new UnorderedMap();
-  }
-}
-
-@Logic(KvStore)
-export class KvStoreLogic extends KvStore {
-  @Init
-  static init(): KvStore {
-    return new KvStore();
-  }
-
-  set(key: string, value: string): void {
-    const register = this.items.get(key) ?? new LwwRegister<string>();
-    register.set(value);
-    this.items.set(key, register);
-  }
-
-  @View()
-  get(key: string): string | null {
-    const register = this.items.get(key);
-    return register ? register.get() : null;
-  }
-
-  remove(key: string): void {
-    this.items.remove(key);
-  }
-}
-```
-
-### Pattern 2: Metrics with Counters
-
-```typescript
-import { State, Logic, Init, View } from '@calimero-network/calimero-sdk-js';
-import { UnorderedMap, Counter } from '@calimero-network/calimero-sdk-js/collections';
-
-@State
-export class Metrics {
-  pageViews: UnorderedMap<string, Counter>;
-
-  constructor() {
-    this.pageViews = new UnorderedMap();
-  }
-}
-
-@Logic(Metrics)
-export class MetricsLogic extends Metrics {
-  @Init
-  static init(): Metrics {
-    return new Metrics();
-  }
-
-  trackPageView(page: string): void {
-    const counter = this.pageViews.get(page) ?? new Counter();
-    counter.increment();
-    this.pageViews.set(page, counter);
-  }
-
-  @View()
-  getViews(page: string): bigint {
-    const counter = this.pageViews.get(page);
-    return counter ? counter.value() : 0n;
-  }
-}
-```
-
-### Pattern 3: Event-Driven Updates
-
-```typescript
-import { State, Logic, Init, Event, emitWithHandler } from '@calimero-network/calimero-sdk-js';
-import { UnorderedMap, Counter } from '@calimero-network/calimero-sdk-js/collections';
-import * as env from '@calimero-network/calimero-sdk-js/env';
-
-@Event
-export class ItemAdded {
-  constructor(public key: string, public value: string) {}
-}
-
-@State
-export class StoreWithEvents {
-  items: UnorderedMap<string, string>;
-  eventCount: Counter;
-
-  constructor() {
-    this.items = new UnorderedMap();
-    this.eventCount = new Counter();
-  }
-}
-
-@Logic(StoreWithEvents)
-export class StoreWithEventsLogic extends StoreWithEvents {
-  @Init
-  static init(): StoreWithEvents {
-    return new StoreWithEvents();
-  }
-
-  addItem(key: string, value: string): void {
-    this.items.set(key, value);
-    emitWithHandler(new ItemAdded(key, value), 'onItemAdded');
-  }
-
-  // Handler executes on peer nodes
-  onItemAdded(event: ItemAdded): void {
-    this.eventCount.increment();
-    env.log(`Item added: ${event.key} = ${event.value}`);
-  }
-
-  @View()
-  getEventCount(): bigint {
-    return this.eventCount.value();
-  }
-}
-```
-
-## Best Practices
-
-### 1. Initialize CRDTs Inline
-
-```typescript
-// ✅ GOOD - Runtime reuses persisted IDs
-@State
-export class MyApp {
-  items: UnorderedMap<string, string> = new UnorderedMap();
-}
-
-// ❌ BAD - Constructor runs every time
-@State
-export class MyApp {
-  items: UnorderedMap<string, string>;
-
-  constructor() {
-    this.items = new UnorderedMap(); // Not reused!
-  }
-}
-```
-
-### 2. Use @View() for Read-Only Methods
-
-```typescript
-// ✅ GOOD - No persistence overhead
-@View()
-getItem(key: string): string | undefined {
-  return this.items.get(key);
-}
-
-// ❌ BAD - Generates unnecessary deltas
-getItem(key: string): string | undefined {
-  return this.items.get(key);
-}
-```
-
-### 3. Handle Nested CRDTs Correctly
-
-```typescript
-// ✅ GOOD - Use handles, mutate incrementally
-const metrics = this.memberMetrics.get('alice');
-if (metrics) {
-  const counter = metrics.get('commits') ?? new Counter();
-  counter.increment();
-  metrics.set('commits', counter);
-}
-
-// ❌ BAD - Don't try to clone entire structure
-const metrics = this.memberMetrics.get('alice');
-if (metrics) {
-  // Don't do this - it doesn't work
-  const cloned = { ...metrics }; // Wrong!
-}
-```
-
-### 4. Make Event Handlers Safe
-
-```typescript
-// ✅ GOOD - Commutative, independent, idempotent
-onItemAdded(event: ItemAdded): void {
-  this.itemCount.increment(); // CRDT operations are safe
-}
-
-// ❌ BAD - Not safe for parallel execution
-onItemAdded(event: ItemAdded): void {
-  // Don't make external API calls!
-  fetch('/api/notify', { ... }); // Wrong!
-  
-  // Don't depend on execution order!
-  if (this.items.has(event.key)) { // Race condition!
-    // ...
-  }
-}
-```
-
-### 5. Use Private Storage for Secrets
-
-```typescript
-// ✅ GOOD - Secrets never leave the node
-const secrets = createPrivateEntry<{ token: string }>('private:secrets');
-
-// ❌ BAD - Don't put secrets in CRDT state
-@State
-export class MyApp {
-  apiToken: string = ''; // Never do this!
-}
-```
-
-## Troubleshooting
-
-### Build Errors
-
-**Issue**: TypeScript compilation errors
-```bash
-# Check TypeScript version
-pnpm list typescript
-
-# Use verbose flag for details
-npx calimero-sdk build src/index.ts -o build/service.wasm --verbose
-```
-
-**Issue**: Missing dependencies
-```bash
-# Ensure all dependencies are installed
-pnpm install
-
-# Check QuickJS and WASI-SDK are downloaded (CLI handles this)
-```
-
-### Runtime Errors
-
-**Issue**: Method not found
-- Verify method is in `@Logic` class
-- Check method name matches call
-- Ensure method is public (not private)
-
-**Issue**: CRDT operations failing
-- Verify CRDT is initialized inline
-- Check you're using CRDT collections, not plain objects
-- Ensure nested CRDTs are handled as handles
-
-**Issue**: Events not propagating
-- Verify `@Event` decorator on event class
-- Check event is emitted during method execution
-- Ensure handlers are in `@Logic` class
 
 ## Examples
 
@@ -811,12 +649,38 @@ The `calimero-sdk-js` repository includes comprehensive examples:
 **Run an example:**
 ```bash
 # Clone repository
-git clone https://github.com/calimero-network/calimero-sdk-js
-cd calimero-sdk-js
+$: git clone https://github.com/calimero-network/calimero-sdk-js
+> ...
+> Cloning into 'calimero-sdk-js'...
+> ...
+> Resolving deltas: 100% (2299/2299), done.
+$: cd calimero-sdk-js
+# Build the sdk and cli packages
+$: cd packages/sdk && pnpm build && cd ../cli && pnpm build && ../..
+> > @calimero-network/calimero-sdk-js@0.0.0 build /Users/X/Desktop/calimero-sdk-js/packages/sdk
+> tsc
+
+> @calimero-network/calimero-cli-js@0.0.0 build /Users/X/Desktop/calimero-sdk-js/packages/cli
+> tsc
 
 # Run example workflow
-cd examples/counter
-merobox bootstrap run workflows/counter-js.yml --log-level=trace
+$: cd examples/counter
+$: pnpm install && pnpm build:manual
+> ...
+> dependencies:
+> + @calimero-network/calimero-sdk-js 0.0.0 <- ../../packages/sdk
+> 
+> devDependencies:
+> + @calimero-network/calimero-cli-js 0.0.0 <- ../../packages/cli
+> ...
+$: cd ../..
+
+$: merobox bootstrap run workflows/counter-js.yml --log-level=trace
+> ...
+> 🚀 Executing Workflow: Counter App Test
+> ...
+> ...
+> Workflow finished sucessfully!
 ```
 
 ## Comparison: JavaScript SDK vs Rust SDK
@@ -832,12 +696,14 @@ merobox bootstrap run workflows/counter-js.yml --log-level=trace
 | **CRDT Collections** | Same API | Same API |
 
 **When to use JavaScript SDK:**
+
 - Familiar with JavaScript/TypeScript
 - Faster prototyping
 - Less performance-critical applications
 - Want to leverage existing JS libraries (via Rollup)
 
 **When to use Rust SDK:**
+
 - Need maximum performance
 - Already familiar with Rust
 - Complex algorithms or computations

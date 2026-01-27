@@ -212,13 +212,21 @@ The backend logic is the core of a Calimero application. It can be written in Ru
     ```bash
     # Create a new application
     $: npx create-mero-app my-first-app
-    > Cloning into /var/folders/p2/_b7fvy792s3458_0jlf6r0jm0000gn/T/mero-create-Gi2ZvC/> repo...
+    > ? Select backend template › - Use arrow-keys. Return to submit.
+    > ❯   Rust (kv-store)
+    >     JavaScript (kv-store-js)
+    > ...
+    > ✔ Select backend template › Rust (kv-store)
+    > ...
+    > Scaffolding project in /Users/X/Desktop/my-first-app
+    > Using template: Rust (kv-store)
+    > Cloning into '/var/folders/p2/_b7fvy792s3458_0jlf6r0jm0000gn/T/mero-create-SY6uxl/repo'...
     > Done.
 
     > Next steps:
-    >  cd my-first-app
-    >  pnpm install
-    >  pnpm dev
+    > cd my-first-app
+    > pnpm install
+    > pnpm dev
 
     # Navigate to project
     $: cd my-first-app

@@ -5,11 +5,32 @@
 ## Installation
 
 ```bash
-# From source (requires Rust)
-cargo install --path core/crates/meroctl
+Installing from Calimero core repository.
+Builds your crate and copies the binary into ~/.cargo/bin, so you can run it from anywhere.
+$: cargo install --path ./crates/meroctl
+> Installed package meroctl v0.1.0 (/Users/X/Desktop/core/crates/meroctl) (executable meroctl)
+$: which meroctl
+> /Users/frandomovic/.cargo/bin/meroctl
 
-# Or via package manager (when available)
-# brew install calimero-tap/meroctl
+Builds the binary inside the project only; it's not globally available unless you reference it explicitly.
+$: cd crates/meroctl
+$: cargo build --release
+> Compiling meroctl v0.1.0 (/Users/X/Desktop/core/crates/meroctl)
+>     Finished release [optimized + debuginfo] target(s) in 10.35s
+> Installing meroctl v0.1.0 (/Users/X/Desktop/core/crates/meroctl)
+> Installing /Users/X/Desktop/core/crates/meroctl/target/release/meroctl (executable)
+> Installed package meroctl v0.1.0 (/Users/X/Desktop/core/crates/meroctl) (executable meroctl)
+
+$: brew install meroctl
+> ✔︎ JSON API cask.jws.json                             Downloaded   15.3MB/ 15.3MB
+> ✔︎ JSON API formula.jws.json                          Downloaded   32.0MB/ 32.0MB
+> ==> Fetching downloads for: meroctl
+> ✔︎ Formula meroctl (0.10.0-rc.35)                       Verified     11.2MB/ 11.2MB
+> ==> Installing meroctl from calimero-network/tap
+> 🍺  /opt/homebrew/Cellar/meroctl/0.10.0-rc.35: 4 files, 22.5MB, built in 1 second
+> ==> Running brew cleanup meroctl...
+> Disable this behaviour by setting HOMEBREW_NO_INSTALL_CLEANUP=1.
+> Hide these hints with HOMEBREW_NO_ENV_HINTS=1 (see man brew)
 ```
 
 ## Configuration
@@ -20,10 +41,10 @@ Connect to a node using one of these methods:
 
 ```bash
 # Using node alias (configured in ~/.calimero/config.toml)
-meroctl --node node1 <command>
+$: meroctl --node node1 <command>
 
 # Using direct API URL
-meroctl --api http://localhost:2528 <command>
+$: meroctl --api http://localhost:2528 <command>
 ```
 
 ### Environment Variables
@@ -43,7 +64,7 @@ Manage WASM applications on nodes:
 
 ```bash
 # List all applications
-meroctl --node node1 app ls
+meroctl --node node1 app ls$
 
 # Get application details
 meroctl --node node1 app get <app_id>
