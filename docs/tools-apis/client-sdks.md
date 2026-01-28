@@ -1,6 +1,6 @@
 # Calimero Client SDKs
 
-Client SDKs for interacting with Calimero nodes programmatically. These SDKs provide programmatic access to Calimero's admin API, enabling you to build sidecar tools, developer utilities, monitoring scripts, and automation workflows.
+Client SDKs that let you interact with Calimero nodes from code using Python, Rust, or frontend stacks like Next.js, React, TypeScript, and Vite. Use them to build developer tools, monitoring, and automation around Calimero.
 
 ## Overview
 
@@ -8,17 +8,9 @@ Calimero provides three client SDKs for different language ecosystems:
 
 | SDK | Language | Repository | Authentication Support | Primary Use Cases |
 | --- | --- | --- | --- | --- |
-| **Rust Client** | Rust | `core/crates/client` | ⚠️ Not yet supported | Sidecar tools, CLI utilities, developer tools |
-| **Python Client** | Python | `calimero-client-py` | ⚠️ Not yet supported | Automation scripts, monitoring tools, developer tools |
-| **JavaScript Client** | TypeScript/JavaScript | `calimero-client-js` | ✅ Full support | Web apps, browser extensions, Node.js tools |
-
-!!! warning "Authentication Status"
-    **Rust and Python clients do not currently support authentication.** Authentication support is planned for future releases. Current usage is intended for:
-    - **Sidecar tools** - Local services running alongside Calimero nodes
-    - **Developer tools** - Scripts and utilities for development/testing
-    - **Internal automation** - CI/CD pipelines and internal tooling
-    
-    **JavaScript client has full authentication support** including JWT token management, wallet-based authentication, and React components for user authentication flows.
+| **Rust Client** | Rust | [`core/crates/client`](https://github.com/calimero-network/core/tree/master/crates/client){:target="_blank"} | Full support | Sidecar tools, CLI utilities, developer tools |
+| **Python Client** | Python | [`calimero-client-py`](https://github.com/calimero-network/calimero-client-py){:target="_blank"} | Full support | Automation scripts, monitoring tools, developer tools |
+| **JavaScript Client** | TypeScript/JavaScript | [`calimero-client-js`](https://github.com/calimero-network/calimero-client-js){:target="_blank"} | Full support | Web apps, browser extensions, Node.js tools |
 
 ## Use Cases
 
@@ -69,8 +61,8 @@ Add to your `Cargo.toml`:
 ```toml
 [dependencies]
 calimero-client = { path = "../core/crates/client" }
-# Or from crates.io (when published)
-# calimero-client = "0.1.0"
+# Or from crates.io using "cargo add calimero-client"
+# calimero-client = "0.9.0"
 ```
 
 ### Quick Start
@@ -111,13 +103,9 @@ async fn main() -> eyre::Result<()> {
 
 ### Authentication
 
-!!! warning "Authentication Not Yet Supported"
-    The Rust client currently supports `AuthMode::None` only. Authentication support with JWT tokens is planned for a future release.
-
 ```rust
 use calimero_client::{AuthMode, ConnectionInfo};
 
-// Currently only AuthMode::None is supported
 let connection = ConnectionInfo::new(
     api_url,
     Some("node1".to_string()),
@@ -264,7 +252,9 @@ The Python client SDK (`calimero-client-py`) provides Python bindings built with
 ### Installation
 
 ```bash
-pip install calimero-client-py
+$: pip install calimero-client-py
+> ...
+> Successfully installed calimero-client-py-0.3.0
 ```
 
 ### Quick Start
@@ -276,38 +266,37 @@ from calimero_client_py import create_connection, create_client, AuthMode
 async def main():
     # Create connection
     connection = create_connection(
-        base_url="http://localhost:2528",
-        auth_mode=AuthMode.NONE  # Authentication not yet supported
+        api_url="http://localhost:2528",
+        node_name="node1",
     )
-    
-    # Create client
+
     client = create_client(connection)
     
-    # List contexts
-    contexts = await client.list_contexts()
-    print(f"Found {len(contexts.data)} contexts")
-    
-    # List applications
-    apps = await client.list_applications()
-    print(f"Found {len(apps.data)} applications")
+    contexts = client.list_contexts()
+    print(f"✓ Found contexts: {contexts}")
+
+    applications = client.list_applications()
+    print(f"✓ Found applications: {applications}")
+
 
 if __name__ == "__main__":
     asyncio.run(main())
 ```
 
 ### Authentication
+For local development with merod the auth is disabled so you can write any value for JWT access and refresh tokens.
 
-!!! warning "Authentication Not Yet Supported"
-    The Python client currently supports `AuthMode.NONE` only. Authentication support with JWT tokens is planned for a future release.
-
-```python
-from calimero_client_py import create_connection, AuthMode
-
-# Currently only AuthMode.NONE is supported
-connection = create_connection(
-    base_url="http://localhost:2528",
-    auth_mode=AuthMode.NONE
-)
+```bash
+$: python main.py
+> Starting authentication...
+> Please authenticate at: http://localhost:2528/
+> Enter access token: <ANY_VALUE>
+> Enter refresh token (optional): <ANY_VALUE>
+>
+> ✓ Found contexts: {'data': {'contexts': [{'applicationId': ....
+> ...
+> ✓ Found applications: {'data': {'apps': [{'blob': {'bytecode': 'Ca2zM5hue4Te2EYQnKmigkN7WcQHzBCuLFVSJ7zQte58', ' ...
+> ...
 ```
 
 ### API Examples
@@ -316,46 +305,46 @@ connection = create_connection(
 
 ```python
 # List all contexts
-contexts = await client.list_contexts()
+contexts = client.list_contexts()
 
 # Get specific context
-context = await client.get_context(context_id)
+context = client.get_context(context_id)
 
 # Create new context
-context = await client.create_context(
-    application_id=app_id,
+context = client.create_context(
+    application_id="<APP_ID>",
     protocol="near",
     params='{"network": "testnet"}'
 )
 
 # Delete context
-await client.delete_context(context_id)
+client.delete_context(context_id)
 ```
 
 #### Application Management
 
 ```python
 # List applications
-apps = await client.list_applications()
+apps = client.list_applications()
 
 # Get application
-app = await client.get_application(app_id)
+app = client.get_application(app_id)
 
 # Install development application
-response = await client.install_dev_application(
-    path="/path/to/app.wasm",
+response = client.install_dev_application(
+    path="absolute/path/to/app.wasm",
     metadata=None
 )
 
 # Uninstall application
-await client.uninstall_application(app_id)
+client.uninstall_application(app_id)
 ```
 
 #### Function Execution
 
 ```python
 # Execute function via JSON-RPC
-result = await client.execute_function(
+result = client.execute_function(
     context_id=context_id,
     method="set_value",
     args='{"key": "test", "value": "hello"}',
@@ -369,16 +358,16 @@ result = await client.execute_function(
 # Upload blob
 with open("file.dat", "rb") as f:
     data = f.read()
-blob_info = await client.upload_blob(data, context_id=context_id)
+blob_info = client.upload_blob(data, context_id=context_id)
 
 # List blobs
-blobs = await client.list_blobs()
+blobs = client.list_blobs()
 
 # Get blob info
-info = await client.get_blob_info(blob_id)
+info = client.get_blob_info(blob_id)
 
 # Delete blob
-await client.delete_blob(blob_id)
+client.delete_blob(blob_id)
 ```
 
 ### Error Handling
@@ -387,7 +376,7 @@ await client.delete_blob(blob_id)
 from calimero_client_py import ClientError
 
 try:
-    contexts = await client.list_contexts()
+    contexts = client.list_contexts()
 except ClientError as e:
     if e.error_type == "Network":
         print(f"Network error: {e.message}")
@@ -395,31 +384,6 @@ except ClientError as e:
         print(f"Auth error: {e.message}")
     else:
         print(f"Error: {e.message}")
-```
-
-### Development
-
-#### Building from Source
-
-```bash
-# Install maturin
-pip install maturin
-
-# Build the package
-maturin build --release
-
-# Install in development mode
-maturin develop
-```
-
-#### Running Tests
-
-```bash
-# Test Python integration
-python -m pytest tests/
-
-# Test the environment
-python example_usage.py
 ```
 
 ### Related Documentation
@@ -458,29 +422,39 @@ pnpm add @calimero-network/calimero-client
 #### Basic Setup
 
 ```typescript
+// KV Store example
 import {
   setAppEndpointKey,
   setApplicationId,
-  JsonRpcClient,
-} from '@calimero-network/calimero-client';
+  rpcClient,
+} from "@calimero-network/calimero-client";
 
 // Configure node URL and application ID
-setAppEndpointKey('https://your-calimero-node-url.com');
-setApplicationId('your-application-id');
+setAppEndpointKey('http://localhost:2528');
+setApplicationId('APP_ID');
 
-// Create RPC client
-const rpcClient = new JsonRpcClient(
-  'https://your-calimero-node-url.com',
-  '/jsonrpc'
+const contextId = 'CONTEXT_ID';
+const executorPublicKey = 'PUBLIC_KEY';
+
+const setResponse = await rpcClient.execute(
+  {
+    contextId,
+    method: 'set',
+    argsJson: { key: 'test', value: 'test' },
+    executorPublicKey,
+  },
+  { headers: { 'Content-Type': 'application/json' }, timeout: 10000 }
 );
 
-// Make a query
-const response = await rpcClient.query({
-  contextId: 'context-id',
-  method: 'get_value',
-  argsJson: { key: 'test' },
-  executorPublicKey: 'public-key',
-});
+const getResponse = await rpcClient.execute(
+  {
+    contextId,
+    method: 'get',
+    argsJson: { key: 'test' },
+    executorPublicKey,
+  },
+  { headers: { 'Content-Type': 'application/json' }, timeout: 10000 }
+);
 ```
 
 #### Authentication Flow
