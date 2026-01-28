@@ -1,6 +1,6 @@
 # Calimero Client SDKs
 
-Client SDKs for interacting with Calimero nodes programmatically. These SDKs provide programmatic access to Calimero's admin API, enabling you to build sidecar tools, developer utilities, monitoring scripts, and automation workflows.
+Client SDKs that let you interact with Calimero nodes from code using Python, Rust, or frontend stacks like Next.js, React, TypeScript, and Vite. Use them to build developer tools, monitoring, and automation around Calimero.
 
 ## Overview
 
@@ -8,17 +8,9 @@ Calimero provides three client SDKs for different language ecosystems:
 
 | SDK | Language | Repository | Authentication Support | Primary Use Cases |
 | --- | --- | --- | --- | --- |
-| **Rust Client** | Rust | `core/crates/client` | ⚠️ Not yet supported | Sidecar tools, CLI utilities, developer tools |
-| **Python Client** | Python | `calimero-client-py` | ⚠️ Not yet supported | Automation scripts, monitoring tools, developer tools |
-| **JavaScript Client** | TypeScript/JavaScript | `calimero-client-js` | ✅ Full support | Web apps, browser extensions, Node.js tools |
-
-!!! warning "Authentication Status"
-    **Rust and Python clients do not currently support authentication.** Authentication support is planned for future releases. Current usage is intended for:
-    - **Sidecar tools** - Local services running alongside Calimero nodes
-    - **Developer tools** - Scripts and utilities for development/testing
-    - **Internal automation** - CI/CD pipelines and internal tooling
-    
-    **JavaScript client has full authentication support** including JWT token management, wallet-based authentication, and React components for user authentication flows.
+| **Rust Client** | Rust | [`core/crates/client`](https://github.com/calimero-network/core/tree/master/crates/client){:target="_blank"} | Full support | Sidecar tools, CLI utilities, developer tools |
+| **Python Client** | Python | [`calimero-client-py`](https://github.com/calimero-network/calimero-client-py){:target="_blank"} | Full support | Automation scripts, monitoring tools, developer tools |
+| **JavaScript Client** | TypeScript/JavaScript | [`calimero-client-js`](https://github.com/calimero-network/calimero-client-js){:target="_blank"} | Full support | Web apps, browser extensions, Node.js tools |
 
 ## Use Cases
 
@@ -69,8 +61,8 @@ Add to your `Cargo.toml`:
 ```toml
 [dependencies]
 calimero-client = { path = "../core/crates/client" }
-# Or from crates.io (when published)
-# calimero-client = "0.1.0"
+# Or from crates.io using "cargo add calimero-client"
+# calimero-client = "0.9.0"
 ```
 
 ### Quick Start
@@ -110,9 +102,6 @@ async fn main() -> eyre::Result<()> {
 ```
 
 ### Authentication
-
-!!! warning "Authentication Not Yet Supported"
-    The Rust client currently supports `AuthMode::None` only. Authentication support with JWT tokens is planned for a future release.
 
 ```rust
 use calimero_client::{AuthMode, ConnectionInfo};
