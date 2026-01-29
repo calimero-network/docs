@@ -30,21 +30,45 @@ Merobox is a Python CLI tool for managing Calimero nodes in Docker containers. I
 **Option 1: Using pipx (recommended)**
 
 ```bash
-pipx install merobox
+# Using pipx (recommended)
+$: pipx --version
+> 1.7.1
+
+$: pipx install merobox
+> Installing to existing venv 'merobox'
+>  installed package merobox 0.2.13, installed using Python 3.13.3
+>  These apps are now globally available:  merobox
+> done! ✨ 🌟 ✨
 ```
 
 **Option 2: Using Homebrew**
 
 ```bash
-brew install merobox
+$: brew install calimero-network/tap/merobox
+> ...
+> 🍺  /opt/homebrew/Cellar/merobox/0.1.23: 4 files, 15.6MB, built in 0 seconds
+> ==> Running `brew cleanup merobox`...
+
+# Verify installation
+$: merobox --version
+> merobox, version 0.2.16
 ```
 
 **Option 3: From source**
 
 ```bash
-git clone https://github.com/calimero-network/merobox.git
-cd merobox
-pipx install -e .
+$: git clone https://github.com/calimero-network/merobox.git
+> Cloning into 'merobox'...
+> remote: Enumerating objects: 3979, done.
+> ...
+> Resolving deltas: 100% (2677/2677), done.
+$: cd merobox
+$: pipx install -e .
+> Installing to existing venv 'merobox'
+>   installed package merobox 0.3.4, installed using Python 3.11.14
+>   These apps are now globally available
+>     - merobox
+> done! ✨ 🌟 ✨
 ```
 
 ### Quick Start
@@ -53,51 +77,283 @@ pipx install -e .
 
 ```bash
 # Start a single Calimero node
-merobox run --name my-node
+$: merobox run --count 1
+> ...
+> ✓ Node calimero-node-1 initialized successfully
+> Starting node calimero-node-1...
 
 # Start multiple nodes
-merobox run --count 2
+$: merobox run --count 2
+> ...
+> ✓ Node calimero-node-1 initialized successfully
+> Starting node calimero-node-1...
+> ...
+> ✓ Node calimero-node-2 initialized successfully
+> Starting node calimero-node-2...
 
 # Start with custom ports
-merobox run --name my-node --server-port 2428 --swarm-port 2528
+$: merobox run --name <NODE_ID> --base-port <BASE_PORT>
+$: merobox run --name calimero-node-1 --base-port 2423
+> ...
+> - P2P Port: 2423
+> ...
 
 # List running nodes
-merobox list
+$: merobox list
+>                                                      Running Calimero Nodes                                                      
+> ┏━━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┓
+> ┃ Name            ┃ Status  ┃ Image                               ┃ P2P Port ┃ RPC/Admin Port ┃ Chain ID  ┃ Created             ┃
+> ┡━━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━┩
+> │ calimero-node-1 │ running │ ghcr.io/calimero-network/merod:edge │ 2423     │ 56928          │ testnet-1 │ 2026-01-29 11:09:37 │
+> └─────────────────┴─────────┴─────────────────────────────────────┴──────────┴────────────────┴───────────┴─────────────────────┘
+
 
 # Check node health
-merobox health my-node
+$: merobox health --node <NODE_ID>
+$: merobox health --node calimero-node-1
+> Checking health of node calimero-node-1 via http://localhost:56928
+>                  Calimero Node Health Status                  
+> ╭─────────────────┬────────┬───────────────┬───────┬─────────╮
+> │ Node            │ Health │ Authenticated │ Peers │ Status  │
+> ├─────────────────┼────────┼───────────────┼───────┼─────────┤
+> │ calimero-node-1 │ alive  │ Unknown       │ 0     │ Healthy │
+> ╰─────────────────┴────────┴───────────────┴───────┴─────────╯
 
 # View node logs
-merobox logs my-node --follow
+$: merobox logs <NODE_ID> --follow
+$: merobox logs calimero-node-1 --follow
+> ...
+> 2026-01-29T11:14:13.352058500Z [2m2026-01-29T11:14:13.351606Z[0m [34mDEBUG[0m [1mSwarm::poll[0m[2m:[0m [2mlibp2p_gossipsub::behaviour[0m[2m:[0m RANDOM PEERS: Got 0 peers
+> 2026-01-29T11:14:13.352067750Z [2m2026-01-29T11:14:13.351628Z[0m [34mDEBUG[0m [1mSwarm::poll[0m[2m:[0m [2mlibp2p_gossipsub::behaviour[0m[2m:[0m Updating mesh, new mesh: {}
+> ...
 
 # Stop a node
-merobox stop my-node
+$: merobox stop <NODE_ID>
+$: merobox stop calimero-node-1
+> ✓ Stopped and removed node calimero-node-1
 
 # Remove all node data (destructive!)
-merobox nuke my-node
+$: merobox nuke --prefix calimero-node-1
+> Found 1 Calimero node data directory(ies):
+>  Calimero Node Data Directories  
+> ╭──────────────────────┬────────╮
+> │ Directory            │ Status │
+> ├──────────────────────┼────────┤
+> │ data/calimero-node-1 │ Found  │
+> ╰──────────────────────┴────────╯
+> Total data size: 848.6 KB
+
+> ⚠️  WARNING: This will permanently delete ALL Calimero node data!
+> This action cannot be undone.
+> Type 'YES' to confirm deletion: YES
+> Found 1 Calimero node data directory(ies)
+> ✓ Found merod binary in PATH: /opt/homebrew/bin/merod
+> Stopping Docker container calimero-node-1...
+> Deleting 1 data directory(ies)...
+> ✓ Successfully deleted 1 data directory(ies)
+> Total space freed: 848.6 KB
+
+> To start fresh, run:
+>   merobox run
 ```
 
 #### Application Management
 
 ```bash
 # Install a WASM application on a node
-merobox install my-node /path/to/app.wasm
-
-# Call a function on an installed application
-merobox call my-node <app-id> <method> '{"arg": "value"}'
+$:  merobox install --node <NODE_ID> --dev --path <PATH_TO_WASM>
+$:  merobox install --node calimero-node-1 --dev --path res/my_app.wasm
+> ✓ Application installed successfully!
+> Application ID: 7mHCKUsCeb84hDF8trn1eNzcqH8L1LNbdZiCcvFUWx7s
 ```
 
-#### Identity & Context Management
+#### Identity & Context Creation
 
 ```bash
-# Create a new identity
-merobox identity create
+# Merobox command for creating contexts
+$: merobox context create --node <NODE_ID> --protocol <PROTOCOL> --application-id <APP_ID>
 
-# Create a new context
-merobox context create my-node <context-config>
+# Creating context with application ID from previous steps using NEAR protocol
+$: merobox context create --node calimero-node-1 --protocol near --application-id 7mHCKUsCeb84hDF8trn1eNzcqH8L1LNbdZiCcvFUWx7s
+> Creating context for application 7mHCKUsCeb84hDF8trn1eNzcqH8L1LNbdZiCcvFUWx7s on node calimero-node-1
 
-# Join a node to a context
-merobox join my-node <context-id> <private-key>
+> ✓ Context created successfully!
+> Context ID: FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS
+> Member Public Key: CgZxoj9mMECAGFVrGQ3mA8X57bWt38jvTPuAo3RAPhos
+
+# Merobox command to view created context data
+$: merobox context list --node calimero-node-1
+> Listing contexts on node calimero-node-1
+
+> Found 1 context(s):
+> Fetching member public keys...
+>                                                     Contexts                                                     
+> ╭─────────────────────────────────────────────┬─────────────────────────────────────────────┬─────────────────────────────────────────────╮
+> │ Context ID                                  │ Application ID                               │ Member Public Key                           │
+> ├─────────────────────────────────────────────┼─────────────────────────────────────────────┼─────────────────────────────────────────────┤
+> │ FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS│ 7mHCKUsCeb84hDF8trn1eNzcqH8L1LNbdZiCcvFUWx… │ CgZxoj9mMECAGFVrGQ3mA8X57bWt38jvTPuAo3RAPhos │
+> ╰─────────────────────────────────────────────┴─────────────────────────────────────────────┴─────────────────────────────────────────────╯
+
+# Merobox command for viewing context data
+$: Getting context FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS from node calimero-node-1
+> ✓ Context details:
+> Context ID: FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS
+> Application ID: 7mHCKUsCeb84hDF8trn1eNzcqH8L1LNbdZiCcvFUWx7s
+> Root Hash: 3qKcevhyARug9bwrfn4mWWHyVdTYGEokgvxJ5NpJiFU9
+```
+
+### Interact with the Application
+
+```bash
+# Merobox - call a mutation command
+$: merobox call --node <NODE_ID> --context-id <CONTEXT_ID> --function <METHOD_NAME> --args <ARGS_IN_JSN> --executor-key <IDENTITY_PUBLIC_KEY>
+
+# Commands from previous steps 
+$: merobox call --node calimero-node-1 --context-id FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS --function add_item --args '{"key": "hello", "value": "world"}' --executor-key CgZxoj9mMECAGFVrGQ3mA8X57bWt38jvTPuAo3RAPhos
+> Using RPC endpoint: http://localhost:59603
+> ...
+> 🔍 JSON-RPC Parsed Response: {
+>  jsonrpc: 2.0,
+>  id: 1,
+>  result: {
+>    output: null
+>  }}
+> ╭─────────────────────────────────────────────────────── Function Call Result ────────────────────────────────────────────────────────╮
+> │ Function call successful!                                                                                                           │
+> │                                                                                                                                     │
+> │ Function: add_item                                                                                                                  │
+> │ Context: FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS                                                                               │
+> │ Node: calimero-node-1                                                                                                               │
+> │ Result: {'id': '1', 'jsonrpc': '2.0', 'result': {'output': None}}                                                                   │
+> ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+# Merobox - call a view command
+$: merobox call --node <NODE_ID> --context-id <CONTEXT_ID> --function <METHOD_NAME> --args <ARGS_IN_JSN> --executor-key <IDENTITY_PUBLIC_KEY>
+
+# Commands from previous steps 
+$: merobox call --node calimero-node-1 --context-id FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS --function get_item --args '{"key": "hello"}' --executor-key CgZxoj9mMECAGFVrGQ3mA8X57bWt38jvTPuAo3RAPhos
+> Using RPC endpoint: http://localhost:59603
+> ...
+> 🔍 JSON-RPC Parsed Response: {
+>  jsonrpc: 2.0,
+>  id: 1,
+>  result: {
+>    output: world
+>  }
+> }
+> ╭─────────────────────────────────────────────────────── Function Call Result ────────────────────────────────────────────────────────╮
+> │ Function call successful!                                                                                                           │
+> │                                                                                                                                     │
+> │ Function: get_item                                                                                                                  │
+> │ Context: FCaGbSngPec9u2mTSXJy1jRjzqLZUfHuuEppPiaRKJHS                                                                               │
+> │ Node: calimero-node-1                                                                                                               │
+> │ Result: {'id': '1', 'jsonrpc': '2.0', 'result': {'output': 'world'}}                                                                │
+> ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+```
+
+### Context Invitations
+
+```bash
+# Create new context identity we will use for context invitation
+$: merobox identity generate --node <NODE_ID>
+
+# From invitee node use following (calimero-node-2)
+$: merobox identity generate --node calimero-node-2
+> Generating new identity on node calimero-node-2 via http://localhost:2529
+> Used endpoint: http://localhost:2529/admin-api/identity/context
+>
+> ✓ Identity generated successfully!
+>                     New Identity Details                     
+> ╭────────────┬──────────────────────────────────────────────╮
+> │ Property   │ Value                                        │
+> ├────────────┼──────────────────────────────────────────────┤
+> │ Public Key │ 8XPcdpWW8213DUGvFd1WCM3FDcYmwwpJdGWADqRwD2ek │
+> ╰────────────┴──────────────────────────────────────────────╯
+
+# From calimero-node-1 fetch context identity as it will be used for invitation
+$: merobox identity list-identities --node <NODE_ID> --context-id <CONTEXT_ID>
+$: merobox identity list-identities --node calimero-node-1 --context-id 6XwNgtagbiMB8SojkznnmWm83aG93HJPo5HJsGpnYDQs
+> Listing identities for context 6XwNgtagbiMB8SojkznnmWm83aG93HJPo5HJsGpnYDQs on node calimero-node-1 via http://localhost:2528
+> ╭────────────┬──────────────────────────────────────────────╮
+> │ Identity   │ Value                                        │
+> ├────────────┼──────────────────────────────────────────────┤
+> │ Public Key │ i1ZPRqvQNE43e2gMtfbaX1zaJLk4ahBkxcTgHmShFXs  │
+> ╰────────────┴──────────────────────────────────────────────╯
+
+# From calimero-node-1 create invitation for calimero-node-2
+$: merobox identity invite --node <NODE_ID> --context-id <CONTEXT_ID> --inviter-id <INVITER_IDENTITY> --invitee-id <INVITEE_IDENTITY>
+$: merobox identity invite --node calimero-node-1 --context-id 6XwNgtagbiMB8SojkznnmWm83aG93HJPo5HJsGpnYDQs --inviter-id i1ZPRqvQNE43e2gMtfbaX1zaJLk4ahBkxcTgHmShFXs --invitee-id 8XPcdpWW8213DUGvFd1WCM3FDcYmwwpJdGWADqRwD2ek
+> Inviting identity 8XPcdpWW8213DUGvFd1WCM3FDcYmwwpJdGWADqRwD2ek to context 6XwNgtagbiMB8SojkznnmWm83aG93HJPo5HJsGpnYDQs on node calimero-node-1 via http://localhost:2528
+> Used endpoint: http://localhost:2528/admin-api/contexts/invite
+>
+> ✓ Identity invited successfully!
+>                  Identity Invitation Details                 
+> ╭────────────┬──────────────────────────────────────────────────────────────────────────╮
+> │ Property   │ Value                                                                    │
+> ├────────────┼──────────────────────────────────────────────────────────────────────────┤
+> │ Context ID │ 6XwNgtagbiMB8SojkznnmWm83aG93HJPo5HJsGpnYDQs                             │
+> │ Inviter ID │ i1ZPRqvQNE43e2gMtfbaX1zaJLk4ahBkxcTgHmShFXs                              │
+> │ Invitee ID │ 8XPcdpWW8213DUGvFd1WCM3FDcYmwwpJdGWADqRwD2ek                             │
+> │ Invitation │ 8XgbiMB8Sojkznngtagd1WCM3FDcYmwwpJdGWAbiMXPcdpWWJdGWADqRwm83aG938213DUGv │
+> ╰────────────┴──────────────────────────────────────────────────────────────────────────╯
+
+# From calimero-node-2 join invitation
+$: merobox join context --node <NODE_ID> --context-id <CONTEXT_ID> --invitee-id <INVITEE_ID> --invitation <INVITATION_PAYLOAD>
+$: merobox join context --node calimero-node-2 --context-id 6XwNgtagbiMB8SojkznnmWm83aG93HJPo5HJsGpnYDQs --invitee-id 8XPcdpWW8213DUGvFd1WCM3FDcYmwwpJdGWADqRwD2ek --invitation 8XgbiMB8Sojkznngtagd1WCM3FDcYmwwpJdGWAbiMXPcdpWWJdGWADqRwm83aG938213DUGv
+> Joining context 6XwNgtagbiMB8SojkznnmWm83aG93HJPo5HJsGpnYDQs with identity 8XPcdpWW8213DUGvFd1WCM3FDcYmwwpJdGWADqRwD2ek on node calimero-node-2 via http://localhost:2529
+> Context joined successfully!
+
+# Invitations using Open Invitations
+# Open Invitations - invitations that are not bounded by specific invitee id and can by used by any node. Once claimed (node joins the context), it stop being valid.
+$: merobox identity invite-open --node <NODE_ID> --context-id <CONTEXT_ID> --inviter-id <INVITER_IDENTITY>
+$: merobox identity invite-open --node calimero-node-1 --context-id 6XwNgtagbiMB8SojkznnmWm83aG93HJPo5HJsGpnYDQs --inviter-id i1ZPRqvQNE43e2gMtfbaX1zaJLk4ahBkxcTgHmShFXs
+> Creating open invitation for context 6XwNgtagbiMB8SojkznnmWm83aG93HJPo5HJsGpnYDQs on node calimero-node-1
+> Valid for 1000 blocks
+> Used endpoint: http://localhost:2528/admin-api/dev/contexts/invite-open
+> 
+> ✓ Open invitation created successfully!
+>                      Open Invitation Details                      
+> ╭──────────────────┬──────────────────────────────────────────────╮
+> │ Property         │ Value                                        │
+> ├──────────────────┼──────────────────────────────────────────────┤
+> │ Context ID       │ 6XwNgtagbiMB8SojkznnmWm83aG93HJPo5HJsGpnYDQs │
+> │ Inviter ID       │ i1ZPRqvQNE43e2gMtfbaX1zaJLk4ahBkxcTgHmShFXs  │
+> │ Valid for Blocks │ 1000                                         │
+> ╰──────────────────┴──────────────────────────────────────────────╯
+>
+> Invitation Data:
+> {
+>   "data": {
+>     "invitation": {
+>       "context_id": [82, ...],
+>       "contract_id": "v0-6.config.calimero-context.testnet",
+>       "expiration_height": 1000000999,
+>       "inviter_identity": [10, ...],
+>       "network": "testnet",
+>       "protocol": "near",
+>       "secret_salt": [123, ...]
+>     },
+>     "inviter_signature": "8024d458e38d42970e89e24c046c9a2f3b13cc98727e5ec3d576113e2c4f02"
+>   }
+> }
+> Save this invitation data to share with others who want to join.
+
+# Join open invitation from calimero-node-2
+$: merobox join open --node <NODE_ID> --invitee-id <INVITEE_ID> --invitation <INVITATION_PAYLOAD_JSON>
+$: merobox join open --node calimero-node-2 --invitee-id 8XPcdpWW8213DUGvFd1WCM3FDcYmwwpJdGWADqRwD2ek --invitation '{"data":{"invitation":{"c....'
+> Joining context on node calimero-node-2 as 8XPcdpWW8213DUGvFd1WCM3FDcYmwwpJdGWADqRwD2ek via open invitation
+> Used endpoint: http://localhost:2529/admin-api/dev/contexts/join-open
+>
+> ✓ Successfully joined context via open invitation!
+>                        Context Join Details                        
+╭───────────────────┬──────────────────────────────────────────────╮
+│ Property          │ Value                                        │
+├───────────────────┼──────────────────────────────────────────────┤
+│ Context ID        │ N/A                                          │
+│ Member Public Key │ N/A                                          │
+│ Invitee ID        │ 8XPcdpWW8213DUGvFd1WCM3FDcYmwwpJdGWADqRwD2ek │
+│ Node              │ calimero-node-2                              │
+╰───────────────────┴──────────────────────────────────────────────╯
 ```
 
 ### Workflow Orchestration
@@ -105,46 +361,135 @@ merobox join my-node <context-id> <private-key>
 Merobox supports complex multi-step workflows defined in YAML files:
 
 ```yaml
+# Core repository apps/kv-store example
 # workflow.yml
-image: "ghcr.io/calimero-network/merod:edge"
+description: Simple Store Application Workflow (Rust)
+name: Simple Store App Test
+
+force_pull_image: true
 
 nodes:
-  count: 2
-  prefix: "calimero-node"
+  chain_id: testnet-1
+  count: 1
+  image: ghcr.io/calimero-network/merod:edge
+  prefix: simple-store-node
 
 steps:
-  - name: "Create identities"
-    type: identity
-    identity: "alice"
-    
-  - name: "Create context"
-    type: context
-    application_id: "my-app"
-    protocol: "near"
-    params: '{"network": "testnet"}'
-    
-  - name: "Install application"
-    type: install
-    node: "calimero-node-1"
-    path: "./app.wasm"
-    
-  - name: "Execute function"
-    type: execute
-    node: "calimero-node-1"
-    context_id: "{{ steps.create_context.context_id }}"
-    method: "set_value"
-    args: '{"key": "test", "value": "hello"}'
-    executor_public_key: "{{ steps.create_identities.alice.public_key }}"
+  - name: Install Simple Store Application
+    type: install_application
+    node: simple-store-node-1
+    path: "res/kv_store.wasm"
+    dev: true
+    outputs:
+      app_id: applicationId
+
+  - name: Create Simple Store Context
+    type: create_context
+    node: simple-store-node-1
+    application_id: '{{app_id}}'
+    params: '{}'
+    outputs:
+      context_id: contextId
+      member_public_key: memberPublicKey
+
+  - name: Create Identity on Node 2
+    type: create_identity
+    node: simple-store-node-2
+    outputs:
+      member_public_key_2: publicKey
+
+  - name: Invite Node 2 from Node 1
+    type: invite_identity
+    node: simple-store-node-1
+    context_id: '{{context_id}}'
+    grantee_id: '{{member_public_key_2}}'
+    granter_id: '{{member_public_key}}'
+    capability: member
+    outputs:
+      invitation_2: invitation
+  
+  - name: Join Context from Node 2
+    type: join_context
+    node: simple-store-node-2
+    context_id: '{{context_id}}'
+    invitee_id: '{{member_public_key_2}}'
+    invitation: '{{invitation_2}}'
+
+  - name: Set Value from node 1
+    type: call
+    node: simple-store-node-1
+    context_id: '{{context_id}}'
+    executor_public_key: '{{member_public_key}}'
+    method: set
+    args:
+      key: greeting
+      value: hello-world
+
+  - name: Set Value from node 2
+    type: call
+    node: simple-store-node-2
+    context_id: '{{context_id}}'
+    executor_public_key: '{{member_public_key_2}}'
+    method: join_chat
+    method: set
+    args:
+      key: greeting2
+      value: hello-world2
+
+  - name: Get Value
+    type: call
+    node: simple-store-node-1
+    context_id: '{{context_id}}'
+    executor_public_key: '{{member_public_key}}'
+    method: get
+    args:
+      key: greeting
+    outputs:
+      store_result: result.output
+  
+  - name: Get Value
+    type: call
+    node: simple-store-node-2
+    context_id: '{{context_id}}'
+    executor_public_key: '{{member_public_key_2}}'
+    method: get
+    args:
+      key: greeting2
+    outputs:
+      store_result2: result.output
+
+  - name: Assert Value Matches
+    type: json_assert
+    statements:
+      - 'equal({{store_result}}, "hello-world")'
+  - name: Assert Value Matches
+    type: json_assert
+    statements:
+      - 'equal({{store_result2}}, "hello-world2")'
+
+stop_all_nodes: false
+restart: false 
+wait_timeout: 120
 ```
 
 **Execute a workflow:**
 
 ```bash
-merobox bootstrap run workflow.yml
+$: merobox bootstrap run workflow.yml
+> ...
+> run_workflow: incoming log_level='debug'
+> run_workflow: incoming rust_backtrace='0'
+> WorkflowExecutor: resolved log_level='debug', binary_mode=False
+> WorkflowExecutor: workflow_id='ad731613' (for test isolation)
+> WorkflowExecutor: resolved rust_backtrace='0', binary_mode=False
+>
+> 🚀 Executing Workflow: Simple Store App Test
+> ...
 ```
 
 **Workflow steps:**
-- `identity` - Create cryptographic identities
+
+- `identity` - Create cryptographic identities and context invitations
 - `context` - Create blockchain contexts
 - `install` - Install WASM applications
 - `execute` - Execute function calls
@@ -166,6 +511,7 @@ merobox run --auth-service --count 2
 ```
 
 This automatically:
+
 - Starts Traefik proxy (`traefik:v2.10`)
 - Starts auth service (`ghcr.io/calimero-network/calimero-auth:latest`)
 - Creates Docker networks (`calimero_web`, `calimero_internal`)
@@ -173,38 +519,10 @@ This automatically:
 - Sets up forward authentication middleware
 
 **Access patterns:**
-- Node 1 API: `http://calimero-node-1.127.0.0.1.nip.io/jsonrpc` (protected)
-- Node 1 Dashboard: `http://calimero-node-1.127.0.0.1.nip.io/admin-dashboard` (public)
+
+- Node 1 API: `http://node1.127.0.0.1.nip.io/jsonrpc` (protected)
+- Node 1 Dashboard: `http://node1.127.0.0.1.nip.io/admin-dashboard` (public)
 - Auth Service: `http://localhost/auth/` (authentication endpoints)
-
-### Testing Support
-
-Merobox provides Python testing fixtures for integration tests:
-
-```python
-from merobox.testing import cluster
-
-# Context manager
-with cluster(count=2, prefix="ci") as env:
-    node1 = env.nodes[0]
-    node2 = env.nodes[1]
-    
-    # Use nodes in your tests
-    response = await client.list_contexts(node1)
-    assert len(response.data) == 0
-
-# Pytest fixture
-import pytest
-from merobox.testing import cluster_fixture
-
-@pytest.fixture(scope="session")
-def calimero_cluster(cluster_fixture):
-    yield cluster_fixture(count=3, prefix="test")
-
-def test_my_app(calimero_cluster):
-    node = calimero_cluster.nodes[0]
-    # Run your tests
-```
 
 ### Use Cases
 
@@ -236,7 +554,10 @@ ABI Codegen (`@calimero-network/abi-codegen`) generates TypeScript client code a
 ### Installation
 
 ```bash
-npm install @calimero-network/abi-codegen
+$: npm install @calimero-network/abi-codegen
+> ...
+> dependencies:
+> + @calimero-network/abi-codegen 1.0.0
 ```
 
 ### Quick Start
@@ -245,16 +566,16 @@ npm install @calimero-network/abi-codegen
 
 ```bash
 # Basic usage
-npx calimero-abi-codegen -i abi.json -o src
+$: npx calimero-abi-codegen -i abi.json -o src
 
 # With custom client name
-npx calimero-abi-codegen -i abi.json -o src --client-name MyClient
+$: npx calimero-abi-codegen -i abi.json -o src --client-name MyClient
 
 # Validate ABI manifest only (no code generation)
-npx calimero-abi-codegen --validate -i abi.json
+$: npx calimero-abi-codegen --validate -i abi.json
 
 # Derive client name from WASM file
-npx calimero-abi-codegen -i abi.json -o src --name-from kv_store.wasm
+$: npx calimero-abi-codegen -i abi.json -o src --name-from kv_store.wasm
 ```
 
 #### CLI Options
@@ -433,7 +754,17 @@ Add to your `package.json`:
 No installation required - use via `npx`:
 
 ```bash
-npx create-mero-app@latest my-app
+$: npx create-mero-app@latest my-app
+> ? Select backend template › - Use arrow-keys. Return to submit.
+> ❯   Rust (kv-store)
+>     JavaScript (kv-store-js)
+> ...
+> ✔ Select backend template › Rust (kv-store)
+> ...
+> Scaffolding project in /Users/X/Desktop/my-app
+> Using template: Rust (kv-store)
+> Cloning into '/var/folders/p2/_b7fvy792s3458_0jlf6r0jm0000gn/T/mero-create-SY6uxl/repo'...
+> Done.
 ```
 
 ### Quick Start
@@ -470,6 +801,7 @@ The tool clones the [`calimero-network/kv-store`](https://github.com/calimero-ne
 - **Workflows** (`workflows/`) - Merobox workflows for local testing
 
 **Excluded:**
+
 - `.git/` and `.github/` - Git artifacts
 - `node_modules/` - Dependencies (installed via `pnpm install`)
 
