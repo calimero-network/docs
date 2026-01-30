@@ -799,7 +799,6 @@ $: pnpm install
 > + @calimero-network/mero-ui 0.3.6
 > 
 > devDependencies:
-> + @calimero-network/merobox-js 0.0.3
 > + chokidar-cli 3.0.0
 > + concurrently 9.2.1
 > + husky 9.0.11
