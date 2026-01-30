@@ -771,23 +771,67 @@ $: npx create-mero-app@latest my-app
 
 ```bash
 # Create a new app
-npx create-mero-app@latest my-kv-store
+$: npx create-mero-app@latest my-kv-store
+> Need to install the following packages:
+> create-mero-app@0.2.0
+> Ok to proceed? (y) Y
+>
+> ✔ Select backend template › Rust (kv-store)
+> 
+> Scaffolding project in /Users/X/Desktop/my-kv-store
+> Using template: Rust (kv-store)
+> Cloning into '/var/folders/p2/_b7fvy792s3458_0jlf6r0jm0000gn/T/mero-create-r9f8D4/repo'...
+> Done.
+
+> Next steps:
+>   cd my-kv-store
+>   pnpm install
+>   pnpm dev
 
 # Navigate to the new app
-cd my-kv-store
+$: cd my-kv-store
 
 # Install dependencies
-pnpm install
+$: pnpm install
+> ...
+> dependencies:
+> + @calimero-network/mero-icons 0.0.4
+> + @calimero-network/mero-ui 0.3.6
+> 
+> devDependencies:
+> + @calimero-network/merobox-js 0.0.3
+> + chokidar-cli 3.0.0
+> + concurrently 9.2.1
+> + husky 9.0.11
 
 # Build the WASM application
-cd logic
-chmod +x ./build.sh
-./build.sh
+$: cd logic
+$: chmod +x ./build.sh
+$: ./build.sh
+> info: component 'rust-std' for target 'wasm32-unknown-unknown' is up to date
+>   Compiling proc-macro2 v1.0.105
+> ...
+>  Finished `app-release` profile [optimized] target(s) in 17.93s
 
 # Start the frontend
-cd ../app
-pnpm build
-pnpm dev
+$: cd ../app
+$: pnpm install && pnpm build
+> ...
+> dependencies:
+> + @calimero-network/calimero-client 1.25.0-beta.1
+> + @calimero-network/mero-icons 0.0.4
+> ...
+> kv-store-app@1.0.0 build /Users/frandomovic/Desktop/my-kv-store/app
+> vite build
+> ...
+> ✓ built in 1.33s
+
+$: pnpm dev
+> ...
+>  VITE v7.2.1  ready in 172 ms
+>
+>  ➜  Local:   http://localhost:5173/
+> ...
 ```
 
 ### What Gets Generated
@@ -855,60 +899,6 @@ After scaffolding, customize your app:
 - **NPM Package**: [`create-mero-app`](https://www.npmjs.com/package/create-mero-app){:target="_blank"}
 - **README**: [`mero-devtools-js/create-mero-app/README.md`](https://github.com/calimero-network/mero-devtools-js/blob/master/create-mero-app/README.md){:target="_blank"}
 - **kv-store Example**: [`calimero-network/kv-store`](https://github.com/calimero-network/kv-store){:target="_blank"}
-
-## Complete Development Workflow
-
-A typical development workflow using all three tools:
-
-### 1. Scaffold New Application
-
-```bash
-npx create-mero-app@latest my-app
-cd my-app
-pnpm install
-```
-
-### 2. Build and Test Locally
-
-```bash
-# Build WASM application
-cd logic
-chmod +x ./build.sh
-./build.sh
-
-# Generate TypeScript client from ABI
-cd ..
-npx calimero-abi-codegen -i abi.json -o app/src/generated
-
-# Start local network with Merobox
-merobox bootstrap run workflows/local-network.yml
-```
-
-### 3. Develop and Iterate
-
-```bash
-# Start frontend dev server
-cd app
-pnpm dev
-
-# Make changes to Rust logic, rebuild
-cd ../logic
-./build.sh
-
-# Regenerate TypeScript client
-cd ..
-npx calimero-abi-codegen -i abi.json -o app/src/generated
-```
-
-### 4. Test Workflow
-
-```bash
-# Run Merobox workflow for testing
-merobox bootstrap run workflows/test-workflow.yml
-
-# Or use Merobox in Python tests
-python -m pytest tests/
-```
 
 ## Related Topics
 
