@@ -61,7 +61,7 @@ For more control, run nodes directly without Docker:
 $: cargo install --path ./crates/merod
 > Installed package merod v0.1.0 (/Users/X/Desktop/core/crates/merod) (executable merod)
 $: which merod
-> /Users/frandomovic/.cargo/bin/merod
+> /Users/X/.cargo/bin/merod
 
 # Or
 # Builds the binary inside the project only; it's not globally available unless you reference it explicitly.
@@ -77,23 +77,23 @@ $: cargo build --release
 **Initialize and run a single node:**
 
 ```bash
-Initialize a node with default settings
+# Initialize a node with default settings
 $: merod --node-name node1 init
 > 2025-12-16T11:47:34.861762Z  INFO merod::cli::init: Generated identity: PeerId>("12D3KooW9xPd2gxAouQ29vMfG1B3fpYPPS87VEZyrqzhuVQWc2VL")
 > 2025-12-16T11:47:34.870745Z  INFO merod::cli::init: Initialized a node in "/Users/X/.calimero/node1"
 
-Or from binary
+# Or from binary
 $: cargo run --bin merod -- --node-name node1 init
 > 2025-12-16T11:47:34.861762Z  INFO merod::cli::init: Generated identity: PeerId("12D3KooW9xPd2gxAouQ29vMfG1B3fpYPPS87VEZyrqzhuVQWc2VL")
 > 2025-12-16T11:47:34.870745Z  INFO merod::cli::init: Initialized a node in "/Users/X/.calimero/node1"
 
-With custom ports:
+# With custom ports:
 
 $: merod --node-name node1 init --server-port 2428 --swarm-port 2528
 > 2025-12-16T11:52:13.841762Z  INFO merod::cli::init: Generated identity: PeerId("12D3KooW9xPd2gxAouQ29vMfG1B3fpYPPS87VEZyrqzhuVQWc2VL")
 > 2025-12-16T11:52:13.840725Z  INFO merod::cli::init: Initialized a node in "/Users/X/.calimero/node1"
 
-Or from binary
+# Or from binary
 $: cargo run --bin merod -- --node-name node1 init --server-port 2428 --swarm-port 2528
 > 2025-12-16T11:52:13.841762Z  INFO merod::cli::init: Generated identity: PeerId("12D3KooW9xPd2gxAouQ29vMfG1B3fpYPPS87VEZyrqzhuVQWc2VL")
 > 2025-12-16T11:52:13.840725Z  INFO merod::cli::init: Initialized a node in "/Users/X/.calimero/node1"
