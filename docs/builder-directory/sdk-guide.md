@@ -76,7 +76,18 @@ impl MyApp {
 
 ### CRDT Collections
 
-The SDK provides several CRDT collection types:
+**Available Collections**
+
+| Collection                        | Use Case            | Merge Strategy            | Nesting           |
+| --------------------------------- | ------------------- | ------------------------- | ---------------   |
+| **Counter**                       | Counters, metrics   | **Sum**                   | Leaf              |
+| **LwwRegister&lt;T&gt;**          | Single values       | **Latest timestamp**      | Leaf              |
+| **ReplicatedGrowableArray**       | Text, documents     | **Character-level**       | Leaf              |
+| **UnorderedMap&lt;K,V&gt;**       | Key-value storage   | **Recursive per-entry**   | Can nest          |
+| **Vector&lt;T&gt;**               | Ordered lists       | **Element-wise**          | Can nest          |
+| **UnorderedSet&lt;T&gt;**         | Unique values       | **Union**                 | Simple values     |
+| **Option&lt;T&gt;**               | Optional CRDTs      | **Recursive if Some**     | Wrapper           |
+
 
 #### UnorderedMap<K, V>
 
@@ -230,10 +241,127 @@ impl MyApp {
 ```
 
 **Event lifecycle:**
+
 1. Emitted during method execution
 2. Included in delta broadcast
 3. Handlers execute on peer nodes (not author node)
 4. Handlers can update UI or trigger side effects
+
+### User Storage
+
+User-owned, signed storage collection for per-user data. Keys are PublicKeys (32 bytes) that identify the user who owns the data. Writes are signed by the executor and verified on other nodes.
+
+```rust
+...
+use calimero_storage::collections::{UserStorage};
+
+#[app::state(emits = for<'a> Event<'a>)]
+#[derive(Debug, BorshSerialize, BorshDeserialize)]
+#[borsh(crate = "calimero_sdk::borsh")]
+pub struct KvStore {
+    // Simple user-owned data (e.g., a user's profile name)
+    // Stores: UnorderedMap<PublicKey, LwwRegister<String>>
+    user_items_simple: UserStorage<LwwRegister<String>>,
+    // Nested user-owned data (e.g., a user's private key-value store)
+    // Stores: UnorderedMap<PublicKey, UnorderedMap<String, LwwRegister<String>>>
+    user_items_nested: UserStorage<NestedMap>,
+
+}
+...
+ /// Sets a simple string value for the *current* user.
+pub fn set_user_simple(&mut self, value: String) -> app::Result<()> {
+    let executor_id = calimero_sdk::env::executor_id();
+    app::log!(
+        "Setting simple value for user {:?}: {:?}",
+        executor_id,
+        value
+    );
+
+    app::emit!(Event::UserSimpleSet {
+        executor_id: executor_id.into(),
+        value: &value
+    });
+
+    self.user_items_simple.insert(value.into())?;
+    Ok(())
+}
+
+/// Gets the simple string value for the *current* user.
+pub fn get_user_simple(&self) -> app::Result<Option<String>> {
+    let executor_id = calimero_sdk::env::executor_id();
+    app::log!("Getting simple value for user {:?}", executor_id);
+
+    Ok(self.user_items_simple.get()?.map(|v| v.get().clone()))
+}
+
+/// Gets the simple string value for a *specific* user.
+pub fn get_user_simple_for(&self, user_key: PublicKey) -> app::Result<Option<String>> {
+    app::log!("Getting simple value for specific user {:?}", user_key);
+    Ok(self
+        .user_items_simple
+        .get_for_user(&user_key)?
+        .map(|v| v.get().clone()))
+}
+
+// --- User Storage (Nested) Methods ---
+
+/// Sets a key-value pair in the *current* user's nested map.
+pub fn set_user_nested(&mut self, key: String, value: String) -> app::Result<()> {
+    let executor_id = calimero_sdk::env::executor_id();
+    app::log!(
+        "Setting nested key {:?} for user {:?}: {:?}",
+        key,
+        executor_id,
+        value
+    );
+
+    // This is a get-modify-put operation on the user's T value
+    let mut nested_map = self.user_items_nested.get()?.unwrap_or_default();
+    nested_map.map.insert(key.clone(), value.clone().into())?;
+    self.user_items_nested.insert(nested_map)?;
+
+    app::emit!(Event::UserNestedSet {
+        executor_id: executor_id.into(),
+        key: &key,
+        value: &value
+    });
+    Ok(())
+}
+
+/// Gets a value from the *current* user's nested map.
+pub fn get_user_nested(&self, key: &str) -> app::Result<Option<String>> {
+    let executor_id = calimero_sdk::env::executor_id();
+    app::log!("Getting nested key {:?} for user {:?}", key, executor_id);
+
+    let nested_map = self.user_items_nested.get()?;
+    match nested_map {
+        Some(map) => Ok(map.map.get(key)?.map(|v| v.get().clone())),
+        None => Ok(None),
+    }
+}
+```
+
+#### How It Works
+
+**Writing:** When you call `insert(value)` on UserStorage, the storage layer creates an action for the current executor (user).
+
+**Signing:** The action is signed using the executor's identity private key, with a signature and nonce embedded in the metadata.
+
+**Reading:** 
+- Use `get()` to retrieve the current executor's data
+- Use `get_for_user(&user_key)` to retrieve a specific user's data
+
+**Verification:** When other nodes receive this action, they verify:
+
+- **Signature:** Validates against the owner's public key
+- **Replay Protection:** Ensures the nonce is strictly greater than the last-seen nonce
+
+#### Use Cases
+
+- Per-user settings and preferences
+- User-owned game data (scores, inventory)
+- Personal documents with ownership verification
+- Any data that should be verifiably owned by a specific user
 
 ### Private Storage
 
@@ -274,6 +402,78 @@ pub fn use_private_storage() {
 - Stored via `storage_read` / `storage_write` directly
 - Never included in CRDT deltas
 - Only accessible on the executing node
+
+### Frozen Storage
+
+Immutable, content-addressable storage collection. Values are keyed by their SHA256 hash, ensuring content-addressability. Once inserted, values cannot be updated or deleted.
+
+```rust
+...
+use calimero_storage::collections::{FrozenStorage};
+
+#[app::state(emits = for<'a> Event<'a>)]
+#[derive(Debug, BorshSerialize, BorshDeserialize)]
+#[borsh(crate = "calimero_sdk::borsh")]
+pub struct KvStore {
+    // Content-addressable, immutable data
+    // Stores: UnorderedMap<Hash, FrozenValue<String>>
+    frozen_items: FrozenStorage<String>,
+}
+...
+/// Adds an immutable value to frozen storage.
+/// Returns the hex-encoded SHA256 hash (key) of the value.
+pub fn add_frozen(&mut self, value: String) -> app::Result<String> {
+    app::log!("Adding frozen value: {:?}", value);
+
+    let hash = self.frozen_items.insert(value.clone().into())?;
+
+    app::emit!(Event::FrozenAdded {
+        hash,
+        value: &value
+    });
+
+    let hash_hex = hex::encode(hash);
+    Ok(hash_hex)
+}
+
+/// Gets an immutable value from frozen storage by its hash.
+pub fn get_frozen(&self, hash_hex: String) -> app::Result<String> {
+    app::log!("Getting frozen value for hash {:?}", hash_hex);
+    let mut hash = [0u8; 32];
+    hex::decode_to_slice(hash_hex, &mut hash[..])
+        .map_err(|_| Error::NotFound("dehex error"))?;
+
+    Ok(self
+        .frozen_items
+        .get(&hash)?
+        .map(|v| v.clone())
+        .ok_or_else(|| Error::FrozenNotFound("Frozen value is not found"))?)
+}
+```
+
+#### How It Works
+
+**Content-Addressing:** When you call `insert(value)`, the storage:
+
+- Serializes the value
+- Computes its SHA256 hash
+- Returns the hash, which serves as the immutable key
+- Uses the hash as the key in the underlying map
+
+**Immutability:** Once inserted, values cannot be modified or deleted. The frozen storage enforces this at the storage layer.
+
+**Verification:** The storage layer enforces:
+
+- **No Updates/Deletes:** Update and delete operations are strictly forbidden
+- **Content-Addressing:** Insert operations ensure the key matches the SHA256 hash of the value
+
+#### Use Cases
+
+- Audit logs and immutable records
+- Document versioning (each version gets a unique hash)
+- Certificates and attestations
+- Content-addressable data sharing
+- Deduplication (same content = same hash)
 
 ## Common Patterns
 

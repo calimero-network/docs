@@ -732,26 +732,7 @@ const wouldBeHash = FrozenStorage.computeHash(myValue);
 // documents.remove(hash); // Error: FrozenStorage does not support remove
 ```
 
-#### How It Works
-
-1. **Content-Addressing**: When you call `add(value)`, the storage:
-   - Serializes the value
-   - Computes its SHA256 hash
-   - Uses the hash as the key in the underlying map
-2. **Immutability**: Values are wrapped in `FrozenValue<T>`, which has an empty merge implementation, preventing any changes.
-3. **Verification**: The storage layer enforces:
-   - **No Updates/Deletes**: Update and delete actions are strictly forbidden
-   - **Content-Addressing**: Add actions are only accepted if the key matches the SHA256 hash of the value
-
-#### Use Cases
-
-- Audit logs and immutable records
-- Document versioning (each version gets a unique hash)
-- Certificates and attestations
-- Content-addressable data sharing
-- Deduplication (same content = same hash)
-
-#### FrozenValue<T>
+#### FrozenValue
 
 The wrapper type that ensures immutability:
 
@@ -766,6 +747,25 @@ console.log(frozen.value); // { data: 'immutable' }
 const other = new FrozenValue({ data: 'different' });
 const result = frozen.merge(other); // Returns original frozen value
 ```
+
+#### How It Works
+
+1. **Content-Addressing**: When you call `add(value)`, the storage:
+     - Serializes the value
+     - Computes its SHA256 hash
+     - Uses the hash as the key in the underlying map
+2. **Immutability**: Values are wrapped in `FrozenValue<T>`, which has an empty merge implementation, preventing any changes.
+3. **Verification**: The storage layer enforces:
+     - **No Updates/Deletes**: Update and delete actions are strictly forbidden
+     - **Content-Addressing**: Add actions are only accepted if the key matches the SHA256 hash of the value
+
+#### Use Cases
+
+- Audit logs and immutable records
+- Document versioning (each version gets a unique hash)
+- Certificates and attestations
+- Content-addressable data sharing
+- Deduplication (same content = same hash)
 
 ## Examples
 
