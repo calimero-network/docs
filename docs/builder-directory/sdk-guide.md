@@ -200,6 +200,199 @@ if set.contains("item")? {
 set.remove("item")?;
 ```
 
+### Mergeable Trait
+
+Custom structs that automatically resolve conflicts when fields are updated concurrently across nodes.
+
+```rust
+use calimero_storage_macros::Mergeable;
+use calimero_storage::collections::{Counter, LwwRegister, UnorderedMap};
+use calimero_sdk::borsh::{BorshDeserialize, BorshSerialize};
+
+// Zero-boilerplate custom struct with automatic merge
+#[derive(Mergeable, BorshSerialize, BorshDeserialize)]
+#[borsh(crate = "calimero_sdk::borsh")]
+pub struct TeamStats {
+    wins: Counter,
+    losses: Counter,
+    draws: Counter,
+}
+
+#[app::state]
+#[derive(Debug, BorshSerialize, BorshDeserialize)]
+#[borsh(crate = "calimero_sdk::borsh")]
+pub struct LeagueManager {
+    // Use TeamStats in CRDT collections
+    teams: UnorderedMap<String, TeamStats>,
+}
+
+#[app::logic]
+impl LeagueManager {
+    #[app::init]
+    pub fn init() -> LeagueManager {
+        LeagueManager {
+            teams: UnorderedMap::new(),
+        }
+    }
+
+    pub fn record_win(&mut self, team_name: String) -> app::Result<()> {
+        let mut team = self.teams
+            .entry(team_name.clone())?
+            .or_insert_with(|| TeamStats {
+                wins: Counter::new(),
+                losses: Counter::new(),
+                draws: Counter::new(),
+            })?;
+        
+        team.wins.increment()?;
+        Ok(())
+    }
+}
+```
+
+#### How It Works
+
+**Deriving Mergeable:** When you add `#[derive(Mergeable)]` to a struct, the macro generates a `merge` method that:
+
+1. **Field-by-field merging:** Calls `merge()` on each field (Counter, LwwRegister, nested maps, etc.)
+2. **Recursive resolution:** If fields are themselves Mergeable (nested structs), merges propagate down
+3. **Conflict-free convergence:** All nodes converge to the same state regardless of operation order
+
+**When merge is called:**
+
+- Only during **concurrent updates** to the same root entity (rare, ~1% of operations)
+- NOT on local operations (those are O(1) writes)
+- NOT when different keys are updated (DAG handles those independently)
+
+**Requirements:**
+
+- All fields must implement `Mergeable` (Counter, LwwRegister, UnorderedMap, etc.)
+- Struct must have named fields (not tuple struct)
+- Must derive `BorshSerialize` and `BorshDeserialize` for persistence
+
+**What the macro generates:**
+```rust
+impl Mergeable for TeamStats {
+    fn merge(&mut self, other: &Self) -> Result<(), MergeError> {
+        self.wins.merge(&other.wins)?;      // Counter merge: sum
+        self.losses.merge(&other.losses)?;  // Counter merge: sum
+        self.draws.merge(&other.draws)?;    // Counter merge: sum
+        Ok(())
+    }
+}
+```
+
+**Manual implementation (when needed):**
+```rust
+impl Mergeable for TeamStats {
+    fn merge(&mut self, other: &Self) -> Result<(), MergeError> {
+        // 1. Merge all CRDT fields
+        self.wins.merge(&other.wins)?;
+        self.losses.merge(&other.losses)?;
+        self.draws.merge(&other.draws)?;
+        
+        // 2. Add custom validation
+        let total = self.wins.value()? + self.losses.value()? + self.draws.value()?;
+        if total > 10000 {
+            return Err(MergeError::StorageError("Too many games".to_string()));
+        }
+        
+        // 3. Add logging or metrics
+        eprintln!("Merged stats: {} total games", total);
+        
+        Ok(())
+    }
+}
+```
+
+#### Use Cases
+
+**Domain modeling with custom types:**
+
+- User profiles with multiple fields (name, bio, settings)
+- Product records with inventory, pricing, metadata
+- Game entities with stats, equipment, achievements
+- Documents with title, content, tags, version info
+
+**Complex nested structures:**
+
+- Team → Members → Individual stats
+- Organization → Departments → Employees → Performance metrics
+- Shopping cart → Items → Variants → Quantity
+
+**Business logic enforcement:**
+
+- Validate constraints during merge (max values, allowed ranges)
+- Apply domain rules (e.g., balance can't go negative after merge)
+- Log merge events for audit trails
+
+**Type safety and composability:**
+
+- Encapsulate related CRDT fields into semantic types
+- Reuse custom structs across multiple UnorderedMaps or Vectors
+- Build hierarchies of Mergeable types (structs containing Mergeable structs)
+
+#### When to Use
+
+**Use `#[derive(Mergeable)]` when:**
+
+- Creating custom types with multiple CRDT fields
+- Building domain models that sync across nodes
+- Need semantic grouping of related CRDTs
+- Want type-safe, reusable composite types
+- Standard field-by-field merge is correct for your use case
+
+**Use manual `impl Mergeable` when:**
+
+- Custom validation rules during merge
+- Logging, metrics, or debugging during merge
+- Business logic constraints (e.g., invariants to maintain)
+- Conditional merging based on field values
+- Whole-value Last-Write-Wins with timestamp ordering
+
+**Don't use Mergeable when:**
+- Data is node-local only (use `#[app::private]` instead)
+- Data is immutable after creation (use `FrozenStorage` instead)
+- Data is user-owned and signed (use `UserStorage` instead)
+- Using primitives (String, u64) without wrapping in CRDTs — **this will not compile**
+
+**Common mistake:**
+```rust
+// ❌ WRONG: Primitives don't implement Mergeable
+#[derive(Mergeable)]
+pub struct User {
+    name: String,  // Compile error!
+    age: u64,      // Compile error!
+}
+
+// ✅ CORRECT: Wrap in CRDTs
+#[derive(Mergeable, BorshSerialize, BorshDeserialize)]
+#[borsh(crate = "calimero_sdk::borsh")]
+pub struct User {
+    name: LwwRegister<String>,  // Latest timestamp wins
+    age: LwwRegister<u64>,      // Proper conflict resolution
+}
+
+// Natural usage with auto-casting:
+let user = User {
+    name: "Alice".to_string().into(),  // .into() → LwwRegister
+    age: 30.into(),
+};
+let name_str: &str = &*user.name;  // Deref for access
+```
+
+**Decision tree:**
+
+| Your Data | Use |
+|-----------|-----|
+| Custom struct with multiple CRDT fields | `#[derive(Mergeable)]`                 |
+| Need custom merge validation/logging | Manual `impl Mergeable`                   |
+| Node-local secrets or caching | `#[app::private]` (not Mergeable)                |
+| Immutable content-addressed data | `FrozenStorage` (not Mergeable custom struct) |
+| User-owned, signed data | `UserStorage` (not Mergeable custom struct)            |
+| Single primitive value that syncs | `LwwRegister<T>` (already Mergeable)         |
+
+
 ### Event System
 
 Applications can emit events for real-time updates:
