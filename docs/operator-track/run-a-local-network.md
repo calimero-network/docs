@@ -78,23 +78,23 @@ $: cargo build --release
 
 ```bash
 # Initialize a node with default settings
-$: merod --node-name node1 init
+$: merod --node node1 init
 > 2025-12-16T11:47:34.861762Z  INFO merod::cli::init: Generated identity: PeerId>("12D3KooW9xPd2gxAouQ29vMfG1B3fpYPPS87VEZyrqzhuVQWc2VL")
 > 2025-12-16T11:47:34.870745Z  INFO merod::cli::init: Initialized a node in "/Users/X/.calimero/node1"
 
 # Or from binary
-$: cargo run --bin merod -- --node-name node1 init
+$: cargo run --bin merod -- --node node1 init
 > 2025-12-16T11:47:34.861762Z  INFO merod::cli::init: Generated identity: PeerId("12D3KooW9xPd2gxAouQ29vMfG1B3fpYPPS87VEZyrqzhuVQWc2VL")
 > 2025-12-16T11:47:34.870745Z  INFO merod::cli::init: Initialized a node in "/Users/X/.calimero/node1"
 
 # With custom ports:
 
-$: merod --node-name node1 init --server-port 2428 --swarm-port 2528
+$: merod --node node1 init --server-port 2428 --swarm-port 2528
 > 2025-12-16T11:52:13.841762Z  INFO merod::cli::init: Generated identity: PeerId("12D3KooW9xPd2gxAouQ29vMfG1B3fpYPPS87VEZyrqzhuVQWc2VL")
 > 2025-12-16T11:52:13.840725Z  INFO merod::cli::init: Initialized a node in "/Users/X/.calimero/node1"
 
 # Or from binary
-$: cargo run --bin merod -- --node-name node1 init --server-port 2428 --swarm-port 2528
+$: cargo run --bin merod -- --node node1 init --server-port 2428 --swarm-port 2528
 > 2025-12-16T11:52:13.841762Z  INFO merod::cli::init: Generated identity: PeerId("12D3KooW9xPd2gxAouQ29vMfG1B3fpYPPS87VEZyrqzhuVQWc2VL")
 > 2025-12-16T11:52:13.840725Z  INFO merod::cli::init: Initialized a node in "/Users/X/.calimero/node1"
 ```
@@ -103,29 +103,29 @@ $: cargo run --bin merod -- --node-name node1 init --server-port 2428 --swarm-po
 
 ```bash
 # Terminal 1: Start first node (coordinator)
-merod --node-name node1 init --server-port 2428 --swarm-port 2528
-merod --node-name node1 run
+merod --node node1 init --server-port 2428 --swarm-port 2528
+merod --node node1 run
 
 # Terminal 2: Start second node (peer)
-merod --node-name node2 init --server-port 2429 --swarm-port 2529
-merod --node-name node2 config --swarm-addrs /ip4/127.0.0.1/tcp/2528
-merod --node-name node2 run
+merod --node node2 init --server-port 2429 --swarm-port 2529
+merod --node node2 config --swarm-addrs /ip4/127.0.0.1/tcp/2528
+merod --node node2 run
 
 # Terminal 3: Start third node (peer)
-merod --node-name node3 init --server-port 2430 --swarm-port 2530
-merod --node-name node3 config --swarm-addrs /ip4/127.0.0.1/tcp/2528
-merod --node-name node3 run
+merod --node node3 init --server-port 2430 --swarm-port 2530
+merod --node node3 config --swarm-addrs /ip4/127.0.0.1/tcp/2528
+merod --node node3 run
 ```
 
 **Configuration:**
 
 ```bash
 # Configure node settings
-merod --node-name node1 config --server-host 0.0.0.0 --server-port 3000
-merod --node-name node1 config --swarm-host 0.0.0.0 --swarm-port 2428
+merod --node node1 config --server-host 0.0.0.0 --server-port 3000
+merod --node node1 config --swarm-host 0.0.0.0 --swarm-port 2428
 
 # Use custom home directory
-merod --home ~/.calimero-custom --node-name node1 init
+merod --home ~/.calimero-custom --node node1 init
 ```
 
 See [`meroctl CLI`](../tools-apis/meroctl-cli.md) for managing contexts and use `merod --help` for all available node options.
