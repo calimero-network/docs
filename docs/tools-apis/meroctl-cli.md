@@ -97,11 +97,11 @@ $: meroctl --node node1 app install --path res/my_app.wasm
 # Uninstall application
 $: meroctl --node <NODE_ID> app uninstall <APP_ID>
 # With values
-$: meroctl --node node1 app uninstall BPKKsDeN8ZbqTK7nWnxg1HG3ZLtkk1MjYwo8FLkNQCvb
+$: meroctl --node node1 app uninstall A1fKrY7kkbqiJJU9oaG65NPRw2MCvrNESs31ERqg7gLo
 > ╭─────────────────────────────────────────────────────────────────────────────────────╮
 > │ Application Uninstalled                                                             │
 > ╞═════════════════════════════════════════════════════════════════════════════════════╡
-> │ Successfully uninstalled application 'BPKKsDeN8ZbqTK7nWnxg1HG3ZLtkk1MjYwo8FLkNQCvb' │
+> │ Successfully uninstalled application 'A1fKrY7kkbqiJJU9oaG65NPRw2MCvrNESs31ERqg7gLo' │
 > ╰─────────────────────────────────────────────────────────────────────────────────────╯
 
 # List packages
@@ -143,12 +143,14 @@ $: meroctl --node node1 context ls
 # Create new context
 $: meroctl --node <NODE_ID> context create --protocol <PROTOCOL> --application-id <APP_ID>
 # With values
-$: meroctl --node node1 context create --protocol near --application-id BPKKsDeN8ZbqTK7nWnxg1HG3ZLtkk1MjYwo8FLkNQCvb
-> +------------------------------+
-> | Context Created              |
-> +==============================+
-> | Successfully created context |
-> +------------------------------+
+$: meroctl --node node1 context create --protocol near --application-id HHQbab1Meo1GCUsjELf2WSt3os1WaPaA4oKEGxTFTYBf
++-------------------+----------------------------------------------+
+| Context Created   | Value                                        |
++==================================================================+
+| Context ID        | 5YkN8bjdjQTCAxgZCw4NZoDoCMb23of6Cx31stLdSFSA |
+|-------------------+----------------------------------------------|
+| Member Public Key | H1mK8HsfB8NKdoR8hdoc3BAMdy6wJMsea9eFvgpCTHxS |
++-------------------+----------------------------------------------+
 
 # Delete context
 $: meroctl --node <NODE_ID> context delete <CONTEXT_ID>
@@ -163,7 +165,7 @@ $: meroctl --node node1 context delete 5YkN8bjdjQTCAxgZCw4NZoDoCMb23of6Cx31stLdS
 # Sync context state
 $: meroctl --node <NODE_ID> context sync --context <CONTEXT_ID>
 # With values
-$: meroctl --node node1 context sync --context FfHXVWRqbSc2wrU2tEeuLQxFcmcpcfZd8Qk9yQFkm7W7
+$: meroctl --node node1 context sync --context 5YkN8bjdjQTCAxgZCw4NZoDoCMb23of6Cx31stLdSFSA
 > +-----------------------------+
 > | Context Synced              |
 > +=============================+
@@ -173,7 +175,7 @@ $: meroctl --node node1 context sync --context FfHXVWRqbSc2wrU2tEeuLQxFcmcpcfZd8
 # Manage context aliases
 $: meroctl --node <NODE_ID> context alias set <ALIAS> <CONTEXT_ID>
 # With values
-$:  meroctl --node node1 context alias add demoalias FfHXVWRqbSc2wrU2tEeuLQxFcmcpcfZd8Qk9yQFkm7W7
+$:  meroctl --node node1 context alias add demoalias 5YkN8bjdjQTCAxgZCw4NZoDoCMb23of6Cx31stLdSFSA
 > +----------------------------+
 > | Alias Created              |
 > +============================+
@@ -189,8 +191,84 @@ $: meroctl --node node1 context alias get demoalias
 > +=============================================================+
 > | Status       | Found                                        |
 > |--------------+----------------------------------------------|
-> | Value        | FfHXVWRqbSc2wrU2tEeuLQxFcmcpcfZd8Qk9yQFkm7W7 |
+> | Value        | 5YkN8bjdjQTCAxgZCw4NZoDoCMb23of6Cx31stLdSFSA |
 > +--------------+----------------------------------------------+
+```
+
+### Context Invitations
+
+Invite specific node identity inside context or generate an open invitation:
+
+```bash
+# First from invitee node (node2) we create new identity that will be used in invitation from inviter node (node1)
+$: meroctl --node <NODE_ID> context identity generate
+$: meroctl --node node2 context identity generate
+> +-----------------------------------------+----------------------------------------------+
+> | Context Identity Generated              | Public Key                                   |
+> +========================================================================================+
+> | Successfully generated context identity | 3aagVkceXvNvEemP1NQsKY5WGwk7fC9W62tD5PtfDgPj |
+> +-----------------------------------------+----------------------------------------------+
+# We will run the command again as we need 2 identities for showing both simple invitation and open invitation
+$: meroctl --node node2 context identity generate
+> +-----------------------------------------+----------------------------------------------+
+> | Context Identity Generated              | Public Key                                   |
+> +========================================================================================+
+> | Successfully generated context identity | EYf2aVV9oQ47xmYVrwqKwHfUzoMFKxy7gVc2jQVwYEDt |
+> +-----------------------------------------+----------------------------------------------+
+
+# Now from inviter node we create 2 contexts and for one we will use simple invitation and for other open invtation
+$: meroctl --node node1 context create --protocol near --application-id BPKKsDeN8ZbqTK7nWnxg1HG3ZLtkk1MjYwo8FLkNQCvb
+> +-------------------+----------------------------------------------+
+> | Context Created   | Value                                        |
+> +==================================================================+
+> | Context ID        | A1fXGKB47azFyRjD5WvrFgacVi1bGaT43kBUgU8a9skv |
+> |-------------------+----------------------------------------------|
+> | Member Public Key | H1mK8HsfB8NKdoR8hdoc3BAMdy6wJMsea9eFvgpCTHxS |
+> +-------------------+----------------------------------------------+
+# And again for another context
+$: meroctl --node node1 context create --protocol near --application-id BPKKsDeN8ZbqTK7nWnxg1HG3ZLtkk1MjYwo8FLkNQCvb
+> +-------------------+----------------------------------------------+
+> | Context Created   | Value                                        |
+> +==================================================================+
+> | Context ID        | 5t6awrTf5SpeuZq2xu6KrG7EsRV2Bwbd8mXdrL4ZVGj7 |
+> |-------------------+----------------------------------------------|
+> | Member Public Key | 6c2DkQ7e5JReEXJGcoJu3FaURUA1M79RiJQKHfcTXU1p |
+> +-------------------+----------------------------------------------+
+
+# Generate simple invitation for a specific node identity
+$: meroctl --node <NODE_ID> conext invite <INVITEE_ID> --context <CONTEXT_ID> --as <INVITER_ID>
+$: meroctl --node node1 context invite 3aagVkceXvNvEemP1NQsKY5WGwk7fC9W62tD5PtfDgPj --context 5t6awrTf5SpeuZq2xu6KrG7EsRV2Bwbd8mXdrL4ZVGj7 --as 6c2DkQ7e5JReEXJGcoJu3FaURUA1M79RiJQKHfcTXU1p
+> Invitation Created Successfully
+> 
+> Invitation Payload:
+> FuNUfDCArA7DVrufGjxYZT9H...C14YYGyxaKsxw [truncated]
+> ...
+
+# Generate an open invitation for a context
+$: meroctl --node <NODE_ID> context invite-by-open-invitation --context <CONTEXT_ID> --as <INVITER_ID>
+$: meroctl --node node1 context invite-by-open-invitation --context 5t6awrTf5SpeuZq2xu6KrG7EsRV2Bwbd8mXdrL4ZVGj7 --as 6c2DkQ7e5JReEXJGcoJu3FaURUA1M79RiJQKHfcTXU1p
+> Open Invitation Created Successfully
+> 
+> Open Invitation Payload:
+> '{"invitation":{"inviter_identity":[83,67,36,101,211,66,17,153,95,105,246,80,213,6,7,188,225,170,123,105,54,237,86,62,36,36,40,24,161,98,133,171],"context_id":[72,133,175,43,80,67,164,165,28,20,178,44,244,37,15,82,239,106,14,14,176,60,81,209,76,182,137,33,104,185,31,38],"expiration_height":1000000999,"secret_salt":[1,110,24,146,16,162,27,233,156,58,66,175,251,136,170,24,222,233,119,228,77,133,244,70,241,205,156,146,50,64,47,19],"protocol":"near","network":"testnet","contract_id":"v0-6.config.calimero-context.testnet"},"inviter_signature":"ebb8cd05fc84dc8ef12978ac3c2ab89c727076f70a2384a8c5e14cbc9bda3c5b146b244ee0646f3c019ce079cd2c31c0679200bb744bbda4eb0c34c58746ec0d"}'
+
+# Join a simple invitation bounded to inviter identity
+$: meroctl --node <NODE_ID> context join <INVITATION_PAYLOAD>
+$: meroctl --node node2 context join FuNUfDCArA7DVrufGjxYZT9H2tKmKXHkPTpZA7zbfef5bCK6nZ6Km5aZ9SHj2AzFiFTB9t74Er1QCyZRVehCqqn9BGLaf8B2JDtavm7t3f8eTw6FxzbapPAdtQwZQWYQm6dR8QP1VRSs72DPMuV8Xf85PdNC14YYGyxaKsxw
+> +-----------------------------+
+> | Context Joined              |
+> +=============================+
+> | Successfully joined context |
+> +-----------------------------+
+
+# Join an open invitation for a context
+$: meroctl --node <NODE_ID> context join-by-open-invitation --as <INVITEE_ID> <INVITATION_PAYLOAD_JSON>
+$: meroctl --node node2 context join-by-open-invitation --as EYf2aVV9oQ47xmYVrwqKwHfUzoMFKxy7gVc2jQVwYEDt '{"invitation":{"inviter_identity":[83,67,36,101,211,66,17,153,95,105,246,80,213,6,7,188,225,170,123,105,54,237,86,62,36,36,40,24,161,98,133,171],"context_id":[72,133,175,43,80,67,164,165,28,20,178,44,244,37,15,82,239,106,14,14,176,60,81,209,76,182,137,33,104,185,31,38],"expiration_height":1000000999,"secret_salt":[1,110,24,146,16,162,27,233,156,58,66,175,251,136,170,24,222,233,119,228,77,133,244,70,241,205,156,146,50,64,47,19],"protocol":"near","network":"testnet","contract_id":"v0-6.config.calimero-context.testnet"},"inviter_signature":"ebb8cd05fc84dc8ef12978ac3c2ab89c727076f70a2384a8c5e14cbc9bda3c5b146b244ee0646f3c019ce079cd2c31c0679200bb744bbda4eb0c34c58746ec0d"}'
+> +-----------------------------+
+> | Context Joined              |
+> +=============================+
+> | Successfully joined context |
+> +-----------------------------+
 ```
 
 ### Calling Methods (`call`)
