@@ -189,11 +189,11 @@ See [`merobox/README.md`](https://github.com/calimero-network/merobox#readme){:t
 
 === "merod"
     ```bash
-    $: merod --node-name node1 init
+    $: merod --node node1 init
     > 2025-12-16T11:47:34.861762Z  INFO merod::cli::init: Generated identity: PeerId("12D3KooW9xPd2gxAouQ29vMfG1B3fpYPPS87VEZyrqzhuVQWc2VL")
     > 2025-12-16T11:47:34.870745Z  INFO merod::cli::init: Initialized a node in "/Users/X/.calimero/node1"
 
-    $: merod --node-name node1 run
+    $: merod --node node1 run
     ...
     2025-12-16T11:49:59.649884Z  INFO calimero_server::admin::service: Admin Dashboard UI available on /ip6/::1/tcp/2528/http{/admin-dashboard}
     ```
