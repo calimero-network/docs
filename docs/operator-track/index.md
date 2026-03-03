@@ -7,6 +7,7 @@ Guidance for running and managing Calimero nodes in production.
 | Task | Guide | Repository Docs |
 | --- | --- | --- |
 | **Local Development** | [Run a Local Network](run-a-local-network.md) | [`merobox/README.md`](https://github.com/calimero-network/merobox#readme) |
+| **Phala TEE Deployment** | [Deploy merod on Phala](https://github.com/calimero-network/core/blob/master/docs/phala-tee-deployment.md) | [`core/docs/phala-tee-deployment.md`](https://github.com/calimero-network/core/blob/master/docs/phala-tee-deployment.md) |
 | **Monitoring** | [Monitor & Debug](monitor-and-debug.md) | [`core/crates/node/readme/troubleshooting.md`](https://github.com/calimero-network/core/blob/master/crates/node/readme/troubleshooting.md) |
 
 ## Running Nodes
